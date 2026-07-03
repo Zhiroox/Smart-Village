@@ -2,13 +2,11 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { VillageSelector } from '@/components/common/VillageSelector';
 import { mockPotensi } from '@/lib/data/mockData';
-import { VillageName, PotensiItem } from '@/lib/types';
+import { PotensiItem } from '@/lib/types';
 import { Sparkles, ShoppingBag, Wheat, Compass, MapPin, Phone, DollarSign, X } from 'lucide-react';
 
 export default function PotensiPage() {
-  const [selectedVillage, setSelectedVillage] = useState<VillageName>('Semua Desa');
   const [selectedTab, setSelectedTab] = useState<string>('Semua');
   const [activeModalItem, setActiveModalItem] = useState<PotensiItem | null>(null);
 
@@ -21,36 +19,27 @@ export default function PotensiPage() {
   ];
 
   const filteredPotensi = mockPotensi.filter(p => {
-    const villageMatch = selectedVillage === 'Semua Desa' || p.village === selectedVillage;
-    const tabMatch = selectedTab === 'Semua' || p.category === selectedTab;
-    return villageMatch && tabMatch;
+    return selectedTab === 'Semua' || p.category === selectedTab;
   });
 
   return (
-    <div className="py-10 space-y-10">
+    <div className="py-10 space-y-10 bg-slate-50 min-h-screen">
       {/* Banner Header */}
       <section className="bg-slate-900 text-white py-12 px-4 border-b-4 border-emerald-600">
         <div className="container mx-auto max-w-6xl text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold mb-3">
             <Sparkles className="w-3.5 h-3.5" /> Katalog Potensi Ekonomi & Sumber Daya Desa
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Potensi Desa Pagutan & Desa Bujak</h1>
-          <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto mb-6">
-            Eksplorasi ragam kerajinan UMKM unggulan, komoditas hasil tani persawahan, ternak unggulan, dan keindahan ekowisata panorama Batukliang.
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Potensi & Komoditas Desa Pagutan</h1>
+          <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto">
+            Etalase kerajinan tradisional tenun Sasak, produk kerajinan anyaman bambu, komoditas beras pertanian subak asri, peternakan mandiri, serta ekowisata alam.
           </p>
-
-          <div className="bg-white/10 p-2 rounded-2xl backdrop-blur-md inline-block">
-            <VillageSelector 
-              selectedVillage={selectedVillage} 
-              onSelectVillage={setSelectedVillage} 
-            />
-          </div>
         </div>
       </section>
 
       <div className="container mx-auto px-4 max-w-6xl space-y-8">
         {/* Tab Selection Navigation */}
-        <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-soft flex flex-wrap items-center justify-center gap-2">
+        <div className="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-soft flex flex-wrap items-center justify-center gap-2">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = selectedTab === tab.name;
@@ -76,12 +65,9 @@ export default function PotensiPage() {
           {filteredPotensi.map((item) => (
             <div key={item.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft hover:shadow-soft-lg transition-all flex flex-col group">
               <div className="relative h-52 w-full bg-slate-100 overflow-hidden">
-                <Image src={item.imageUrl} alt={item.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                <Image src={item.imageUrl} alt={item.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
                 <div className="absolute top-3 left-3 bg-emerald-800/90 backdrop-blur text-white px-2.5 py-1 rounded-md text-[11px] font-semibold">
                   {item.category === 'Agriculture' ? 'Pertanian' : item.category === 'Livestock' ? 'Peternakan' : item.category === 'Tourism' ? 'Ekowisata' : item.category}
-                </div>
-                <div className="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur text-slate-200 px-2 py-0.5 rounded text-[10px]">
-                  {item.village}
                 </div>
               </div>
 
@@ -101,7 +87,7 @@ export default function PotensiPage() {
 
                 <button
                   onClick={() => setActiveModalItem(item)}
-                  className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 text-xs font-semibold rounded-xl transition-colors text-center"
+                  className="w-full py-2.5 bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 text-xs font-semibold rounded-xl transition-colors text-center"
                 >
                   Detail & Galeri Potensi
                 </button>
@@ -129,7 +115,7 @@ export default function PotensiPage() {
               <h2 className="text-2xl font-bold text-slate-900">{activeModalItem.name}</h2>
 
               <div className="relative h-64 rounded-2xl overflow-hidden shadow-md">
-                <Image src={activeModalItem.imageUrl} alt={activeModalItem.name} fill className="object-cover" />
+                <Image src={activeModalItem.imageUrl} alt={activeModalItem.name} fill className="object-cover" unoptimized />
               </div>
 
               <div className="text-xs md:text-sm text-slate-600 leading-relaxed">

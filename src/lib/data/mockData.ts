@@ -1,26 +1,12 @@
 import { QuickStats, NewsItem, VillageOfficial, PotensiItem, GisLocation, AdministrativeApplication, GalleryItem, DownloadItem, FaqItem } from '../types';
 
-export const mockQuickStats: Record<'Desa Pagutan' | 'Desa Bujak' | 'Semua Desa', QuickStats> = {
+export const mockQuickStats: Record<'Desa Pagutan', QuickStats> = {
   'Desa Pagutan': {
-    population: 4850,
-    dusunCount: 6,
-    umkmCount: 42,
-    farmlandArea: 285,
-    tourismSpots: 3,
-  },
-  'Desa Bujak': {
-    population: 5210,
-    dusunCount: 7,
-    umkmCount: 38,
-    farmlandArea: 310,
-    tourismSpots: 4,
-  },
-  'Semua Desa': {
-    population: 10060,
-    dusunCount: 13,
-    umkmCount: 80,
-    farmlandArea: 595,
-    tourismSpots: 7,
+    population: 6850,
+    dusunCount: 15,
+    umkmCount: 58,
+    farmlandArea: 480,
+    tourismSpots: 5,
   }
 };
 
@@ -41,24 +27,24 @@ Kepala Desa Pagutan dalam sambutannya menyampaikan bahwa potensi bambu di Batukl
   },
   {
     id: 'news-2',
-    title: 'Pemerintah Desa Bujak Salurkan Bantuan Bibit Padi Unggul & Pupuk Organik',
-    slug: 'penyaluran-bantuan-bibit-padi-unggul-bujak',
-    summary: 'Kelompok tani di Desa Bujak menerima bantuan bibit padi sertifikasi prima dan fasilitas pendampingan teknologi pengairan.',
-    content: `Desa Bujak, Batukliang - Guna mendukung ketahanan pangan nasional dan meningkatkan produktivitas hasil panen, Pemerintah Desa Bujak menyalurkan bantuan bibit padi unggul varietas Inpari beserta paket pupuk hayati organik kepada 12 kelompok tani yang tersebar di 7 dusun.
+    title: 'Pemerintah Desa Pagutan Salurkan Bantuan Bibit Padi Unggul & Pupuk Organik',
+    slug: 'penyaluran-bantuan-bibit-padi-unggul-pagutan',
+    summary: 'Kelompok tani di Desa Pagutan menerima bantuan bibit padi sertifikasi prima dan fasilitas pendampingan teknologi pengairan.',
+    content: `Desa Pagutan, Batukliang - Guna mendukung ketahanan pangan nasional dan meningkatkan produktivitas hasil panen, Pemerintah Desa Pagutan menyaluran bantuan bibit padi unggul varietas Inpari beserta paket pupuk hayati organik kepada kelompok tani yang tersebar di wilayah persawahan subak.
 
-Program yang didanai melalui Alokasi Dana Desa (ADD) ini bertujuan untuk mengoptimalkan penggunaan lahan pertanian seluas 310 hektar di wilayah Desa Bujak. Pembagian bibit secara simbolis diserahkan langsung oleh Kepala Desa Bujak di Balai Pertanian Dusun Bujak Dayah.`,
+Program yang didanai melalui Alokasi Dana Desa (ADD) ini bertujuan untuk mengoptimalkan penggunaan lahan pertanian seluas 480 hektar di wilayah Desa Pagutan. Pembagian bibit secara simbolis diserahkan langsung oleh Kepala Desa Pagutan di Balai Pertanian Dusun Pagutan.`,
     category: 'Pembangunan',
-    village: 'Desa Bujak',
+    village: 'Desa Pagutan',
     imageUrl: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=800',
     publishedAt: '2026-06-20',
-    author: 'Sekretariat Desa Bujak'
+    author: 'Sekretariat Desa Pagutan'
   },
   {
     id: 'news-3',
-    title: 'Gotong Royong Perbaikan Rute Evakuasi & Saluran Irigasi di Wilayah Batukliang',
+    title: 'Gotong Royong Perbaikan Rute Evakuasi & Saluran Irigasi di Wilayah Desa Pagutan',
     slug: 'gotong-royong-perbaikan-rute-evakuasi-irigasi',
-    summary: 'Masyarakat Desa Pagutan dan Bujak bersinergi melakukan aksi gotong royong membersihkan drainase utama pencegah banjir.',
-    content: `Kecamatan Batukliang - Menghadapi musim penghujan, warga Desa Pagutan dan Desa Bujak secara serentak menggelar aksi gotong royong perbaikan drainase serta perapihan jalan desa yang difungsikan sebagai jalur evakuasi bencana. Kegiatan ini diikuti oleh ratusan warga dari berbagai elemen masyarakat, mulai dari pemuda Karang Taruna hingga tokoh masyarakat.`,
+    summary: 'Masyarakat Desa Pagutan bersinergi melakukan aksi gotong royong membersihkan drainase utama pencegah banjir.',
+    content: `Kecamatan Batukliang - Menghadapi musim penghujan, warga Desa Pagutan secara serentak menggelar aksi gotong royong perbaikan drainase serta perapihan jalan desa yang difungsikan sebagai jalur evakuasi bencana. Kegiatan ini diikuti oleh ratusan warga dari berbagai elemen masyarakat, mulai dari pemuda Karang Taruna hingga tokoh masyarakat.`,
     category: 'Kegiatan',
     village: 'Desa Pagutan',
     imageUrl: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=800',
@@ -67,12 +53,12 @@ Program yang didanai melalui Alokasi Dana Desa (ADD) ini bertujuan untuk mengopt
   },
   {
     id: 'news-4',
-    title: 'Pengumuman Pelayanan Administrasi Mandiri Berbasis Digital Smart Village',
+    title: 'Pengumuman Pelayanan Administrasi Mandiri Berbasis Digital Smart Village Desa Pagutan',
     slug: 'pengumuman-pelayanan-administrasi-mandiri-digital',
-    summary: 'Warga Desa Pagutan dan Bujak kini dapat mengajukan surat keterangan secara online sebelum memprosesnya di kantor desa.',
-    content: `Batukliang - Dalam wujud modernisasi pelayanan publik, Pemerintah Desa Pagutan dan Bujak meluncurkan Portal Layanan Surat Online Mandiri. Warga cukup mengisikan formulir secara online dan mengecek status permohonan dengan nomor resi resmi.`,
+    summary: 'Warga Desa Pagutan kini dapat mengajukan surat keterangan secara online sebelum memprosesnya di kantor desa.',
+    content: `Desa Pagutan - Dalam wujud modernisasi pelayanan publik, Pemerintah Desa Pagutan meluncurkan Portal Layanan Surat Online Mandiri. Warga cukup mengisikan formulir secara online dan mengecek status permohonan dengan nomor resi resmi.`,
     category: 'Pengumuman',
-    village: 'Desa Bujak',
+    village: 'Desa Pagutan',
     imageUrl: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800',
     publishedAt: '2026-06-10',
     author: 'Tim Smart Village'
@@ -82,48 +68,87 @@ Program yang didanai melalui Alokasi Dana Desa (ADD) ini bertujuan untuk mengopt
 export const mockOfficials: VillageOfficial[] = [
   {
     id: 'off-1',
-    name: 'H. Lalu Ahmad Subandi, S.IP',
-    position: 'Kepala Desa Pagutan',
+    name: 'Subandi',
+    position: 'Kepala Desa',
     village: 'Desa Pagutan',
     photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400',
     phone: '0812-3456-7890'
   },
   {
     id: 'off-2',
-    name: 'M. Rosyidi, S.Pd',
-    position: 'Sekretaris Desa Pagutan',
+    name: 'M. Zarwadi MZ',
+    position: 'Sekdes',
     village: 'Desa Pagutan',
     photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400',
   },
   {
     id: 'off-3',
-    name: 'Siti Maryam, S.E',
-    position: 'Kaur Keuangan Pagutan',
+    name: 'Ra\'up',
+    position: 'Kaur Umum dan TU',
+    village: 'Desa Pagutan',
+    photoUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400',
+  },
+  {
+    id: 'off-4',
+    name: 'Bq. Nurul Hayati',
+    position: 'Kaur Keuangan',
     village: 'Desa Pagutan',
     photoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400',
   },
   {
-    id: 'off-4',
-    name: 'Drs. H. M. Zainuddin',
-    position: 'Kepala Desa Bujak',
-    village: 'Desa Bujak',
-    photoUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400',
-    phone: '0819-8765-4321'
-  },
-  {
     id: 'off-5',
-    name: 'Lalu M. Zaini, S.H',
-    position: 'Sekretaris Desa Bujak',
-    village: 'Desa Bujak',
-    photoUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400',
+    name: 'Sukriadi',
+    position: 'Kaur Perencanaan',
+    village: 'Desa Pagutan',
+    photoUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400',
   },
   {
     id: 'off-6',
-    name: 'Nurul Hidayah, A.Md',
-    position: 'Kaur Perencanaan Bujak',
-    village: 'Desa Bujak',
-    photoUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400',
+    name: 'Khairil Makirin',
+    position: 'Kasi Pemerintahan',
+    village: 'Desa Pagutan',
+    photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400',
+  },
+  {
+    id: 'off-7',
+    name: 'Herman',
+    position: 'Kasi Kesejahteraan',
+    village: 'Desa Pagutan',
+    photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400',
+  },
+  {
+    id: 'off-8',
+    name: 'Herman Jayadi S',
+    position: 'Kasi Pelayanan',
+    village: 'Desa Pagutan',
+    photoUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400',
   }
+];
+
+export const mockStafPembantu: string[] = [
+  'Abdul Aziz',
+  'Fahrurrozi',
+  'Ahmad Susfendi',
+  'Nurlina Sari',
+  'Haeniyah'
+];
+
+export const mockKadusList: { name: string; position: string }[] = [
+  { name: 'Syariful Anam', position: 'Kadus Pagutan Utara' },
+  { name: 'Hazman Hadi', position: 'Kadus Pagutan Selatan' },
+  { name: 'L. Parman Prawira', position: 'Kadus Pesinggahan' },
+  { name: 'Awaludin Latif', position: 'Kadus Lombok Daye' },
+  { name: 'Herman Jayadi S.', position: 'Plt. Kadus Lombok Lauk' },
+  { name: 'Remahardi', position: 'Kadus Jejeneng' },
+  { name: 'Yusuf Hamdani', position: 'Kadus LD. Buwuh' },
+  { name: 'Muh. Hatim', position: 'Kadus Sangkawana' },
+  { name: 'Ahmad', position: 'Kadus LD. Gocek' },
+  { name: 'Jumali', position: 'Kadus Sangkawati' },
+  { name: 'Jumadil', position: 'Kadus Gubuk Baru' },
+  { name: 'Munawar', position: 'Kadus Genteng' },
+  { name: 'Jamhari Mahdan', position: 'Kadus Tunjang Timur' },
+  { name: 'Nuriah', position: 'Kadus Tunjang Barat' },
+  { name: 'Rakhmat Mustasaid', position: 'Kadus Tunjang Utara' }
 ];
 
 export const mockPotensi: PotensiItem[] = [
@@ -144,11 +169,11 @@ export const mockPotensi: PotensiItem[] = [
   },
   {
     id: 'pot-2',
-    name: 'Kerajinan Anyaman Bambu Bujak',
+    name: 'Kerajinan Bambu Pagutan Lestari',
     category: 'UMKM',
-    village: 'Desa Bujak',
-    description: 'Produk anyaman bambu perabotan rumah tangga, tempat nasi, kap lampu ramah lingkungan berkualitas ekspor.',
-    location: 'Dusun Bujak Dayah, Desa Bujak',
+    village: 'Desa Pagutan',
+    description: 'Produk anyaman bambu perabotan rumah tangga, tempat nasi, kap lampu ramah lingkungan berkualitas tinggi.',
+    location: 'Dusun Tunjang, Desa Pagutan',
     imageUrl: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800',
     gallery: [
       'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800'
@@ -158,10 +183,10 @@ export const mockPotensi: PotensiItem[] = [
   },
   {
     id: 'pot-3',
-    name: 'Pertanian Padi Organik & Hortikultura Batukliang',
+    name: 'Pertanian Padi Organik & Hortikultura Pagutan',
     category: 'Agriculture',
     village: 'Desa Pagutan',
-    description: 'Hamparan sawah subur yang menghasilkan beras organik berkualitas tinggi serta tanaman sayur hortikultura seperti cabai dan tomat.',
+    description: 'Hamparan sawah subur yang menghasilkan beras organik berkualitas tinggi serta tanaman sayur hortikultura seperti cabai, tomat, dan bawang.',
     location: 'Area Persawahan Subak Pagutan',
     imageUrl: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=800',
     gallery: ['https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=800'],
@@ -169,25 +194,25 @@ export const mockPotensi: PotensiItem[] = [
   },
   {
     id: 'pot-4',
-    name: 'Peternakan Sapi Bali & Kambing Etawa',
+    name: 'Peternakan Sapi Lombok Unggul',
     category: 'Livestock',
-    village: 'Desa Bujak',
-    description: 'Sentra pembibitan sapi Bali unggulan dan budidaya kambing perah dengan pola pakan hijau lestari.',
-    location: 'Dusun Bujak Lauk, Desa Bujak',
-    imageUrl: 'https://images.unsplash.com/photo-1570042702808-585a86f46afe?auto=format&fit=crop&q=80&w=800',
-    gallery: ['https://images.unsplash.com/photo-1570042702808-585a86f46afe?auto=format&fit=crop&q=80&w=800'],
+    village: 'Desa Pagutan',
+    description: 'Sentra pembibitan sapi Bali unggulan dan budidaya kambing dengan pola pakan hijau lestari terintegrasi.',
+    location: 'Dusun Lombok Daye, Desa Pagutan',
+    imageUrl: 'https://images.unsplash.com/photo-1546445317-29f4545e6d49?auto=format&fit=crop&q=80&w=800',
+    gallery: ['https://images.unsplash.com/photo-1546445317-29f4545e6d49?auto=format&fit=crop&q=80&w=800'],
     priceOrYield: 'Populasi ~450 Ekor'
   },
   {
     id: 'pot-5',
-    name: 'Wisata Alam & Ekowisata Sawah Bujak',
+    name: 'Wisata Budaya & Agrowisata Sawah Pagutan',
     category: 'Tourism',
-    village: 'Desa Bujak',
-    description: 'Destinasi wisata edukasi persawahan dengan pemandangan lereng Gunung Rinjani yang membentang asri.',
-    location: 'Jalan Raya Lantan-Bujak, Desa Bujak',
+    village: 'Desa Pagutan',
+    description: 'Destinasi wisata edukasi persawahan dengan latar belakang perbukitan hijau asri dan galeri tenun tradisional.',
+    location: 'Dusun Pagutan Tengah, Desa Pagutan',
     imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800',
     gallery: ['https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800'],
-    contactPerson: 'Pokdarwis Bujak Asri'
+    contactPerson: 'Pokdarwis Pagutan Asri'
   }
 ];
 
@@ -204,16 +229,6 @@ export const mockGisLocations: GisLocation[] = [
   },
   {
     id: 'gis-2',
-    name: 'Kantor Desa Bujak',
-    category: 'Kantor Desa',
-    village: 'Desa Bujak',
-    latitude: -8.6189,
-    longitude: 116.2905,
-    description: 'Pusat pemerintahan dan pelayanan publik Desa Bujak.',
-    address: 'Jl. Raya Bujak Batukliang, Lombok Tengah'
-  },
-  {
-    id: 'gis-3',
     name: 'Puskesmas Pembantu (Pustu) Pagutan',
     category: 'Puskesmas',
     village: 'Desa Pagutan',
@@ -223,17 +238,17 @@ export const mockGisLocations: GisLocation[] = [
     address: 'Dusun Pagutan Dayah'
   },
   {
-    id: 'gis-4',
-    name: 'SD Negeri 1 Bujak',
+    id: 'gis-3',
+    name: 'SD Negeri 1 Pagutan',
     category: 'Sekolah',
-    village: 'Desa Bujak',
+    village: 'Desa Pagutan',
     latitude: -8.6205,
     longitude: 116.2890,
-    description: 'Sekolah Dasar Negeri 1 Bujak.',
-    address: 'Jl. Pendidikan Bujak'
+    description: 'Sekolah Dasar Negeri 1 Pagutan.',
+    address: 'Jl. Pendidikan Pagutan'
   },
   {
-    id: 'gis-5',
+    id: 'gis-4',
     name: 'Masjid Jami\' Nurul Huda Pagutan',
     category: 'Masjid',
     village: 'Desa Pagutan',
@@ -243,7 +258,7 @@ export const mockGisLocations: GisLocation[] = [
     address: 'Dusun Pagutan Tengah'
   },
   {
-    id: 'gis-6',
+    id: 'gis-5',
     name: 'Sentra Tenun Sasak Pagutan',
     category: 'Wisata',
     village: 'Desa Pagutan',
@@ -253,27 +268,7 @@ export const mockGisLocations: GisLocation[] = [
     address: 'Dusun Pagutan Lauk'
   },
   {
-    id: 'gis-7',
-    name: 'Ekowisata Persawahan Bujak Asri',
-    category: 'Wisata',
-    village: 'Desa Bujak',
-    latitude: -8.6150,
-    longitude: 116.2940,
-    description: 'Kawasan spot foto dan agrowisata sawah.',
-    address: 'Jalan Agrowisata Bujak'
-  },
-  {
-    id: 'gis-8',
-    name: 'Kawasan Rawan Luapan Sungai (Bencana)',
-    category: 'Area Rawan Bencana',
-    village: 'Desa Bujak',
-    latitude: -8.6120,
-    longitude: 116.2970,
-    description: 'Titik waspada genangan air saat curah hujan sangat tinggi.',
-    address: 'Bantaran Sungai Bujak Utara'
-  },
-  {
-    id: 'gis-9',
+    id: 'gis-6',
     name: 'Posko Evakuasi Utama Balai Desa',
     category: 'Rute Evakuasi',
     village: 'Desa Pagutan',
@@ -303,14 +298,14 @@ export const mockApplications: AdministrativeApplication[] = [
   },
   {
     id: 'app-2',
-    applicationNumber: 'BJK-2026-0002',
+    applicationNumber: 'PGT-2026-0002',
     fullName: 'Baiq Nurul Fitriani',
     nik: '5202045210950001',
     phoneNumber: '087865432109',
     email: 'nurul.fitri@yahoo.com',
     serviceType: 'Surat Keterangan Domisili',
-    village: 'Desa Bujak',
-    address: 'Dusun Bujak Lauk RT 01',
+    village: 'Desa Pagutan',
+    address: 'Dusun Lombok Lauk RT 01',
     purpose: 'Melengkapi dokumen pendaftaran CPNS 2026',
     status: 'Diproses',
     statusNotes: 'Sedang dalam verifikasi kelengkapan berkas oleh Sekdes.',
@@ -346,16 +341,16 @@ export const mockGallery: GalleryItem[] = [
   },
   {
     id: 'gal-2',
-    title: 'Pesta Panen Raya Padi Organik Subak Batukliang',
+    title: 'Pesta Panen Raya Padi Organik Subak Pagutan',
     type: 'photo',
     url: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=800',
     category: 'Pertanian',
-    village: 'Desa Bujak',
+    village: 'Desa Pagutan',
     date: '2026-06-02'
   },
   {
     id: 'gal-3',
-    title: 'Festival Seni & Kerajinan Sasak Batukliang',
+    title: 'Festival Seni & Kerajinan Sasak Pagutan',
     type: 'photo',
     url: 'https://images.unsplash.com/photo-1606744888344-493238951221?auto=format&fit=crop&q=80&w=800',
     category: 'Kebudayaan',
@@ -404,7 +399,7 @@ export const mockFaq: FaqItem[] = [
   {
     id: 'faq-2',
     question: 'Apakah ada biaya dalam pengurusan surat di Kantor Desa?',
-    answer: 'Seluruh pelayanan administrasi kependudukan dan pembuatan surat keterangan di Kantor Desa Pagutan dan Desa Bujak adalah GRATIS (Rp 0).',
+    answer: 'Seluruh pelayanan administrasi kependudukan dan pembuatan surat keterangan di Kantor Desa Pagutan adalah GRATIS (Rp 0).',
     category: 'Layanan'
   },
   {

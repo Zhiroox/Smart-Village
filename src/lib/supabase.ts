@@ -24,7 +24,7 @@ export const getStoredApplications = (): AdministrativeApplication[] => {
   }
 };
 
-export const saveApplication = (app: Omit<AdministrativeApplication, 'id' | 'createdAt' | 'updatedAt' | 'status'>): AdministrativeApplication => {
+export const saveApplication = (app: Omit<AdministrativeApplication, 'id' | 'createdAt' | 'updatedAt' | 'status' | 'applicationNumber'>): AdministrativeApplication => {
   const currentApps = getStoredApplications();
   const prefix = app.village === 'Desa Pagutan' ? 'PGT' : 'BJK';
   const year = new Date().getFullYear();

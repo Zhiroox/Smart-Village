@@ -64,7 +64,7 @@ export const Navbar = () => {
               SMART VILLAGE
             </div>
             <div className="text-xs text-slate-500 font-medium tracking-wide">
-              Desa Pagutan & Desa Bujak
+              Desa Pagutan
             </div>
           </div>
         </Link>

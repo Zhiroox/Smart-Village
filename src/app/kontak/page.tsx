@@ -22,21 +22,21 @@ export default function KontakPage() {
     setMessage('');
   };
 
-  const handleWhatsAppRedirect = (village: 'Pagutan' | 'Bujak') => {
-    const phone = village === 'Pagutan' ? '6281912345678' : '6281987654321';
-    const text = encodeURIComponent(`Halo Admin Desa ${village}, saya ingin berkonsultasi mengenai pelayanan masyarakat...`);
+  const handleWhatsAppRedirect = () => {
+    const phone = '6281912345678';
+    const text = encodeURIComponent(`Halo Admin Desa Pagutan, saya ingin berkonsultasi mengenai pelayanan masyarakat...`);
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   };
 
   return (
-    <div className="py-10 space-y-10">
+    <div className="py-10 space-y-10 bg-slate-50 min-h-screen">
       {/* Banner Header */}
       <section className="bg-slate-900 text-white py-12 px-4 border-b-4 border-emerald-600">
         <div className="container mx-auto max-w-6xl text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold mb-3">
             <Phone className="w-3.5 h-3.5" /> Pusat Kontak & Layanan Aspirasi
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Hubungi Pemerintahan Desa</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Hubungi Pemerintah Desa Pagutan</h1>
           <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto">
             Sampaikan pertanyaan, aspirasi, atau kendala pelayanan Anda secara langsung melalui loket WhatsApp resmi maupun formulir kontak online.
           </p>
@@ -44,33 +44,19 @@ export default function KontakPage() {
       </section>
 
       <div className="container mx-auto px-4 max-w-6xl space-y-12">
-        {/* Quick WhatsApp Access Buttons */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-emerald-900 text-white p-6 rounded-3xl shadow-lg flex items-center justify-between">
+        {/* Quick WhatsApp Access Button */}
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-emerald-950 text-white p-6 rounded-3xl shadow-lg border border-emerald-800 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <span className="text-[10px] uppercase font-bold text-emerald-300 tracking-wider">Layanan Langsung</span>
-              <h3 className="font-extrabold text-lg">WhatsApp Desa Pagutan</h3>
-              <p className="text-xs text-emerald-100 mt-1">Konsultasi cepat dengan petugas loket Pagutan</p>
+              <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">Layanan WhatsApp Resmi</span>
+              <h3 className="font-extrabold text-lg mt-0.5">WhatsApp Center Desa Pagutan</h3>
+              <p className="text-xs text-slate-300 mt-1">Layanan aduan dan konsultasi cepat bersama sekretariat desa</p>
             </div>
             <button
-              onClick={() => handleWhatsAppRedirect('Pagutan')}
-              className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-xs rounded-xl shadow-md transition-all shrink-0 flex items-center gap-1.5"
+              onClick={handleWhatsAppRedirect}
+              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-all shrink-0 flex items-center gap-2"
             >
-              <MessageSquare className="w-4 h-4" /> Hubungi WA
-            </button>
-          </div>
-
-          <div className="bg-slate-900 text-white p-6 rounded-3xl shadow-lg flex items-center justify-between">
-            <div>
-              <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">Layanan Langsung</span>
-              <h3 className="font-extrabold text-lg">WhatsApp Desa Bujak</h3>
-              <p className="text-xs text-slate-300 mt-1">Konsultasi cepat dengan petugas loket Bujak</p>
-            </div>
-            <button
-              onClick={() => handleWhatsAppRedirect('Bujak')}
-              className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-all shrink-0 flex items-center gap-1.5"
-            >
-              <MessageSquare className="w-4 h-4" /> Hubungi WA
+              <MessageSquare className="w-4 h-4" /> Hubungi WhatsApp
             </button>
           </div>
         </div>
@@ -92,23 +78,13 @@ export default function KontakPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 mt-0.5">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                <div>
-                  <h5 className="font-bold text-slate-900">Kantor Desa Bujak</h5>
-                  <p className="text-slate-500 mt-0.5">Jl. Raya Bujak Batukliang, Kab. Lombok Tengah, NTB (83552)</p>
-                </div>
-              </div>
-
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div>
                   <h5 className="font-bold text-slate-900">Email Resmi</h5>
-                  <p className="text-slate-500">layanan@smartvillage-batukliang.desa.id</p>
+                  <p className="text-slate-500">layanan@smartvillage-pagutan.desa.id</p>
                 </div>
               </div>
 

@@ -24,18 +24,12 @@ import {
   MapPin, 
   ShoppingBag, 
   LogOut, 
-  CheckCircle2, 
   Clock, 
-  AlertCircle, 
   Hourglass, 
-  XCircle, 
-  Search,
   Plus,
   Edit,
   Trash2,
-  Users,
-  Settings,
-  Download
+  Settings
 } from 'lucide-react';
 
 export default function AdminDashboardPage() {
@@ -96,7 +90,7 @@ export default function AdminDashboardPage() {
             </div>
             <div>
               <h2 className="font-extrabold text-white text-base">PANEL ADMIN</h2>
-              <p className="text-[11px] text-emerald-400">Smart Village Batukliang</p>
+              <p className="text-[11px] text-emerald-400">Smart Village Pagutan</p>
             </div>
           </div>
 
@@ -176,7 +170,7 @@ export default function AdminDashboardPage() {
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-soft flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-slate-900">Dashboard Operator & Administrator</h1>
-            <p className="text-xs text-slate-500">Pemerintahan Desa Pagutan & Desa Bujak • Kecamatan Batukliang</p>
+            <p className="text-xs text-slate-500">Pemerintahan Desa Pagutan • Kecamatan Batukliang</p>
           </div>
           <Link href="/" target="_blank" className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg">
             Lihat Website Publik ↗
@@ -377,7 +371,7 @@ export default function AdminDashboardPage() {
             <div className="space-y-4 text-xs">
               <div>
                 <label className="block font-semibold text-slate-700 mb-1">Nama Platform</label>
-                <input type="text" defaultValue="Smart Village Desa Pagutan & Desa Bujak" className="w-full max-w-md p-2 bg-slate-50 border border-slate-300 rounded-lg" />
+                <input type="text" defaultValue="Smart Village Desa Pagutan" className="w-full max-w-md p-2 bg-slate-50 border border-slate-300 rounded-lg" />
               </div>
               <div>
                 <label className="block font-semibold text-slate-700 mb-1">Supabase API URL</label>

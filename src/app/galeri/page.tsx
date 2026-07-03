@@ -2,40 +2,28 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { VillageSelector } from '@/components/common/VillageSelector';
 import { mockGallery } from '@/lib/data/mockData';
-import { VillageName } from '@/lib/types';
-import { Image as ImageIcon, Video, Calendar, Tag, Play } from 'lucide-react';
+import { Image as ImageIcon, Video, Calendar, Play } from 'lucide-react';
 
 export default function GaleriPage() {
-  const [selectedVillage, setSelectedVillage] = useState<VillageName>('Semua Desa');
   const [activeFilter, setActiveFilter] = useState<'all' | 'photo' | 'video'>('all');
 
   const filteredGallery = mockGallery.filter(item => {
-    const matchVillage = selectedVillage === 'Semua Desa' || item.village === selectedVillage;
-    const matchType = activeFilter === 'all' || item.type === activeFilter;
-    return matchVillage && matchType;
+    return activeFilter === 'all' || item.type === activeFilter;
   });
 
   return (
-    <div className="py-10 space-y-10">
+    <div className="py-10 space-y-10 bg-slate-50 min-h-screen">
       {/* Banner Header */}
       <section className="bg-slate-900 text-white py-12 px-4 border-b-4 border-emerald-600">
         <div className="container mx-auto max-w-6xl text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold mb-3">
             <ImageIcon className="w-3.5 h-3.5" /> Dokumentasi Kegiatan & Keindahan Wilayah
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Galeri Foto & Video Desa</h1>
-          <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto mb-6">
-            Kumpulan potret momen penting pembangunan, musyawarah desa, kegiatan kebudayaan Sasak, serta panorama alam Kecamatan Batukliang.
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Galeri Foto & Video Desa Pagutan</h1>
+          <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto">
+            Kumpulan potret momen penting pembangunan, musyawarah desa, kegiatan kebudayaan Sasak, serta panorama alam Desa Pagutan.
           </p>
-
-          <div className="bg-white/10 p-2 rounded-2xl backdrop-blur-md inline-block">
-            <VillageSelector 
-              selectedVillage={selectedVillage} 
-              onSelectVillage={setSelectedVillage} 
-            />
-          </div>
         </div>
       </section>
 
@@ -73,7 +61,7 @@ export default function GaleriPage() {
           {filteredGallery.map(item => (
             <div key={item.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft hover:shadow-soft-lg transition-all group">
               <div className="relative h-56 w-full bg-slate-100 overflow-hidden">
-                <Image src={item.url} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                <Image src={item.url} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
                 {item.type === 'video' && (
                   <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center">
                     <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -83,9 +71,6 @@ export default function GaleriPage() {
                 )}
                 <div className="absolute top-3 left-3 bg-emerald-800/90 text-white px-2.5 py-1 rounded-md text-[11px] font-semibold">
                   {item.category}
-                </div>
-                <div className="absolute bottom-3 right-3 bg-slate-900/80 text-slate-200 px-2 py-0.5 rounded text-[10px]">
-                  {item.village}
                 </div>
               </div>
 

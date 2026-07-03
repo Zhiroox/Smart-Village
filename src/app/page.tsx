@@ -1,12 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { VillageSelector } from '@/components/common/VillageSelector';
 import { StatCard } from '@/components/common/StatCard';
 import { mockQuickStats, mockNews, mockPotensi } from '@/lib/data/mockData';
-import { VillageName } from '@/lib/types';
 import { 
   Users, 
   MapPin, 
@@ -19,15 +17,14 @@ import {
   ShieldCheck, 
   Sparkles,
   Newspaper,
-  ChevronRight
+  ChevronRight,
+  ShieldAlert
 } from 'lucide-react';
 
 export default function HomePage() {
-  const [selectedVillage, setSelectedVillage] = useState<VillageName>('Semua Desa');
-
-  const stats = mockQuickStats[selectedVillage];
-  const filteredNews = mockNews.filter(n => selectedVillage === 'Semua Desa' || n.village === selectedVillage);
-  const filteredPotensi = mockPotensi.filter(p => selectedVillage === 'Semua Desa' || p.village === selectedVillage);
+  const stats = mockQuickStats['Desa Pagutan'];
+  const news = mockNews;
+  const potensi = mockPotensi;
 
   return (
     <div className="space-y-16 pb-16">
@@ -46,21 +43,13 @@ export default function HomePage() {
             <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-6 leading-tight">
               Selamat Datang di Portal <br className="hidden md:block" />
               <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-200 bg-clip-text text-transparent">
-                Desa Pagutan & Desa Bujak
+                Desa Pagutan
               </span>
             </h1>
             
             <p className="text-slate-300 text-sm md:text-base leading-relaxed mb-8">
               Pusat transparansi informasi publik, tata kelola pemerintahan digital, pengajuan surat mandiri online, serta katalog potensi ekonomi & pariwisata Kecamatan Batukliang, Kabupaten Lombok Tengah.
             </p>
-
-            {/* Village Selector Widget */}
-            <div className="bg-white/10 p-2 rounded-2xl backdrop-blur-md border border-white/15 shadow-2xl mb-8">
-              <VillageSelector 
-                selectedVillage={selectedVillage} 
-                onSelectVillage={setSelectedVillage} 
-              />
-            </div>
 
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
@@ -127,6 +116,7 @@ export default function HomePage() {
                 alt="Kepala Desa" 
                 fill 
                 className="object-cover object-top"
+                unoptimized
               />
             </div>
             <div className="absolute -bottom-3 bg-emerald-800 text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow-md">
@@ -142,12 +132,12 @@ export default function HomePage() {
               Komitmen Pelayanan Publik & Transformasi Desa Digital
             </h2>
             <p className="text-slate-600 text-sm leading-relaxed">
-              &ldquo;Selamat datang di Portal Smart Village Kecamatan Batukliang. Website ini hadir sebagai wujud komitmen transparansi, keterbukaan informasi, serta efisiensi pelayanan masyarakat bagi warga Desa Pagutan dan Desa Bujak. Kami terus berinovasi untuk mempermudah akses administratif dan mempromosikan seluruh potensi ekonomi lokal ke tingkat yang lebih luas.&rdquo;
+              &ldquo;Selamat datang di Portal Smart Village Desa Pagutan, Kecamatan Batukliang. Website ini hadir sebagai wujud komitmen transparansi, keterbukaan informasi, serta efisiensi pelayanan masyarakat bagi seluruh warga Desa Pagutan. Kami terus berinovasi untuk mempermudah akses administratif dan mempromosikan seluruh potensi ekonomi lokal ke tingkat yang lebih luas.&rdquo;
             </p>
             <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
               <div>
-                <div className="font-bold text-slate-900 text-sm">H. Lalu Ahmad Subandi & Drs. H. M. Zainuddin</div>
-                <div className="text-xs text-slate-500">Kepala Desa Pagutan & Kepala Desa Bujak</div>
+                <div className="font-bold text-slate-900 text-sm">Subandi</div>
+                <div className="text-xs text-slate-500">Kepala Desa Pagutan</div>
               </div>
               <Link href="/profil" className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1">
                 Baca Profil Desa <ChevronRight className="w-3.5 h-3.5" />
@@ -190,12 +180,12 @@ export default function HomePage() {
               <p className="text-xs text-slate-500 leading-relaxed">Pemetaan spasial batas desa, sarana umum, dan titik wisata</p>
             </Link>
 
-            <Link href="/potensi" className="bg-white p-6 rounded-2xl border border-slate-200 shadow-soft hover:shadow-soft-lg hover:border-emerald-500 transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <ShoppingBag className="w-6 h-6" />
+            <Link href="/layanan?tab=kekerasan" className="bg-white p-6 rounded-2xl border border-slate-200 shadow-soft hover:shadow-soft-lg hover:border-emerald-500 transition-all group">
+              <div className="w-12 h-12 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <ShieldAlert className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-slate-900 text-base mb-1 group-hover:text-emerald-700 transition-colors">Katalog UMKM</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">Promosi produk unggulan tenun, kerajinan, dan hasil tani</p>
+              <h3 className="font-bold text-slate-900 text-base mb-1 group-hover:text-emerald-700 transition-colors">Lapor Kekerasan</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">Sistem Pelaporan Kasus Kekerasan Perempuan & Anak (PPA)</p>
             </Link>
           </div>
         </div>
@@ -216,7 +206,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {filteredNews.slice(0, 3).map((item) => (
+          {news.slice(0, 3).map((item) => (
             <article key={item.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft hover:shadow-soft-lg transition-all flex flex-col group">
               <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
                 <Image 
@@ -224,12 +214,10 @@ export default function HomePage() {
                   alt={item.title} 
                   fill 
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  unoptimized
                 />
                 <div className="absolute top-3 left-3 bg-emerald-800/90 backdrop-blur text-white px-2.5 py-1 rounded-md text-[11px] font-semibold">
                   {item.category}
-                </div>
-                <div className="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur text-slate-200 px-2.5 py-0.5 rounded text-[10px]">
-                  {item.village}
                 </div>
               </div>
 
@@ -265,10 +253,10 @@ export default function HomePage() {
                 Ekonomi & Pariwisata Lokal
               </span>
               <h2 className="text-2xl md:text-3xl font-extrabold leading-tight">
-                Dukung Produk Unggulan UMKM & Destinasi Wisata Lombok Tengah
+                Dukung Produk Unggulan UMKM & Destinasi Wisata Desa Pagutan
               </h2>
               <p className="text-slate-300 text-xs md:text-sm leading-relaxed">
-                Jelajahi kerajinan tenun khas Sasak, olahan bambu ramah lingkungan, komoditas beras organik subak, hingga spot ekowisata panorama sawah di Desa Pagutan dan Bujak.
+                Jelajahi kerajinan tenun khas Sasak, olahan bambu ramah lingkungan, komoditas beras organik subak, hingga spot ekowisata panorama sawah di Desa Pagutan.
               </p>
               <div className="pt-2">
                 <Link
@@ -282,10 +270,10 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-6 grid grid-cols-2 gap-4">
-              {filteredPotensi.slice(0, 2).map(item => (
+              {potensi.slice(0, 2).map(item => (
                 <div key={item.id} className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 backdrop-blur">
                   <div className="relative h-28 rounded-xl overflow-hidden mb-3">
-                    <Image src={item.imageUrl} alt={item.name} fill className="object-cover" />
+                    <Image src={item.imageUrl} alt={item.name} fill className="object-cover" unoptimized />
                   </div>
                   <h4 className="font-bold text-sm text-white line-clamp-1">{item.name}</h4>
                   <p className="text-[11px] text-emerald-400 font-medium">{item.category} • {item.village}</p>

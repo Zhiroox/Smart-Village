@@ -16,11 +16,11 @@ export const Footer = () => {
             </div>
             <div>
               <h3 className="text-white font-bold text-base">SMART VILLAGE</h3>
-              <p className="text-xs text-emerald-400">Desa Pagutan & Desa Bujak</p>
+              <p className="text-xs text-emerald-400">Desa Pagutan</p>
             </div>
           </div>
           <p className="text-xs text-slate-400 leading-relaxed mb-4">
-            Platform tata kelola digital, keterbukaan informasi publik, pemberdayaan ekonomi UMKM, serta pelayanan administrasi mandiri masyarakat Kecamatan Batukliang, Kabupaten Lombok Tengah.
+            Platform tata kelola digital, keterbukaan informasi publik, pemberdayaan ekonomi UMKM, serta pelayanan administrasi mandiri masyarakat Desa Pagutan, Kecamatan Batukliang, Kabupaten Lombok Tengah.
           </p>
           <div className="text-xs text-slate-500">
             Dikembangkan bersama Tim KKN Universitas © 2026
@@ -90,7 +90,7 @@ export const Footer = () => {
 
       <div className="container mx-auto px-4 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
         <div>
-          © 2026 Pemerintah Desa Pagutan & Desa Bujak. Hak Cipta Dilindungi Undang-Undang.
+          © 2026 Pemerintah Desa Pagutan. Hak Cipta Dilindungi Undang-Undang.
         </div>
         <div className="mt-2 sm:mt-0 flex gap-4">
           <span>Privasi & Syarat Ketentuan</span>

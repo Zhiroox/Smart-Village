@@ -4,23 +4,19 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { mockNews } from '@/lib/data/mockData';
-import { VillageSelector } from '@/components/common/VillageSelector';
-import { VillageName } from '@/lib/types';
 import { Newspaper, Search, ChevronRight, Calendar, User } from 'lucide-react';
 
 export default function BeritaPage() {
-  const [selectedVillage, setSelectedVillage] = useState<VillageName>('Semua Desa');
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const categories = ['Semua', 'Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi'];
 
   const filteredNews = mockNews.filter((item) => {
-    const matchVillage = selectedVillage === 'Semua Desa' || item.village === selectedVillage;
     const matchCat = selectedCategory === 'Semua' || item.category === selectedCategory;
     const matchSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                         item.summary.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchVillage && matchCat && matchSearch;
+    return matchCat && matchSearch;
   });
 
   return (
@@ -29,19 +25,12 @@ export default function BeritaPage() {
       <section className="bg-slate-900 text-white py-12 px-4 border-b-4 border-emerald-600">
         <div className="container mx-auto max-w-6xl text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold mb-3">
-            <Newspaper className="w-3.5 h-3.5" /> Pusat Kabar & Keterbukaan Informasi
+            <Newspaper className="w-3.5 h-3.5" /> Kabar Resmi & Pengumuman
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Berita & Pengumuman Desa</h1>
-          <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto mb-6">
-            Dapatkan pembaruan terkini seputar kegiatan pembangunan, pengumuman layanan, serta kegiatan masyarakat di Kecamatan Batukliang.
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Berita & Informasi Desa Pagutan</h1>
+          <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto">
+            Pusat berita resmi seputar agenda desa, laporan anggaran pembangunan, perkembangan pertanian, dan kegiatan sosial warga Batukliang.
           </p>
-
-          <div className="bg-white/10 p-2 rounded-2xl backdrop-blur-md inline-block">
-            <VillageSelector 
-              selectedVillage={selectedVillage} 
-              onSelectVillage={setSelectedVillage} 
-            />
-          </div>
         </div>
       </section>
 
@@ -54,7 +43,7 @@ export default function BeritaPage() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors ${
                   selectedCategory === cat
                     ? 'bg-emerald-600 text-white shadow-sm'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -73,7 +62,7 @@ export default function BeritaPage() {
               placeholder="Cari kata kunci berita..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-emerald-600 focus:bg-white transition-all"
+              className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-emerald-600 focus:bg-white transition-all"
             />
           </div>
         </div>
@@ -95,12 +84,10 @@ export default function BeritaPage() {
                     alt={item.title} 
                     fill 
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    unoptimized
                   />
                   <div className="absolute top-3 left-3 bg-emerald-800/90 backdrop-blur text-white px-2.5 py-1 rounded-md text-[11px] font-semibold">
                     {item.category}
-                  </div>
-                  <div className="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur text-slate-200 px-2.5 py-0.5 rounded text-[10px]">
-                    {item.village}
                   </div>
                 </div>
 

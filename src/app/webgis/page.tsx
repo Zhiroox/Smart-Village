@@ -2,34 +2,24 @@
 
 import React, { useState } from 'react';
 import { MapComponent } from '@/components/gis/MapComponent';
-import { VillageSelector } from '@/components/common/VillageSelector';
 import { mockGisLocations } from '@/lib/data/mockData';
-import { VillageName } from '@/lib/types';
 import { Map, Layers, Search, Info } from 'lucide-react';
 
 export default function WebGisPage() {
-  const [selectedVillage, setSelectedVillage] = useState<VillageName>('Semua Desa');
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua Layer');
 
   return (
-    <div className="py-8 space-y-8">
+    <div className="py-8 space-y-8 bg-slate-50 min-h-screen">
       {/* Banner Header */}
       <section className="bg-slate-900 text-white py-10 px-4 border-b-4 border-emerald-600">
         <div className="container mx-auto max-w-6xl text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold mb-3">
             <Map className="w-3.5 h-3.5" /> Sistem Informasi Geografis Spasial (WebGIS)
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Peta Spasial Desa Pagutan & Desa Bujak</h1>
-          <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto mb-6">
-            Pemetaan interaktif fasilitas umum, kantor pemerintahan, sekolah, sarana kesehatan, potensi ekonomi, serta rute evakuasi bencana alam.
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Peta Spasial Desa Pagutan</h1>
+          <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto">
+            Pemetaan interaktif batas dusun, kantor desa, sekolah, rumah ibadah, sarana kesehatan, potensi wisata, serta rute evakuasi kebencanaan.
           </p>
-
-          <div className="bg-white/10 p-2 rounded-2xl backdrop-blur-md inline-block">
-            <VillageSelector 
-              selectedVillage={selectedVillage} 
-              onSelectVillage={setSelectedVillage} 
-            />
-          </div>
         </div>
       </section>
 
@@ -37,7 +27,7 @@ export default function WebGisPage() {
         {/* Main Leaflet Map Container */}
         <MapComponent
           locations={mockGisLocations}
-          selectedVillage={selectedVillage}
+          selectedVillage="Desa Pagutan"
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
         />
@@ -63,7 +53,7 @@ export default function WebGisPage() {
             <div>
               <h4 className="font-bold text-slate-900 text-sm mb-1">Presisi Koordinat GPS</h4>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Setiap titik diselaraskan dengan data geografis riil Kecamatan Batukliang, Lombok Tengah.
+                Setiap titik diselaraskan dengan data geografis riil Desa Pagutan, Batukliang, Lombok Tengah.
               </p>
             </div>
           </div>
