@@ -6,28 +6,34 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary-500 selection:text-white;
+    @apply bg-slate-900 text-slate-200 font-sans antialiased;
+    selection-color: white;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    @apply bg-emerald-500 text-white;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply tracking-tight font-semibold text-slate-900;
+    @apply tracking-tight font-semibold;
   }
 }
 
-/* Custom Scrollbar for modern minimalist look */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #0f172a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  background: #1e293b;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #10b981;
 }
 
 /* Leaflet map custom overrides */
@@ -41,9 +47,16 @@
 .leaflet-popup-content-wrapper {
   border-radius: 0.75rem;
   padding: 0.5rem;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  background: #1e293b;
+  color: #e2e8f0;
 }
 
 .leaflet-popup-content {
   margin: 0.5rem 0.75rem;
+}
+
+/* Smooth page transitions */
+* {
+  scroll-behavior: smooth;
 }
