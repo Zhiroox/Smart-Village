@@ -103,32 +103,32 @@ export const MapComponent: React.FC<MapComponentProps> = ({
       </div>
 
       {/* Map View Canvas Area */}
-      <div className="flex-1 min-h-[450px] lg:min-h-[550px] relative bg-slate-900 overflow-hidden flex flex-col justify-between p-6">
+      <div className="flex-1 min-h-[450px] lg:min-h-[550px] relative bg-slate-50 overflow-hidden flex flex-col justify-between p-6 border-t lg:border-t-0 lg:border-l border-slate-200">
         {/* Top Floating Map Info Header */}
-        <div className="z-20 bg-slate-900/85 backdrop-blur-md text-white p-3.5 rounded-xl border border-slate-700/60 flex items-center justify-between shadow-lg">
+        <div className="z-20 bg-white/95 backdrop-blur-md text-slate-800 p-3.5 rounded-xl border border-slate-200/80 flex items-center justify-between shadow-md">
           <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></div>
+            <div className="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></div>
             <div>
-              <div className="text-xs font-bold tracking-wide uppercase text-emerald-400">Peta Digital Desa Pagutan</div>
-              <div className="text-xs text-slate-300">Menampilkan {filteredLocations.length} titik lokasi spasial</div>
+              <div className="text-xs font-bold tracking-wide uppercase text-emerald-700">Peta Digital Desa Pagutan</div>
+              <div className="text-xs text-slate-500">Menampilkan {filteredLocations.length} titik lokasi spasial</div>
             </div>
           </div>
           <div className="text-right hidden sm:block">
             <div className="text-[11px] text-slate-400">Koordinat Pusat</div>
-            <div className="text-xs font-mono text-emerald-300">-8.6254° S, 116.2812° E</div>
+            <div className="text-xs font-mono text-emerald-600">-8.6254° S, 116.2812° E</div>
           </div>
         </div>
 
         {/* Dynamic Vector GIS Layout Matrix */}
         <div className="absolute inset-0 z-10 flex items-center justify-center p-8 opacity-90">
           {/* Stylized Topographic Lines Background */}
-          <div className="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:24px_24px] opacity-20"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:24px_24px] opacity-15"></div>
           
           {/* Location Pins Interactive Overlay */}
-          <div className="relative w-full h-full max-w-2xl max-h-96 border border-emerald-500/20 rounded-3xl bg-slate-950/40 backdrop-blur-xs p-6 flex flex-wrap items-center justify-center gap-6 overflow-auto">
+          <div className="relative w-full h-full max-w-2xl max-h-96 border border-slate-200 rounded-3xl bg-white/80 backdrop-blur-xs p-6 flex flex-wrap items-center justify-center gap-6 overflow-auto shadow-inner">
             {filteredLocations.length === 0 ? (
-              <div className="text-center text-slate-400 text-sm py-12">
-                <Info className="w-8 h-8 text-slate-500 mx-auto mb-2" />
+              <div className="text-center text-slate-500 text-sm py-12">
+                <Info className="w-8 h-8 text-slate-400 mx-auto mb-2" />
                 Tidak ada titik lokasi pada layer ini untuk Desa Pagutan.
               </div>
             ) : (
@@ -140,18 +140,18 @@ export const MapComponent: React.FC<MapComponentProps> = ({
                     onClick={() => setSelectedLocation(loc)}
                     className={`group relative p-3.5 rounded-xl transition-all duration-300 text-left flex items-start gap-3 border ${
                       isSelected
-                        ? 'bg-emerald-600 text-white border-emerald-400 ring-4 ring-emerald-500/30 scale-105 z-30 shadow-xl'
-                        : 'bg-slate-800/90 text-slate-200 border-slate-700 hover:border-emerald-500/50 hover:bg-slate-800'
+                        ? 'bg-emerald-600 text-white border-emerald-400 ring-4 ring-emerald-55/30 scale-105 z-30 shadow-md'
+                        : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-500/50 hover:bg-slate-50 shadow-xs'
                     }`}
                   >
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                      isSelected ? 'bg-emerald-700 text-white' : 'bg-emerald-950 text-emerald-400 group-hover:bg-emerald-900'
+                      isSelected ? 'bg-emerald-700 text-white' : 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-100'
                     }`}>
                       <MapPin className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="text-xs font-bold leading-snug">{loc.name}</div>
-                      <div className={`text-[10px] ${isSelected ? 'text-emerald-100' : 'text-slate-400'}`}>
+                      <div className={`text-[10px] ${isSelected ? 'text-emerald-100' : 'text-slate-550'}`}>
                         {loc.category}
                       </div>
                     </div>
@@ -163,12 +163,12 @@ export const MapComponent: React.FC<MapComponentProps> = ({
         </div>
 
         {/* Bottom Floating Legend Bar */}
-        <div className="z-20 bg-slate-900/90 backdrop-blur-md text-slate-300 p-3 rounded-xl border border-slate-700/60 flex items-center justify-between text-xs">
+        <div className="z-20 bg-white/95 backdrop-blur-md text-slate-750 p-3 rounded-xl border border-slate-200/80 flex items-center justify-between text-xs shadow-md">
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Desa Pagutan</span>
           </div>
-          <div className="flex items-center gap-1 text-slate-400 text-[11px]">
-            <Navigation className="w-3.5 h-3.5 text-emerald-400" /> OpenStreetMap & GIS Layer Active
+          <div className="flex items-center gap-1 text-slate-500 text-[11px]">
+            <Navigation className="w-3.5 h-3.5 text-emerald-600" /> OpenStreetMap & GIS Layer Active
           </div>
         </div>
       </div>

@@ -121,25 +121,25 @@ export default function LayananPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-900">
+    <div className="min-h-screen bg-slate-50">
       {/* Banner Header */}
-      <section className="relative py-16 px-4 overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950">
-        <div className="absolute top-0 left-0 w-80 h-80 bg-emerald-500/8 rounded-full blur-3xl -translate-x-1/3 -translate-y-1/3" />
+      <section className="relative py-16 px-4 overflow-hidden bg-gradient-to-br from-emerald-50 via-teal-50/50 to-white text-slate-800 border-b border-slate-200/80">
+        <div className="absolute top-0 left-0 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl -translate-x-1/3 -translate-y-1/3" />
         <div className="container mx-auto max-w-6xl text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 rounded-full text-xs font-semibold mb-5">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-full text-xs font-semibold mb-5">
             <FileText className="w-3.5 h-3.5" /> Portal Pelayanan &amp; Pengaduan Mandiri
           </div>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">Layanan &amp; Pengaduan{' '}<span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Warga Pagutan</span></h1>
-          <p className="text-slate-400 text-sm md:text-base max-w-2xl mx-auto mb-8">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">Layanan &amp; Pengaduan{' '}<span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Warga Pagutan</span></h1>
+          <p className="text-slate-600 text-sm md:text-base max-w-2xl mx-auto mb-8">
             Ajukan surat keterangan resmi, pantau status verifikasi, unduh blanko formulir, atau hubungi sistem proteksi kekerasan perempuan &amp; anak (PPA) Desa Pagutan.
           </p>
 
           {/* Navigation Bar Pills */}
-          <div className="bg-white/10 p-2 rounded-2xl backdrop-blur-md inline-flex flex-wrap justify-center gap-2">
+          <div className="bg-slate-100 p-2 rounded-2xl inline-flex flex-wrap justify-center gap-2">
             <button
               onClick={() => setActiveTab('form')}
               className={`px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all ${
-                activeTab === 'form' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-200 hover:bg-white/10'
+                activeTab === 'form' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-200/60'
               }`}
             >
               Pengajuan Surat Online
@@ -147,7 +147,7 @@ export default function LayananPage() {
             <button
               onClick={() => setActiveTab('status')}
               className={`px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all ${
-                activeTab === 'status' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-200 hover:bg-white/10'
+                activeTab === 'status' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-200/60'
               }`}
             >
               Cek Status Resi
@@ -155,7 +155,7 @@ export default function LayananPage() {
             <button
               onClick={() => setActiveTab('kekerasan')}
               className={`px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all flex items-center gap-1.5 ${
-                activeTab === 'kekerasan' ? 'bg-rose-600 text-white shadow-md' : 'text-rose-300 hover:bg-white/10'
+                activeTab === 'kekerasan' ? 'bg-rose-600 text-white shadow-md' : 'text-rose-700 hover:bg-rose-50'
               }`}
             >
               <ShieldAlert className="w-4 h-4" /> Lapor Kekerasan (PPA)
@@ -163,7 +163,7 @@ export default function LayananPage() {
             <button
               onClick={() => setActiveTab('info')}
               className={`px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all ${
-                activeTab === 'info' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-200 hover:bg-white/10'
+                activeTab === 'info' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-200/60'
               }`}
             >
               Persyaratan
@@ -171,7 +171,7 @@ export default function LayananPage() {
             <button
               onClick={() => setActiveTab('downloads')}
               className={`px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all ${
-                activeTab === 'downloads' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-200 hover:bg-white/10'
+                activeTab === 'downloads' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-200/60'
               }`}
             >
               Unduh Form
@@ -179,7 +179,7 @@ export default function LayananPage() {
             <button
               onClick={() => setActiveTab('faq')}
               className={`px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all ${
-                activeTab === 'faq' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-200 hover:bg-white/10'
+                activeTab === 'faq' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-200/60'
               }`}
             >
               FAQ
@@ -191,20 +191,20 @@ export default function LayananPage() {
       <div className="container mx-auto px-4 max-w-4xl py-10">
         {/* Tab 1: Form Pengajuan Online */}
         {activeTab === 'form' && (
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 md:p-10 space-y-8">
+          <div className="bg-white border border-slate-200 shadow-md rounded-3xl p-6 md:p-10 space-y-8">
             <div>
               <h2 className="text-xl font-bold text-slate-900 mb-1">Formulir Permohonan Surat Keterangan</h2>
               <p className="text-xs text-slate-500">Isi data identitas sesuai KTP/KK secara cermat untuk verifikasi.</p>
             </div>
 
             {submittedApp ? (
-              <div className="bg-emerald-500/15 border-2 border-emerald-400/40 p-6 rounded-2xl text-center space-y-4">
-                <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto" />
-                <h3 className="text-lg font-bold text-white">Permohonan Surat Berhasil Dikirim!</h3>
-                <p className="text-xs text-slate-400 max-w-md mx-auto">
+              <div className="bg-emerald-50 border-2 border-emerald-200 p-6 rounded-2xl text-center space-y-4">
+                <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
+                <h3 className="text-lg font-bold text-emerald-800">Permohonan Surat Berhasil Dikirim!</h3>
+                <p className="text-xs text-slate-600 max-w-md mx-auto">
                   Nomor permohonan resmi Anda adalah:
                 </p>
-                <div className="inline-block bg-slate-900 text-emerald-400 font-mono text-xl font-extrabold px-6 py-2.5 rounded-xl border border-emerald-500 shadow-md">
+                <div className="inline-block bg-slate-100 text-emerald-700 font-mono text-xl font-extrabold px-6 py-2.5 rounded-xl border border-emerald-200 shadow-sm">
                   {submittedApp.applicationNumber}
                 </div>
                 <p className="text-[11px] text-slate-500">

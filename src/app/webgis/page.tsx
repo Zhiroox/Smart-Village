@@ -11,13 +11,13 @@ export default function WebGisPage() {
   return (
     <div className="py-8 space-y-8 bg-slate-50 min-h-screen">
       {/* Banner Header */}
-      <section className="bg-slate-900 text-white py-10 px-4 border-b-4 border-emerald-600">
-        <div className="container mx-auto max-w-6xl text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold mb-3">
+      <section className="relative bg-gradient-to-br from-emerald-50 via-teal-50/50 to-white text-slate-800 py-10 px-4 border-b border-slate-200/80">
+        <div className="container mx-auto max-w-6xl text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-250 text-emerald-700 rounded-full text-xs font-semibold mb-3">
             <Map className="w-3.5 h-3.5" /> Sistem Informasi Geografis Spasial (WebGIS)
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Peta Spasial Desa Pagutan</h1>
-          <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Peta Spasial Desa Pagutan</h1>
+          <p className="text-slate-600 text-xs md:text-sm max-w-2xl mx-auto">
             Pemetaan interaktif batas dusun, kantor desa, sekolah, rumah ibadah, sarana kesehatan, potensi wisata, serta rute evakuasi kebencanaan.
           </p>
         </div>
