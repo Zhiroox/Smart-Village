@@ -44,19 +44,21 @@ export const Navbar = () => {
 
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/98 backdrop-blur-xl shadow-md border-b border-slate-200' : 'bg-white/95 backdrop-blur-md border-b border-slate-200/50'}`}>
-      {/* Top Banner Bar */}
-      <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-955 text-emerald-100 px-4 py-1.5 text-xs font-medium flex justify-between items-center">
-        <div className="flex items-center gap-2 container mx-auto">
-          <Landmark className="w-3.5 h-3.5 text-emerald-400" />
-          <span className="text-emerald-200">Portal Resmi Smart Village &bull; Kecamatan Batukliang &bull; Lombok Tengah</span>
-        </div>
-        <div className="hidden md:flex items-center gap-4 text-emerald-300 text-xs shrink-0">
-          <span>Kab. Lombok Tengah, NTB</span>
-          <span className="text-emerald-600">•</span>
-          <Link href="/admin/login" className="hover:text-white flex items-center gap-1 font-semibold transition-colors">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            Portal Admin
-          </Link>
+      {/* Top Banner Bar — hidden on mobile to save space */}
+      <div className="hidden md:block bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-955 text-emerald-100 px-4 py-1.5 text-xs font-medium">
+        <div className="flex items-center justify-between container mx-auto">
+          <div className="flex items-center gap-2">
+            <Landmark className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="text-emerald-200">Portal Resmi Smart Village &bull; Kecamatan Batukliang &bull; Lombok Tengah</span>
+          </div>
+          <div className="flex items-center gap-4 text-emerald-300 text-xs shrink-0">
+            <span>Kab. Lombok Tengah, NTB</span>
+            <span className="text-emerald-600">&bull;</span>
+            <Link href="/admin/login" className="hover:text-white flex items-center gap-1 font-semibold transition-colors">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Portal Admin
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -118,7 +120,7 @@ export const Navbar = () => {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-1 shadow-2xl">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-3 pt-2 pb-5 shadow-xl space-y-1">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             const Icon = link.icon;
@@ -127,24 +129,25 @@ export const Navbar = () => {
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold transition-all active:scale-[0.98] ${
                   isActive
                     ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
-                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                    : 'text-slate-600 hover:bg-slate-50'
                 }`}
               >
-                <Icon className={`w-5 h-5 ${isActive ? 'text-emerald-600' : 'text-slate-500'}`} />
+                <Icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-emerald-600' : 'text-slate-400'}`} />
                 {link.name}
+                {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500" />}
               </Link>
             );
           })}
-          <div className="pt-4 mt-2 border-t border-slate-100">
+          <div className="pt-3 mt-1 border-t border-slate-100">
             <Link
               href="/admin/login"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-sm font-medium hover:bg-emerald-100 transition-all"
+              className="flex items-center justify-center gap-2 w-full py-3.5 px-4 bg-emerald-600 text-white rounded-xl text-sm font-semibold active:bg-emerald-700 transition-all"
             >
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <ShieldCheck className="w-4 h-4 text-emerald-200 shrink-0" />
               Portal Login Admin / Operator
             </Link>
           </div>

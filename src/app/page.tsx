@@ -31,7 +31,7 @@ export default function HomePage() {
   return (
     <div className="space-y-0 pb-0 bg-slate-50">
       {/* ======= HERO SECTION ======= */}
-      <section className="relative bg-gradient-to-br from-emerald-50 via-teal-50/50 to-white text-slate-800 pt-16 pb-24 px-4 overflow-hidden border-b border-slate-200/80">
+      <section className="relative bg-gradient-to-br from-emerald-50 via-teal-50/50 to-white text-slate-800 pt-12 pb-16 md:pt-16 md:pb-24 px-4 overflow-hidden border-b border-slate-200/80">
         {/* Background Image Overlay */}
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=1600')] bg-cover bg-center opacity-5" />
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
@@ -49,41 +49,40 @@ export default function HomePage() {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1]">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-5 md:mb-6 leading-[1.1]">
               Selamat Datang di{' '}
               <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 bg-clip-text text-transparent">
                 Portal Desa Pagutan
               </span>
             </h1>
             
-            <p className="text-slate-650 text-sm md:text-base leading-relaxed mb-10 max-w-2xl">
+            <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-7 md:mb-10 max-w-2xl px-2 md:px-0">
               Pusat transparansi informasi publik, tata kelola pemerintahan digital, pengajuan surat mandiri online, serta katalog potensi ekonomi &amp; pariwisata Kecamatan Batukliang, Kabupaten Lombok Tengah.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full sm:w-auto">
               <Link
                 href="/layanan"
-                className="group px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-semibold text-sm shadow-xl shadow-emerald-600/20 transition-all duration-200 flex items-center gap-2 hover:shadow-emerald-600/30 hover:-translate-y-0.5"
+                className="group px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 active:from-emerald-700 active:to-emerald-600 text-white font-semibold text-sm shadow-lg shadow-emerald-600/20 transition-all duration-200 flex items-center justify-center gap-2"
               >
-                <FileCheck2 className="w-4 h-4" />
+                <FileCheck2 className="w-4 h-4 shrink-0" />
                 Pengajuan Surat Online
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/webgis"
-                className="group px-7 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 font-semibold text-sm border border-slate-200/80 shadow-sm backdrop-blur-md transition-all duration-200 flex items-center gap-2 hover:-translate-y-0.5"
+                className="group px-6 py-3.5 rounded-xl bg-white active:bg-slate-100 text-slate-700 font-semibold text-sm border border-slate-200 shadow-sm transition-all duration-200 flex items-center justify-center gap-2"
               >
-                <MapPin className="w-4 h-4 text-emerald-650" />
+                <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
                 Jelajahi Peta WebGIS
               </Link>
             </div>
           </div>
 
           {/* Quick Statistics Banner */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 pt-8 border-t border-slate-200/80">
+          <div className="grid grid-cols-2 gap-3 md:gap-5 pt-6 md:pt-8 border-t border-slate-200">
             <StatCard title="Jumlah Penduduk" value={stats.population} unit="Jiwa" icon={Users} color="emerald" />
             <StatCard title="Wilayah Dusun" value={stats.dusunCount} unit="Dusun" icon={MapPin} color="blue" />
-            <StatCard title="Pelaku UMKM" value={stats.umkmCount} unit="Usaha" icon={ShoppingBag} color="amber" />
             <StatCard title="Lahan Pertanian" value={stats.farmlandArea} unit="Ha" icon={Wheat} color="purple" />
             <StatCard title="Spot Wisata" value={stats.tourismSpots} unit="Lokasi" icon={Compass} color="rose" />
           </div>
@@ -147,41 +146,41 @@ export default function HomePage() {
             <p className="text-sm text-slate-500">Akses cepat ke modul administrasi, informasi publik, dan pemetaan desa</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <Link href="/layanan" className="group relative bg-white hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-350/80 p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/50">
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-650 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-emerald-100 transition-all duration-200">
-                <FileCheck2 className="w-6 h-6" />
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+            <Link href="/layanan" className="group relative bg-white active:bg-emerald-50/50 border border-slate-200 p-4 md:p-6 rounded-2xl transition-all duration-200 flex flex-col">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 md:mb-5">
+                <FileCheck2 className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <h3 className="font-bold text-slate-800 text-base mb-2 group-hover:text-emerald-700 transition-colors">Surat Online</h3>
-              <p className="text-xs text-slate-500 leading-relaxed group-hover:text-slate-650 transition-colors">Pengajuan permohonan surat keterangan mandiri secara online</p>
-              <ChevronRight className="absolute bottom-5 right-5 w-4 h-4 text-slate-400 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition-all" />
+              <h3 className="font-bold text-slate-800 text-sm md:text-base mb-1 md:mb-2">Surat Online</h3>
+              <p className="text-xs text-slate-500 leading-relaxed hidden sm:block">Pengajuan permohonan surat keterangan mandiri</p>
+              <ChevronRight className="absolute bottom-3 right-3 md:bottom-5 md:right-5 w-4 h-4 text-slate-400" />
             </Link>
 
-            <Link href="/layanan" className="group relative bg-white hover:bg-blue-50/50 border border-slate-200 hover:border-blue-350/80 p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/50">
-              <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-650 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-blue-100 transition-all duration-200">
-                <Search className="w-6 h-6" />
+            <Link href="/layanan" className="group relative bg-white active:bg-blue-50/50 border border-slate-200 p-4 md:p-6 rounded-2xl transition-all duration-200 flex flex-col">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-3 md:mb-5">
+                <Search className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <h3 className="font-bold text-slate-800 text-base mb-2 group-hover:text-blue-700 transition-colors">Cek Status Resi</h3>
-              <p className="text-xs text-slate-500 leading-relaxed group-hover:text-slate-650 transition-colors">Lacak posisi dan verifikasi pengajuan surat keterangan Anda</p>
-              <ChevronRight className="absolute bottom-5 right-5 w-4 h-4 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
+              <h3 className="font-bold text-slate-800 text-sm md:text-base mb-1 md:mb-2">Cek Status Resi</h3>
+              <p className="text-xs text-slate-500 leading-relaxed hidden sm:block">Lacak posisi dan verifikasi pengajuan surat keterangan</p>
+              <ChevronRight className="absolute bottom-3 right-3 md:bottom-5 md:right-5 w-4 h-4 text-slate-400" />
             </Link>
 
-            <Link href="/webgis" className="group relative bg-white hover:bg-amber-50/50 border border-slate-200 hover:border-amber-350/80 p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/50">
-              <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-650 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-amber-100 transition-all duration-200">
-                <MapPin className="w-6 h-6" />
+            <Link href="/webgis" className="group relative bg-white active:bg-amber-50/50 border border-slate-200 p-4 md:p-6 rounded-2xl transition-all duration-200 flex flex-col">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-3 md:mb-5">
+                <MapPin className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <h3 className="font-bold text-slate-800 text-base mb-2 group-hover:text-amber-700 transition-colors">Peta WebGIS</h3>
-              <p className="text-xs text-slate-500 leading-relaxed group-hover:text-slate-650 transition-colors">Pemetaan spasial batas desa, sarana umum, dan titik wisata</p>
-              <ChevronRight className="absolute bottom-5 right-5 w-4 h-4 text-slate-400 group-hover:text-amber-600 group-hover:translate-x-0.5 transition-all" />
+              <h3 className="font-bold text-slate-800 text-sm md:text-base mb-1 md:mb-2">Peta WebGIS</h3>
+              <p className="text-xs text-slate-500 leading-relaxed hidden sm:block">Pemetaan spasial batas desa, sarana umum, dan titik wisata</p>
+              <ChevronRight className="absolute bottom-3 right-3 md:bottom-5 md:right-5 w-4 h-4 text-slate-400" />
             </Link>
 
-            <Link href="/layanan?tab=kekerasan" className="group relative bg-white hover:bg-rose-50/50 border border-slate-200 hover:border-rose-350/80 p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/50">
-              <div className="w-12 h-12 rounded-xl bg-rose-50 text-rose-650 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-rose-100 transition-all duration-200">
-                <ShieldAlert className="w-6 h-6" />
+            <Link href="/layanan?tab=kekerasan" className="group relative bg-white active:bg-rose-50/50 border border-slate-200 p-4 md:p-6 rounded-2xl transition-all duration-200 flex flex-col">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mb-3 md:mb-5">
+                <ShieldAlert className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <h3 className="font-bold text-slate-800 text-base mb-2 group-hover:text-rose-700 transition-colors">Lapor Kekerasan</h3>
-              <p className="text-xs text-slate-500 leading-relaxed group-hover:text-slate-650 transition-colors">Sistem Pelaporan Kasus Kekerasan Perempuan &amp; Anak (PPA)</p>
-              <ChevronRight className="absolute bottom-5 right-5 w-4 h-4 text-slate-400 group-hover:text-rose-600 group-hover:translate-x-0.5 transition-all" />
+              <h3 className="font-bold text-slate-800 text-sm md:text-base mb-1 md:mb-2">Lapor Kekerasan</h3>
+              <p className="text-xs text-slate-500 leading-relaxed hidden sm:block">Sistem Pelaporan Kasus Kekerasan PPA</p>
+              <ChevronRight className="absolute bottom-3 right-3 md:bottom-5 md:right-5 w-4 h-4 text-slate-400" />
             </Link>
           </div>
         </div>
@@ -202,7 +201,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {news.slice(0, 3).map((item) => (
               <article key={item.id} className="group bg-white border border-slate-200 hover:border-emerald-350 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/50 flex flex-col">
                 <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
