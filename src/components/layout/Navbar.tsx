@@ -43,7 +43,7 @@ export const Navbar = () => {
   ];
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/98 backdrop-blur-xl shadow-md border-b border-slate-200' : 'bg-white/95 backdrop-blur-md border-b border-slate-200/50'}`}>
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/98 backdrop-blur-xl shadow-md border-b-2 border-slate-300' : 'bg-white/95 backdrop-blur-md border-b border-slate-300'}`}>
       {/* Top Banner Bar — hidden on mobile to save space */}
       <div className="hidden md:block bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-955 text-emerald-100 px-4 py-1.5 text-xs font-medium">
         <div className="flex items-center justify-between container mx-auto">
@@ -64,15 +64,15 @@ export const Navbar = () => {
 
       {/* Main Navbar */}
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white shadow-lg shadow-emerald-950/20 group-hover:shadow-emerald-500/30 group-hover:scale-105 transition-all duration-200">
-            <Landmark className="w-6 h-6" />
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="w-8 h-8 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white shadow-lg shadow-emerald-950/20 group-hover:shadow-emerald-500/30 group-hover:scale-105 transition-all duration-200 shrink-0">
+            <Landmark className="w-4 h-4 md:w-6 md:h-6" />
           </div>
           <div>
-            <div className="font-extrabold text-slate-800 text-lg leading-tight group-hover:text-emerald-600 transition-colors">
+            <div className="font-extrabold text-slate-800 text-sm md:text-lg leading-tight group-hover:text-emerald-600 transition-colors">
               SMART VILLAGE
             </div>
-            <div className="text-xs text-emerald-600 font-semibold tracking-wide">
+            <div className="text-[10px] md:text-xs text-emerald-600 font-semibold tracking-wide">
               Desa Pagutan
             </div>
           </div>

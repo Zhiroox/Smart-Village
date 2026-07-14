@@ -68,21 +68,21 @@ export const StatCard: React.FC<StatCardProps> = ({
   const iconBg = iconBgMap[color];
 
   return (
-    <div className={`bg-gradient-to-br ${colors} border backdrop-blur-sm p-5 rounded-2xl transition-all duration-300 flex items-start justify-between group cursor-default hover:-translate-y-0.5`}>
-      <div>
+    <div className={`bg-gradient-to-br ${colors} border backdrop-blur-sm p-3 md:p-5 rounded-2xl transition-all duration-300 flex items-start justify-between gap-2 group cursor-default hover:-translate-y-0.5`}>
+      <div className="flex-1 min-w-0 pr-1">
         <p className={`text-[10px] font-bold ${titleColor} uppercase tracking-wider mb-1`}>{title}</p>
-        <div className="flex items-baseline gap-1">
-          <span className="text-2xl lg:text-3xl font-extrabold text-white group-hover:scale-105 transition-transform inline-block origin-left">
+        <div className="flex flex-wrap items-baseline gap-1">
+          <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white group-hover:scale-105 transition-transform inline-block origin-left">
             {typeof value === 'number' ? value.toLocaleString('id-ID') : value}
           </span>
-          {unit && <span className={`text-xs font-semibold ${unitColor}`}>{unit}</span>}
+          {unit && <span className={`text-[10px] sm:text-xs font-semibold ${unitColor}`}>{unit}</span>}
         </div>
         {description && (
-          <p className={`text-xs mt-1 ${descriptionColor}`}>{description}</p>
+          <p className={`text-xs mt-1 ${descriptionColor} truncate`}>{description}</p>
         )}
       </div>
-      <div className={`w-11 h-11 rounded-xl ${iconBg} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
-        <Icon className="w-5 h-5" />
+      <div className={`w-8 h-8 md:w-11 md:h-11 rounded-xl ${iconBg} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform mt-0.5`}>
+        <Icon className="w-4 h-4 md:w-5 md:h-5" />
       </div>
     </div>
   );

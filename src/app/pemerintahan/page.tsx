@@ -25,7 +25,7 @@ export default function PemerintahanPage() {
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
             Pemerintahan{' '}
-            <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-750 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent">
               Desa Pagutan
             </span>
           </h1>

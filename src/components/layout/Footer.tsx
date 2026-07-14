@@ -130,7 +130,7 @@ export const Footer = () => {
       {/* Bottom Bar */}
       <div className="container mx-auto px-4 pt-6 border-t border-white/6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600">
         <div>
-          © 2026 Pemerintah Desa Pagutan. Dikembangkan bersama Tim KKN Universitas.
+          © 2026 Pemerintah Desa Pagutan. Dikembangkan bersama Tim KKN SOBATUKLIANG Universitas Gadjah Mada.
         </div>
         <div className="mt-2 sm:mt-0 flex gap-4">
           <span className="hover:text-slate-400 cursor-pointer transition-colors">Privasi &amp; Syarat</span>

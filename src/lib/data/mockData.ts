@@ -219,13 +219,13 @@ export const mockPotensi: PotensiItem[] = [
 export const mockGisLocations: GisLocation[] = [
   {
     id: 'gis-1',
-    name: 'Kantor Desa Pagutan',
+    name: 'Kantor Balai Desa Pagutan',
     category: 'Kantor Desa',
     village: 'Desa Pagutan',
-    latitude: -8.6254,
-    longitude: 116.2812,
+    latitude: -8.628029924721861,
+    longitude: 116.28605364365886,
     description: 'Pusat pemerintahan dan pelayanan administrasi masyarakat Desa Pagutan.',
-    address: 'Jl. Raya Pagutan No. 1, Kecamatan Batukliang, Lombok Tengah'
+    address: 'Jl. Raya Pagutan, Kecamatan Batukliang, Lombok Tengah'
   },
   {
     id: 'gis-2',
