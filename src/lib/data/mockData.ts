@@ -217,6 +217,7 @@ export const mockPotensi: PotensiItem[] = [
 ];
 
 export const mockGisLocations: GisLocation[] = [
+  // === Kantor Desa ===
   {
     id: 'gis-1',
     name: 'Kantor Balai Desa Pagutan',
@@ -227,6 +228,7 @@ export const mockGisLocations: GisLocation[] = [
     description: 'Pusat pemerintahan dan pelayanan administrasi masyarakat Desa Pagutan.',
     address: 'Jl. Raya Pagutan, Kecamatan Batukliang, Lombok Tengah'
   },
+  // === Puskesmas ===
   {
     id: 'gis-2',
     name: 'Puskesmas Pembantu (Pustu) Pagutan',
@@ -237,6 +239,7 @@ export const mockGisLocations: GisLocation[] = [
     description: 'Fasilitas pelayanan kesehatan masyarakat dasar dan Posyandu.',
     address: 'Dusun Pagutan Dayah'
   },
+  // === Sekolah ===
   {
     id: 'gis-3',
     name: 'SD Negeri 1 Pagutan',
@@ -247,6 +250,7 @@ export const mockGisLocations: GisLocation[] = [
     description: 'Sekolah Dasar Negeri 1 Pagutan.',
     address: 'Jl. Pendidikan Pagutan'
   },
+  // === Masjid ===
   {
     id: 'gis-4',
     name: 'Masjid Jami\' Nurul Huda Pagutan',
@@ -257,6 +261,7 @@ export const mockGisLocations: GisLocation[] = [
     description: 'Masjid agung pusat kegiatan keagamaan Desa Pagutan.',
     address: 'Dusun Pagutan Tengah'
   },
+  // === Wisata ===
   {
     id: 'gis-5',
     name: 'Sentra Tenun Sasak Pagutan',
@@ -268,6 +273,47 @@ export const mockGisLocations: GisLocation[] = [
     address: 'Dusun Pagutan Lauk'
   },
   {
+    id: 'gis-w2',
+    name: 'Agrowisata Sawah Pagutan',
+    category: 'Wisata',
+    village: 'Desa Pagutan',
+    latitude: -8.6235,
+    longitude: 116.2870,
+    description: 'Destinasi wisata edukasi persawahan dengan latar perbukitan hijau.',
+    address: 'Dusun Pagutan Tengah'
+  },
+  {
+    id: 'gis-w3',
+    name: 'Taman Budaya Sasak',
+    category: 'Wisata',
+    village: 'Desa Pagutan',
+    latitude: -8.6310,
+    longitude: 116.2830,
+    description: 'Taman budaya dengan pertunjukan seni tradisional Sasak.',
+    address: 'Dusun Tunjang Timur'
+  },
+  {
+    id: 'gis-w4',
+    name: 'Air Terjun Tibu Pagutan',
+    category: 'Wisata',
+    village: 'Desa Pagutan',
+    latitude: -8.6185,
+    longitude: 116.2920,
+    description: 'Air terjun alami di lereng perbukitan Batukliang.',
+    address: 'Dusun Sangkawana'
+  },
+  {
+    id: 'gis-w5',
+    name: 'Spot Foto Bukit Rinjani View',
+    category: 'Wisata',
+    village: 'Desa Pagutan',
+    latitude: -8.6170,
+    longitude: 116.2945,
+    description: 'Spot foto dengan pemandangan Gunung Rinjani yang menakjubkan.',
+    address: 'Dusun LD. Gocek'
+  },
+  // === Rute Evakuasi ===
+  {
     id: 'gis-6',
     name: 'Posko Evakuasi Utama Balai Desa',
     category: 'Rute Evakuasi',
@@ -276,7 +322,186 @@ export const mockGisLocations: GisLocation[] = [
     longitude: 116.2815,
     description: 'Titik kumpul darurat evakuasi bencana alam.',
     address: 'Lapangan Kantor Desa Pagutan'
-  }
+  },
+  // === Pertanian (Sawah) ===
+  {
+    id: 'gis-s1',
+    name: 'Sawah Subak Pagutan Utara',
+    category: 'Pertanian',
+    village: 'Desa Pagutan',
+    latitude: -8.6195,
+    longitude: 116.2855,
+    description: 'Lahan persawahan subak dengan sistem irigasi tradisional seluas 35 hektar.',
+    address: 'Dusun Pagutan Utara'
+  },
+  {
+    id: 'gis-s2',
+    name: 'Sawah Organik Lombok Daye',
+    category: 'Pertanian',
+    village: 'Desa Pagutan',
+    latitude: -8.6220,
+    longitude: 116.2810,
+    description: 'Sawah organik bersertifikat dengan varietas padi lokal unggulan.',
+    address: 'Dusun Lombok Daye'
+  },
+  {
+    id: 'gis-s3',
+    name: 'Sawah Produktif Pesinggahan',
+    category: 'Pertanian',
+    village: 'Desa Pagutan',
+    latitude: -8.6260,
+    longitude: 116.2890,
+    description: 'Kawasan persawahan produktif dengan hasil panen 7 ton/ha.',
+    address: 'Dusun Pesinggahan'
+  },
+  {
+    id: 'gis-s4',
+    name: 'Sawah Tadah Hujan Jejeneng',
+    category: 'Pertanian',
+    village: 'Desa Pagutan',
+    latitude: -8.6305,
+    longitude: 116.2770,
+    description: 'Sawah tadah hujan yang dikelola kelompok tani Maju Bersama.',
+    address: 'Dusun Jejeneng'
+  },
+  {
+    id: 'gis-s5',
+    name: 'Sawah Irigasi Teknis Tunjang',
+    category: 'Pertanian',
+    village: 'Desa Pagutan',
+    latitude: -8.6340,
+    longitude: 116.2840,
+    description: 'Sawah dengan irigasi teknis modern dari bendungan desa.',
+    address: 'Dusun Tunjang Barat'
+  },
+  {
+    id: 'gis-s6',
+    name: 'Kebun Hortikultura Sangkawana',
+    category: 'Pertanian',
+    village: 'Desa Pagutan',
+    latitude: -8.6175,
+    longitude: 116.2900,
+    description: 'Lahan hortikultura cabai, tomat, dan bawang merah.',
+    address: 'Dusun Sangkawana'
+  },
+  // === Peternakan ===
+  {
+    id: 'gis-t1',
+    name: 'Peternakan Sapi Bali Lombok Daye',
+    category: 'Peternakan',
+    village: 'Desa Pagutan',
+    latitude: -8.6215,
+    longitude: 116.2780,
+    description: 'Sentra pembibitan sapi Bali unggulan dengan 120 ekor.',
+    address: 'Dusun Lombok Daye'
+  },
+  {
+    id: 'gis-t2',
+    name: 'Peternakan Kambing Pagutan Selatan',
+    category: 'Peternakan',
+    village: 'Desa Pagutan',
+    latitude: -8.6330,
+    longitude: 116.2815,
+    description: 'Budidaya kambing etawa dengan pola pakan hijau lestari.',
+    address: 'Dusun Pagutan Selatan'
+  },
+  {
+    id: 'gis-t3',
+    name: 'Peternakan Ayam Kampung LD. Buwuh',
+    category: 'Peternakan',
+    village: 'Desa Pagutan',
+    latitude: -8.6285,
+    longitude: 116.2910,
+    description: 'Peternakan ayam kampung organik skala rumah tangga.',
+    address: 'Dusun LD. Buwuh'
+  },
+  {
+    id: 'gis-t4',
+    name: 'Peternakan Bebek Genteng',
+    category: 'Peternakan',
+    village: 'Desa Pagutan',
+    latitude: -8.6350,
+    longitude: 116.2860,
+    description: 'Budidaya itik petelur dengan produksi telur harian.',
+    address: 'Dusun Genteng'
+  },
+  // === Area Rawan Bencana ===
+  {
+    id: 'gis-b1',
+    name: 'Titik Rawan Banjir Sungai Pagutan',
+    category: 'Area Rawan Bencana',
+    village: 'Desa Pagutan',
+    latitude: -8.6300,
+    longitude: 116.2795,
+    description: 'Kawasan rawan banjir saat musim hujan di sekitar bantaran sungai.',
+    address: 'Dusun Pagutan Lauk'
+  },
+  {
+    id: 'gis-b2',
+    name: 'Titik Rawan Longsor Bukit Tunjang',
+    category: 'Area Rawan Bencana',
+    village: 'Desa Pagutan',
+    latitude: -8.6160,
+    longitude: 116.2935,
+    description: 'Lereng perbukitan rawan longsor saat curah hujan tinggi.',
+    address: 'Dusun Tunjang Utara'
+  },
+  {
+    id: 'gis-b3',
+    name: 'Titik Rawan Gempa Zona Patahan',
+    category: 'Area Rawan Bencana',
+    village: 'Desa Pagutan',
+    latitude: -8.6240,
+    longitude: 116.2870,
+    description: 'Kawasan sensitif aktivitas seismik zona patahan Lombok.',
+    address: 'Dusun Pesinggahan'
+  },
+  {
+    id: 'gis-b4',
+    name: 'Titik Rawan Kekeringan Gubuk Baru',
+    category: 'Area Rawan Bencana',
+    village: 'Desa Pagutan',
+    latitude: -8.6355,
+    longitude: 116.2780,
+    description: 'Area yang sering mengalami kekeringan saat kemarau panjang.',
+    address: 'Dusun Gubuk Baru'
+  },
+  {
+    id: 'gis-b5',
+    name: 'Titik Rawan Angin Kencang Sangkawati',
+    category: 'Area Rawan Bencana',
+    village: 'Desa Pagutan',
+    latitude: -8.6320,
+    longitude: 116.2900,
+    description: 'Kawasan terbuka rawan angin kencang pada musim kemarau.',
+    address: 'Dusun Sangkawati'
+  },
+];
+
+// === Chart Data for WebGIS Dashboard ===
+
+export const umkmChartData = [
+  { name: 'Tenun', value: 18, color: '#8b5cf6' },
+  { name: 'Anyaman Bambu', value: 12, color: '#10b981' },
+  { name: 'Makanan', value: 14, color: '#f59e0b' },
+  { name: 'Jasa', value: 7, color: '#3b82f6' },
+  { name: 'Perdagangan', value: 5, color: '#ef4444' },
+];
+
+export const komoditasChartData = [
+  { name: 'Padi', value: 480, satuan: 'Ha' },
+  { name: 'Jagung', value: 85, satuan: 'Ha' },
+  { name: 'Cabai', value: 42, satuan: 'Ha' },
+  { name: 'Tomat', value: 35, satuan: 'Ha' },
+  { name: 'Bawang', value: 28, satuan: 'Ha' },
+  { name: 'Kopi', value: 15, satuan: 'Ha' },
+];
+
+export const risikoChartData = [
+  { name: 'Banjir', value: 2, color: '#3b82f6' },
+  { name: 'Longsor', value: 1, color: '#f97316' },
+  { name: 'Gempa', value: 1, color: '#ef4444' },
+  { name: 'Kekeringan', value: 1, color: '#eab308' },
 ];
 
 export const mockApplications: AdministrativeApplication[] = [
