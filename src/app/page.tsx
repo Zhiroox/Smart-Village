@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { StatCard } from '@/components/common/StatCard';
 import { mockQuickStats, mockNews, mockPotensi } from '@/lib/data/mockData';
-import DusunMapSection from '@/components/common/DusunMapSection';
 import { 
   Users, 
   MapPin, 
@@ -90,9 +89,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ======= PETA WILAYAH DUSUN ======= */}
-      <DusunMapSection />
 
       {/* ======= LAYANAN CEPAT ======= */}
       <section className="bg-slate-50 py-16 px-4 border-y border-slate-200/60">
