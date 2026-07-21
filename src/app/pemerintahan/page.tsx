@@ -1,16 +1,54 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { mockOfficials, mockStafPembantu, mockKadusList } from '@/lib/data/mockData';
 import { Users, ShieldCheck, Award, MapPin, CheckCircle2, Building2 } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 export default function PemerintahanPage() {
-  const kades = mockOfficials.find(o => o.position === 'Kepala Desa');
-  const sekdes = mockOfficials.find(o => o.position === 'Sekdes');
+  const [officials, setOfficials] = useState(mockOfficials);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOfficials = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('village_officials')
+          .select('*')
+          .eq('village', 'Desa Pagutan');
+
+        if (error) {
+          console.error('Supabase fetch error:', error.message);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          const mapped = data.map(o => ({
+            id: o.id,
+            name: o.name,
+            position: o.position,
+            village: o.village,
+            photoUrl: o.photo_url || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400',
+            phone: o.phone
+          }));
+          setOfficials(mapped);
+        }
+      } catch (err) {
+        console.error('Error fetching officials:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOfficials();
+  }, []);
+
+  const kades = officials.find(o => o.position === 'Kepala Desa');
+  const sekdes = officials.find(o => o.position === 'Sekdes');
   
-  const kaurList = mockOfficials.filter(o => o.position.startsWith('Kaur'));
-  const kasiList = mockOfficials.filter(o => o.position.startsWith('Kasi'));
+  const kaurList = officials.filter(o => o.position.startsWith('Kaur'));
+  const kasiList = officials.filter(o => o.position.startsWith('Kasi'));
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -41,7 +79,7 @@ export default function PemerintahanPage() {
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 rounded-t-3xl" />
           
           <div className="text-center mb-8">
-            <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-1">Bagan SOTK Pemerintah Desa</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-1">Struktur Organisasi & Tata Kerja Pemerintah Desa Pagutan</h2>
             <p className="text-sm text-slate-500">Hierarki kepemimpinan dan penugasan aparatur Desa Pagutan</p>
           </div>
 

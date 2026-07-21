@@ -71,10 +71,7 @@ export const Footer = () => {
           </h4>
           <ul className="space-y-2.5 text-xs">
             {[
-              { label: 'Pengajuan Surat Keterangan Online', href: '/layanan' },
-              { label: 'Cek Status Permohonan', href: '/layanan' },
               { label: 'Unduh Peraturan Desa (Perdes)', href: '/profil' },
-              { label: 'Download Formulir Berkas', href: '/layanan' },
             ].map(link => (
               <li key={link.label}>
                 <Link href={link.href} className="hover:text-blue-400 transition-colors flex items-center gap-2 group">

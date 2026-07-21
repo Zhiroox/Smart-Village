@@ -12,7 +12,6 @@ import {
   Wheat, 
   Compass, 
   ArrowRight, 
-  FileCheck2, 
   Sparkles,
   Newspaper,
   ChevronRight,
@@ -63,14 +62,6 @@ export default function HomePage() {
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full sm:w-auto">
               <Link
-                href="/layanan"
-                className="group px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-400 hover:from-emerald-400 hover:to-emerald-300 active:from-emerald-700 active:to-emerald-600 text-white font-semibold text-sm shadow-lg shadow-emerald-900/40 transition-all duration-200 flex items-center justify-center gap-2"
-              >
-                <FileCheck2 className="w-4 h-4 shrink-0" />
-                Pengajuan Surat Online
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
                 href="/webgis"
                 className="group px-6 py-3.5 rounded-xl bg-white/15 backdrop-blur-sm hover:bg-white/25 text-white font-semibold text-sm border border-white/30 shadow-sm transition-all duration-200 flex items-center justify-center gap-2"
               >
@@ -101,16 +92,7 @@ export default function HomePage() {
             <p className="text-sm text-slate-500">Akses cepat ke modul administrasi, informasi publik, dan pemetaan desa</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 md:gap-5">
-            <Link href="/layanan" className="group relative bg-white active:bg-emerald-50/50 border border-slate-300 p-4 md:p-6 rounded-2xl transition-all duration-200 flex flex-col">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 md:mb-5">
-                <FileCheck2 className="w-5 h-5 md:w-6 md:h-6" />
-              </div>
-              <h3 className="font-bold text-slate-800 text-sm md:text-base mb-1 md:mb-2">Surat Online</h3>
-              <p className="text-xs text-slate-500 leading-relaxed hidden sm:block">Pengajuan permohonan surat keterangan mandiri</p>
-              <ChevronRight className="absolute bottom-3 right-3 md:bottom-5 md:right-5 w-4 h-4 text-slate-400" />
-            </Link>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 max-w-lg mx-auto gap-3 md:gap-5">
             <Link href="/webgis" className="group relative bg-white active:bg-amber-50/50 border border-slate-300 p-4 md:p-6 rounded-2xl transition-all duration-200 flex flex-col">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-3 md:mb-5">
                 <MapPin className="w-5 h-5 md:w-6 md:h-6" />

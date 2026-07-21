@@ -10,7 +10,6 @@ import {
   Newspaper, 
   Sparkles, 
   Map, 
-  FileText, 
   Image as ImageIcon, 
   PhoneCall, 
   ShieldCheck, 
@@ -37,7 +36,6 @@ export const Navbar = () => {
     { name: 'Berita', href: '/berita', icon: Newspaper },
     { name: 'Potensi Desa', href: '/potensi', icon: Sparkles },
     { name: 'WebGIS', href: '/webgis', icon: Map },
-    { name: 'Layanan', href: '/layanan', icon: FileText },
     { name: 'Galeri', href: '/galeri', icon: ImageIcon },
     { name: 'Kontak', href: '/kontak', icon: PhoneCall },
   ];
