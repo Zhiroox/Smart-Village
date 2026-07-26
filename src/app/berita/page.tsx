@@ -1,18 +1,25 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { mockNews } from '@/lib/data/mockData';
+import { getStoredNews } from '@/lib/supabase';
+import { NewsItem } from '@/lib/types';
 import { Newspaper, Search, ChevronRight, Calendar, User } from 'lucide-react';
 
 export default function BeritaPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [newsData, setNewsData] = useState<NewsItem[]>([]);
 
   const categories = ['Semua', 'Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi'];
 
-  const filteredNews = mockNews.filter((item) => {
+  useEffect(() => {
+    // Load dari localStorage + mockData setiap kali halaman dibuka
+    setNewsData(getStoredNews());
+  }, []);
+
+  const filteredNews = newsData.filter((item) => {
     const matchCat = selectedCategory === 'Semua' || item.category === selectedCategory;
     const matchSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                         item.summary.toLowerCase().includes(searchQuery.toLowerCase());

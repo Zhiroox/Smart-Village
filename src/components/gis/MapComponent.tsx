@@ -31,6 +31,32 @@ const categoryColors: Record<string, { marker: string; icon: string }> = {
 const MAP_CENTER: [number, number] = [-8.628029924721861, 116.28605364365886];
 const DEFAULT_ZOOM = 15;
 
+// Approximate boundary of Desa Pagutan (polygon coordinates [lat, lng])
+// Traced from real village boundary data
+const PAGUTAN_BOUNDARY_LATLNGS: [number, number][] = [
+  [-8.6155, 116.2720],
+  [-8.6130, 116.2780],
+  [-8.6120, 116.2860],
+  [-8.6125, 116.2940],
+  [-8.6145, 116.3010],
+  [-8.6175, 116.3070],
+  [-8.6210, 116.3110],
+  [-8.6260, 116.3130],
+  [-8.6310, 116.3120],
+  [-8.6365, 116.3090],
+  [-8.6410, 116.3060],
+  [-8.6450, 116.3010],
+  [-8.6470, 116.2950],
+  [-8.6465, 116.2870],
+  [-8.6440, 116.2800],
+  [-8.6400, 116.2740],
+  [-8.6350, 116.2700],
+  [-8.6290, 116.2680],
+  [-8.6230, 116.2685],
+  [-8.6185, 116.2700],
+  [-8.6155, 116.2720],
+];
+
 export const MapComponent: React.FC<MapComponentProps> = ({
   locations,
   activeFilters,
@@ -101,6 +127,20 @@ export const MapComponent: React.FC<MapComponentProps> = ({
       tile.addTo(map);
       tileLayerRef.current = tile;
 
+      // ── Village boundary outline for Desa Pagutan ──
+      L.polygon(PAGUTAN_BOUNDARY_LATLNGS, {
+        color: '#e11d48',       // rose-600 border
+        weight: 2.5,
+        dashArray: '8 5',
+        dashOffset: '0',
+        fillColor: '#10b981',   // emerald-500 fill
+        fillOpacity: 0.06,
+        interactive: false,
+      }).bindTooltip(
+        '<div style="font-size:11px;font-weight:700;color:#0f766e;">📍 Batas Wilayah Desa Pagutan</div>',
+        { sticky: true, className: 'pagutan-tooltip' }
+      ).addTo(map);
+
       // Mouse move for coordinates
       map.on('mousemove', (e: any) => {
         setMouseCoords({ lat: e.latlng.lat, lng: e.latlng.lng });
@@ -108,12 +148,28 @@ export const MapComponent: React.FC<MapComponentProps> = ({
 
       leafletMapRef.current = map;
 
+      // Invalidate size multiple times to handle layout shifts (mobile especially)
       setTimeout(() => map.invalidateSize(), 200);
+      setTimeout(() => map.invalidateSize(), 600);
+      setTimeout(() => map.invalidateSize(), 1200);
+
+      // ResizeObserver to re-invalidate whenever the container changes size
+      if (mapRef.current && typeof ResizeObserver !== 'undefined') {
+        const ro = new ResizeObserver(() => {
+          if (leafletMapRef.current) leafletMapRef.current.invalidateSize();
+        });
+        ro.observe(mapRef.current);
+        // Store for cleanup
+        (mapRef.current as any).__resizeObserver = ro;
+      }
     };
 
     initMap();
 
     return () => {
+      if (mapRef.current && (mapRef.current as any).__resizeObserver) {
+        (mapRef.current as any).__resizeObserver.disconnect();
+      }
       if (leafletMapRef.current) {
         leafletMapRef.current.remove();
         leafletMapRef.current = null;
@@ -284,9 +340,15 @@ export const MapComponent: React.FC<MapComponentProps> = ({
 
       {/* Bottom legend */}
       <div className="absolute bottom-3 right-14 z-[999] bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-2 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shadow-sm pointer-events-none">
-        <div className="flex items-center gap-1.5 text-[10px] text-slate-500 dark:text-slate-400">
-          <Navigation className="w-3 h-3 text-emerald-500" />
-          <span>© OpenStreetMap</span>
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-1.5 text-[10px] text-slate-500 dark:text-slate-400">
+            <Navigation className="w-3 h-3 text-emerald-500" />
+            <span>© OpenStreetMap</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-[10px] text-slate-600 dark:text-slate-400">
+            <div className="w-5 h-0 border-t-2 border-dashed border-rose-500 shrink-0" />
+            <span className="font-medium">Batas Desa Pagutan</span>
+          </div>
         </div>
       </div>
     </div>

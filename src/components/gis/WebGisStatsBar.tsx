@@ -13,7 +13,7 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
-  { icon: <Home className="w-4 h-4" />, value: 18, label: 'Dusun', color: 'text-blue-400', bgColor: 'bg-blue-500/20' },
+  { icon: <Home className="w-4 h-4" />, value: 15, label: 'Dusun', color: 'text-blue-400', bgColor: 'bg-blue-500/20' },
   { icon: <Wheat className="w-4 h-4" />, value: 145, label: 'Sawah', color: 'text-emerald-400', bgColor: 'bg-emerald-500/20' },
   { icon: <Beef className="w-4 h-4" />, value: 82, label: 'Peternakan', color: 'text-orange-400', bgColor: 'bg-orange-500/20' },
   { icon: <ShoppingBag className="w-4 h-4" />, value: 56, label: 'UMKM', color: 'text-violet-400', bgColor: 'bg-violet-500/20' },

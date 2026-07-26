@@ -14,7 +14,7 @@ const MapComponent = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-[500px] lg:h-[600px] bg-slate-100 animate-pulse rounded-2xl flex items-center justify-center">
+      <div className="w-full h-[480px] sm:h-[520px] lg:h-[640px] bg-slate-100 animate-pulse rounded-2xl flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mx-auto mb-3"></div>
           <p className="text-sm text-slate-400 font-medium">Memuat Peta Interaktif WebGIS...</p>
@@ -135,22 +135,24 @@ export default function WebGisPage() {
 
         {/* Map + Sidebar */}
         <div className="flex flex-col lg:flex-row gap-4">
-          {/* Filter Sidebar */}
-          <WebGisFilterSidebar
-            categories={categoriesWithCounts}
-            activeFilters={activeFilters}
-            onToggleFilter={handleToggleFilter}
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            onSearchSubmit={handleSearchSubmit}
-          />
+          {/* Filter Sidebar — appears below map on mobile, left on desktop */}
+          <div className="order-2 lg:order-1 w-full lg:w-72 xl:w-80 shrink-0">
+            <WebGisFilterSidebar
+              categories={categoriesWithCounts}
+              activeFilters={activeFilters}
+              onToggleFilter={handleToggleFilter}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              onSearchSubmit={handleSearchSubmit}
+            />
+          </div>
 
-          {/* Interactive Map */}
+          {/* Interactive Map — appears first on mobile */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex-1 h-[500px] lg:h-[600px] rounded-2xl overflow-hidden border border-slate-200/60 dark:border-slate-700/60 shadow-sm"
+            className="order-1 lg:order-2 flex-1 h-[480px] sm:h-[520px] lg:h-[640px] rounded-2xl overflow-hidden border border-slate-200/60 dark:border-slate-700/60 shadow-sm"
           >
             <MapComponent
               locations={mockGisLocations}

@@ -9,6 +9,76 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Local Storage Helper Keys
 const APPS_STORAGE_KEY = 'smart_village_applications';
+const NEWS_STORAGE_KEY = 'smart_village_news';
+
+// =============================================
+// NEWS CRUD — berbasis localStorage
+// =============================================
+
+/** Ambil semua berita: gabungan dari localStorage (berita admin) + mockData */
+export const getStoredNews = (): NewsItem[] => {
+  if (typeof window === 'undefined') return mockNews;
+  const stored = localStorage.getItem(NEWS_STORAGE_KEY);
+  let adminNews: NewsItem[] = [];
+  if (stored) {
+    try { adminNews = JSON.parse(stored); } catch { adminNews = []; }
+  }
+  // Berita admin (terbaru) muncul lebih dulu, diikuti mock data
+  return [...adminNews, ...mockNews];
+};
+
+/** Hanya berita yang ditambahkan admin (tanpa mock data) */
+export const getAdminNews = (): NewsItem[] => {
+  if (typeof window === 'undefined') return [];
+  const stored = localStorage.getItem(NEWS_STORAGE_KEY);
+  if (!stored) return [];
+  try { return JSON.parse(stored); } catch { return []; }
+};
+
+/** Simpan berita baru */
+export const saveNewsItem = (
+  data: Omit<NewsItem, 'id' | 'slug'>
+): NewsItem => {
+  const adminNews = getAdminNews();
+  const slug = data.title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .slice(0, 80) + '-' + Date.now();
+  const newItem: NewsItem = {
+    ...data,
+    id: `news-admin-${Date.now()}`,
+    slug,
+  };
+  const updated = [newItem, ...adminNews];
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(NEWS_STORAGE_KEY, JSON.stringify(updated));
+  }
+  return newItem;
+};
+
+/** Update berita yang sudah ada */
+export const updateNewsItem = (id: string, data: Partial<Omit<NewsItem, 'id' | 'slug'>>): boolean => {
+  const adminNews = getAdminNews();
+  const idx = adminNews.findIndex(n => n.id === id);
+  if (idx === -1) return false;
+  adminNews[idx] = { ...adminNews[idx], ...data };
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(NEWS_STORAGE_KEY, JSON.stringify(adminNews));
+  }
+  return true;
+};
+
+/** Hapus berita (hanya berita yang ditambahkan admin, bukan mockData) */
+export const deleteNewsItem = (id: string): boolean => {
+  const adminNews = getAdminNews();
+  const filtered = adminNews.filter(n => n.id !== id);
+  if (filtered.length === adminNews.length) return false;
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(NEWS_STORAGE_KEY, JSON.stringify(filtered));
+  }
+  return true;
+};
 
 export const getStoredApplications = (): AdministrativeApplication[] => {
   if (typeof window === 'undefined') return mockApplications;
