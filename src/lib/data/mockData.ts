@@ -217,265 +217,236 @@ export const mockPotensi: PotensiItem[] = [
 ];
 
 export const mockGisLocations: GisLocation[] = [
-  // === Kantor Desa ===
   {
     id: 'gis-1',
-    name: 'Kantor Balai Desa Pagutan',
-    category: 'Kantor Desa',
-    village: 'Desa Pagutan',
-    latitude: -8.628029924721861,
-    longitude: 116.28605364365886,
-    description: 'Pusat pemerintahan dan pelayanan administrasi masyarakat Desa Pagutan.',
-    address: 'Jl. Raya Pagutan, Kecamatan Batukliang, Lombok Tengah'
-  },
-  // === Puskesmas ===
-  {
-    id: 'gis-2',
-    name: 'Puskesmas Pembantu (Pustu) Pagutan',
-    category: 'Puskesmas',
-    village: 'Desa Pagutan',
-    latitude: -8.6270,
-    longitude: 116.2825,
-    description: 'Fasilitas pelayanan kesehatan masyarakat dasar dan Posyandu.',
-    address: 'Dusun Pagutan Dayah'
-  },
-  // === Sekolah ===
-  {
-    id: 'gis-3',
-    name: 'SD Negeri 1 Pagutan',
+    name: 'SDN 2 Tunjang',
     category: 'Sekolah',
     village: 'Desa Pagutan',
-    latitude: -8.6205,
-    longitude: 116.2890,
-    description: 'Sekolah Dasar Negeri 1 Pagutan.',
-    address: 'Jl. Pendidikan Pagutan'
+    latitude: -8.6384290,
+    longitude: 116.2632648,
+    description: 'Fasilitas pendidikan Sekolah Dasar Negeri 2 Tunjang di Desa Pagutan.',
+    address: 'Dusun Tunjang, Desa Pagutan'
   },
-  // === Masjid ===
   {
-    id: 'gis-4',
-    name: 'Masjid Jami\' Nurul Huda Pagutan',
+    id: 'gis-2',
+    name: 'Masjid Nurul Yaqin Tunjang',
     category: 'Masjid',
     village: 'Desa Pagutan',
-    latitude: -8.6248,
-    longitude: 116.2800,
-    description: 'Masjid agung pusat kegiatan keagamaan Desa Pagutan.',
-    address: 'Dusun Pagutan Tengah'
+    latitude: -8.6381615,
+    longitude: 116.2628072,
+    description: 'Masjid tempat peribadatan dan pusat kegiatan keagamaan Islam Dusun Tunjang.',
+    address: 'Dusun Tunjang, Desa Pagutan'
   },
-  // === Wisata ===
+  {
+    id: 'gis-3',
+    name: 'SDN 1 Tunjang',
+    category: 'Sekolah',
+    village: 'Desa Pagutan',
+    latitude: -8.63540186,
+    longitude: 116.26582072,
+    description: 'Fasilitas pendidikan Sekolah Dasar Negeri 1 Tunjang di Desa Pagutan.',
+    address: 'Dusun Tunjang, Desa Pagutan'
+  },
+  {
+    id: 'gis-4',
+    name: 'Masjid Daruttaqwa Genteng',
+    category: 'Masjid',
+    village: 'Desa Pagutan',
+    latitude: -8.6345312,
+    longitude: 116.2684831,
+    description: 'Masjid tempat peribadatan Dusun Genteng, Desa Pagutan.',
+    address: 'Dusun Genteng, Desa Pagutan'
+  },
   {
     id: 'gis-5',
-    name: 'Sentra Tenun Sasak Pagutan',
-    category: 'Wisata',
+    name: 'Masjid Nurul Hikmah',
+    category: 'Masjid',
     village: 'Desa Pagutan',
-    latitude: -8.6290,
-    longitude: 116.2785,
-    description: 'Galeri dan workshop pengrajin tenun tradisional.',
-    address: 'Dusun Pagutan Lauk'
+    latitude: -8.6375354,
+    longitude: 116.2706963,
+    description: 'Sarana ibadah warga muslim Desa Pagutan.',
+    address: 'Desa Pagutan'
   },
-  {
-    id: 'gis-w2',
-    name: 'Agrowisata Sawah Pagutan',
-    category: 'Wisata',
-    village: 'Desa Pagutan',
-    latitude: -8.6235,
-    longitude: 116.2870,
-    description: 'Destinasi wisata edukasi persawahan dengan latar perbukitan hijau.',
-    address: 'Dusun Pagutan Tengah'
-  },
-  {
-    id: 'gis-w3',
-    name: 'Taman Budaya Sasak',
-    category: 'Wisata',
-    village: 'Desa Pagutan',
-    latitude: -8.6310,
-    longitude: 116.2830,
-    description: 'Taman budaya dengan pertunjukan seni tradisional Sasak.',
-    address: 'Dusun Tunjang Timur'
-  },
-  {
-    id: 'gis-w4',
-    name: 'Air Terjun Tibu Pagutan',
-    category: 'Wisata',
-    village: 'Desa Pagutan',
-    latitude: -8.6185,
-    longitude: 116.2920,
-    description: 'Air terjun alami di lereng perbukitan Batukliang.',
-    address: 'Dusun Sangkawana'
-  },
-  {
-    id: 'gis-w5',
-    name: 'Spot Foto Bukit Rinjani View',
-    category: 'Wisata',
-    village: 'Desa Pagutan',
-    latitude: -8.6170,
-    longitude: 116.2945,
-    description: 'Spot foto dengan pemandangan Gunung Rinjani yang menakjubkan.',
-    address: 'Dusun LD. Gocek'
-  },
-  // === Rute Evakuasi ===
   {
     id: 'gis-6',
-    name: 'Posko Evakuasi Utama Balai Desa',
-    category: 'Rute Evakuasi',
+    name: 'SDN 2 Sangkawana',
+    category: 'Sekolah',
     village: 'Desa Pagutan',
-    latitude: -8.6250,
-    longitude: 116.2815,
-    description: 'Titik kumpul darurat evakuasi bencana alam.',
-    address: 'Lapangan Kantor Desa Pagutan'
-  },
-  // === Pertanian (Sawah) ===
-  {
-    id: 'gis-s1',
-    name: 'Sawah Subak Pagutan Utara',
-    category: 'Pertanian',
-    village: 'Desa Pagutan',
-    latitude: -8.6195,
-    longitude: 116.2855,
-    description: 'Lahan persawahan subak dengan sistem irigasi tradisional seluas 35 hektar.',
-    address: 'Dusun Pagutan Utara'
+    latitude: -8.6357042,
+    longitude: 116.2744223,
+    description: 'Fasilitas pendidikan Sekolah Dasar Negeri 2 Sangkawana.',
+    address: 'Dusun Sangkawana, Desa Pagutan'
   },
   {
-    id: 'gis-s2',
-    name: 'Sawah Organik Lombok Daye',
-    category: 'Pertanian',
+    id: 'gis-7',
+    name: 'Masjid Nurul imam Lendang Gocek',
+    category: 'Masjid',
     village: 'Desa Pagutan',
-    latitude: -8.6220,
-    longitude: 116.2810,
-    description: 'Sawah organik bersertifikat dengan varietas padi lokal unggulan.',
-    address: 'Dusun Lombok Daye'
+    latitude: -8.6361587,
+    longitude: 116.2749085,
+    description: 'Masjid tempat peribadatan Dusun Lendang Gocek, Desa Pagutan.',
+    address: 'Dusun Lendang Gocek, Desa Pagutan'
   },
   {
-    id: 'gis-s3',
-    name: 'Sawah Produktif Pesinggahan',
-    category: 'Pertanian',
+    id: 'gis-8',
+    name: 'SDN 1 Sangkawana',
+    category: 'Sekolah',
     village: 'Desa Pagutan',
-    latitude: -8.6260,
-    longitude: 116.2890,
-    description: 'Kawasan persawahan produktif dengan hasil panen 7 ton/ha.',
-    address: 'Dusun Pesinggahan'
+    latitude: -8.6370373,
+    longitude: 116.2752812,
+    description: 'Fasilitas pendidikan Sekolah Dasar Negeri 1 Sangkawana.',
+    address: 'Dusun Sangkawana, Desa Pagutan'
   },
   {
-    id: 'gis-s4',
-    name: 'Sawah Tadah Hujan Jejeneng',
-    category: 'Pertanian',
+    id: 'gis-9',
+    name: 'Masjid Nuruttaqwa',
+    category: 'Masjid',
     village: 'Desa Pagutan',
-    latitude: -8.6305,
-    longitude: 116.2770,
-    description: 'Sawah tadah hujan yang dikelola kelompok tani Maju Bersama.',
-    address: 'Dusun Jejeneng'
+    latitude: -8.6410683,
+    longitude: 116.2757380,
+    description: 'Masjid tempat ibadah dan pengajian anak-anak warga desa.',
+    address: 'Desa Pagutan'
   },
   {
-    id: 'gis-s5',
-    name: 'Sawah Irigasi Teknis Tunjang',
-    category: 'Pertanian',
+    id: 'gis-10',
+    name: 'Masjid Nurul Batin',
+    category: 'Masjid',
     village: 'Desa Pagutan',
-    latitude: -8.6340,
-    longitude: 116.2840,
-    description: 'Sawah dengan irigasi teknis modern dari bendungan desa.',
-    address: 'Dusun Tunjang Barat'
+    latitude: -8.63605532,
+    longitude: 116.28306304,
+    description: 'Fasilitas ibadah masyarakat Desa Pagutan.',
+    address: 'Desa Pagutan'
   },
   {
-    id: 'gis-s6',
-    name: 'Kebun Hortikultura Sangkawana',
-    category: 'Pertanian',
+    id: 'gis-11',
+    name: 'SMPN 2 Batukliang',
+    category: 'Sekolah',
     village: 'Desa Pagutan',
-    latitude: -8.6175,
-    longitude: 116.2900,
-    description: 'Lahan hortikultura cabai, tomat, dan bawang merah.',
-    address: 'Dusun Sangkawana'
-  },
-  // === Peternakan ===
-  {
-    id: 'gis-t1',
-    name: 'Peternakan Sapi Bali Lombok Daye',
-    category: 'Peternakan',
-    village: 'Desa Pagutan',
-    latitude: -8.6215,
-    longitude: 116.2780,
-    description: 'Sentra pembibitan sapi Bali unggulan dengan 120 ekor.',
-    address: 'Dusun Lombok Daye'
+    latitude: -8.6298524,
+    longitude: 116.2844525,
+    description: 'Fasilitas pendidikan tingkat pertama SMP Negeri 2 Batukliang.',
+    address: 'Desa Pagutan'
   },
   {
-    id: 'gis-t2',
-    name: 'Peternakan Kambing Pagutan Selatan',
-    category: 'Peternakan',
+    id: 'gis-12',
+    name: 'Masjid Nurul Huda, Lembok Lauk',
+    category: 'Masjid',
     village: 'Desa Pagutan',
-    latitude: -8.6330,
-    longitude: 116.2815,
-    description: 'Budidaya kambing etawa dengan pola pakan hijau lestari.',
-    address: 'Dusun Pagutan Selatan'
+    latitude: -8.6311043,
+    longitude: 116.2875740,
+    description: 'Masjid utama Dusun Lombok Lauk (Lembok Lauk), Desa Pagutan.',
+    address: 'Dusun Lombok Lauk, Desa Pagutan'
   },
   {
-    id: 'gis-t3',
-    name: 'Peternakan Ayam Kampung LD. Buwuh',
-    category: 'Peternakan',
-    village: 'Desa Pagutan',
-    latitude: -8.6285,
-    longitude: 116.2910,
-    description: 'Peternakan ayam kampung organik skala rumah tangga.',
-    address: 'Dusun LD. Buwuh'
-  },
-  {
-    id: 'gis-t4',
-    name: 'Peternakan Bebek Genteng',
-    category: 'Peternakan',
-    village: 'Desa Pagutan',
-    latitude: -8.6350,
-    longitude: 116.2860,
-    description: 'Budidaya itik petelur dengan produksi telur harian.',
-    address: 'Dusun Genteng'
-  },
-  // === Area Rawan Bencana ===
-  {
-    id: 'gis-b1',
-    name: 'Titik Rawan Banjir Sungai Pagutan',
+    id: 'gis-13',
+    name: 'Pemakaman Umum Dusun Lembok',
     category: 'Area Rawan Bencana',
     village: 'Desa Pagutan',
-    latitude: -8.6300,
-    longitude: 116.2795,
-    description: 'Kawasan rawan banjir saat musim hujan di sekitar bantaran sungai.',
-    address: 'Dusun Pagutan Lauk'
+    latitude: -8.6314580,
+    longitude: 116.2870958,
+    description: 'Lahan pemakaman umum dan area terbuka Dusun Lombok (Lembok).',
+    address: 'Dusun Lombok, Desa Pagutan'
   },
   {
-    id: 'gis-b2',
-    name: 'Titik Rawan Longsor Bukit Tunjang',
-    category: 'Area Rawan Bencana',
+    id: 'gis-14',
+    name: 'Pesantren Nurul Mubin',
+    category: 'Sekolah',
     village: 'Desa Pagutan',
-    latitude: -8.6160,
-    longitude: 116.2935,
-    description: 'Lereng perbukitan rawan longsor saat curah hujan tinggi.',
-    address: 'Dusun Tunjang Utara'
+    latitude: -8.6326499,
+    longitude: 116.2867653,
+    description: 'Lembaga pendidikan Islam dan pondok pesantren di Desa Pagutan.',
+    address: 'Desa Pagutan'
   },
   {
-    id: 'gis-b3',
-    name: 'Titik Rawan Gempa Zona Patahan',
-    category: 'Area Rawan Bencana',
+    id: 'gis-15',
+    name: 'Kantor Desa Pagutan',
+    category: 'Kantor Desa',
     village: 'Desa Pagutan',
-    latitude: -8.6240,
-    longitude: 116.2870,
-    description: 'Kawasan sensitif aktivitas seismik zona patahan Lombok.',
-    address: 'Dusun Pesinggahan'
+    latitude: -8.62801091,
+    longitude: 116.28606907,
+    description: 'Kantor Kepala Desa Pagutan, pusat pelayanan administrasi terpadu.',
+    address: 'Jl. Raya Pagutan, Desa Pagutan'
   },
   {
-    id: 'gis-b4',
-    name: 'Titik Rawan Kekeringan Gubuk Baru',
-    category: 'Area Rawan Bencana',
+    id: 'gis-16',
+    name: 'Masjid Baitussalam Lembok Daye',
+    category: 'Masjid',
     village: 'Desa Pagutan',
-    latitude: -8.6355,
-    longitude: 116.2780,
-    description: 'Area yang sering mengalami kekeringan saat kemarau panjang.',
-    address: 'Dusun Gubuk Baru'
+    latitude: -8.6281049,
+    longitude: 116.2885853,
+    description: 'Masjid tempat peribadatan Dusun Lombok Daye (Lembok Daye).',
+    address: 'Dusun Lombok Daye, Desa Pagutan'
   },
   {
-    id: 'gis-b5',
-    name: 'Titik Rawan Angin Kencang Sangkawati',
-    category: 'Area Rawan Bencana',
+    id: 'gis-17',
+    name: 'Masjid Baiturrahman Pagutan',
+    category: 'Masjid',
     village: 'Desa Pagutan',
-    latitude: -8.6320,
-    longitude: 116.2900,
-    description: 'Kawasan terbuka rawan angin kencang pada musim kemarau.',
-    address: 'Dusun Sangkawati'
+    latitude: -8.6277978,
+    longitude: 116.2829171,
+    description: 'Masjid Baiturrahman pusat peribadatan Desa Pagutan.',
+    address: 'Desa Pagutan'
   },
+  {
+    id: 'gis-18',
+    name: 'SMAS dan MTS Nurul Iman NW Pagutan',
+    category: 'Sekolah',
+    village: 'Desa Pagutan',
+    latitude: -8.62741539,
+    longitude: 116.28294949,
+    description: 'Kompleks pendidikan menengah atas dan madrasah tsanawiyah NW Pagutan.',
+    address: 'Desa Pagutan'
+  },
+  {
+    id: 'gis-19',
+    name: 'TK PGRI Pagutan',
+    category: 'Sekolah',
+    village: 'Desa Pagutan',
+    latitude: -8.62264610,
+    longitude: 116.28868996,
+    description: 'Sekolah pendidikan anak usia dini TK PGRI Pagutan.',
+    address: 'Desa Pagutan'
+  },
+  {
+    id: 'gis-20',
+    name: 'SDI Babussalam Sangkawana',
+    category: 'Sekolah',
+    village: 'Desa Pagutan',
+    latitude: -8.6392653,
+    longitude: 116.2828199,
+    description: 'Sekolah Dasar Islam Babussalam Sangkawana.',
+    address: 'Dusun Sangkawana, Desa Pagutan'
+  },
+  {
+    id: 'gis-21',
+    name: 'Masjid Al Ijtihad Sangkawana',
+    category: 'Masjid',
+    village: 'Desa Pagutan',
+    latitude: -8.6390160,
+    longitude: 116.2829633,
+    description: 'Sarana ibadah warga muslim Dusun Sangkawana.',
+    address: 'Dusun Sangkawana, Desa Pagutan'
+  },
+  {
+    id: 'gis-22',
+    name: 'MA An Nazhar',
+    category: 'Sekolah',
+    village: 'Desa Pagutan',
+    latitude: -8.62829771,
+    longitude: 116.28530730,
+    description: 'Madrasah Aliyah An Nazhar Desa Pagutan.',
+    address: 'Desa Pagutan'
+  },
+  {
+    id: 'gis-23',
+    name: 'Puskesmas Pembantu Pagutan',
+    category: 'Puskesmas',
+    village: 'Desa Pagutan',
+    latitude: -8.62795222,
+    longitude: 116.28407908,
+    description: 'Fasilitas kesehatan pembantu (Pustu) pelayanan medis warga Pagutan.',
+    address: 'Desa Pagutan'
+  }
 ];
 
 // === Chart Data for WebGIS Dashboard ===

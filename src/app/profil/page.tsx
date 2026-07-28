@@ -86,7 +86,7 @@ export default function ProfilPage() {
           {[
             { label: 'Kecamatan', value: 'Batukliang' },
             { label: 'Kabupaten', value: 'Lombok Tengah' },
-            { label: 'Sektor Utama', value: 'Agraris & Tenun' },
+            { label: 'Sektor Utama', value: 'Agraris &  Ternak' },
             { label: 'Status', value: 'Smart Village' },
           ].map((f) => (
             <div key={f.label} className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 text-center shadow-sm">

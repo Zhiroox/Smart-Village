@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Home, Wheat, Beef, ShoppingBag, TreePine, AlertTriangle } from 'lucide-react';
+import { School, Landmark, Hospital, MapPin } from 'lucide-react';
+import { mockGisLocations } from '@/lib/data/mockData';
 
 interface StatItem {
   icon: React.ReactNode;
@@ -12,13 +13,19 @@ interface StatItem {
   bgColor: string;
 }
 
+// Derive stats dynamically from actual marker data
+const sekolahCount = mockGisLocations.filter(l => l.category === 'Sekolah').length;
+const masjidCount = mockGisLocations.filter(l => l.category === 'Masjid').length;
+const kantorDesaCount = mockGisLocations.filter(l => l.category === 'Kantor Desa').length;
+const puskesmasCount = mockGisLocations.filter(l => l.category === 'Puskesmas').length;
+const totalMarkers = mockGisLocations.length;
+
 const stats: StatItem[] = [
-  { icon: <Home className="w-4 h-4" />, value: 15, label: 'Dusun', color: 'text-blue-400', bgColor: 'bg-blue-500/20' },
-  { icon: <Wheat className="w-4 h-4" />, value: 145, label: 'Sawah', color: 'text-emerald-400', bgColor: 'bg-emerald-500/20' },
-  { icon: <Beef className="w-4 h-4" />, value: 82, label: 'Peternakan', color: 'text-orange-400', bgColor: 'bg-orange-500/20' },
-  { icon: <ShoppingBag className="w-4 h-4" />, value: 56, label: 'UMKM', color: 'text-violet-400', bgColor: 'bg-violet-500/20' },
-  { icon: <TreePine className="w-4 h-4" />, value: 12, label: 'Wisata', color: 'text-teal-400', bgColor: 'bg-teal-500/20' },
-  { icon: <AlertTriangle className="w-4 h-4" />, value: 5, label: 'Titik Rawan', color: 'text-rose-400', bgColor: 'bg-rose-500/20' },
+  { icon: <MapPin className="w-4 h-4" />, value: totalMarkers, label: 'Total Marker', color: 'text-slate-600', bgColor: 'bg-slate-500/15' },
+  { icon: <School className="w-4 h-4" />, value: sekolahCount, label: 'Sekolah', color: 'text-amber-500', bgColor: 'bg-amber-500/15' },
+  { icon: <Landmark className="w-4 h-4" />, value: masjidCount, label: 'Masjid', color: 'text-emerald-500', bgColor: 'bg-emerald-500/15' },
+  { icon: <Landmark className="w-4 h-4" />, value: kantorDesaCount, label: 'Kantor Desa', color: 'text-blue-500', bgColor: 'bg-blue-500/15' },
+  { icon: <Hospital className="w-4 h-4" />, value: puskesmasCount, label: 'Puskesmas', color: 'text-rose-500', bgColor: 'bg-rose-500/15' },
 ];
 
 function AnimatedNumber({ value }: { value: number }) {
@@ -27,7 +34,7 @@ function AnimatedNumber({ value }: { value: number }) {
   React.useEffect(() => {
     let start = 0;
     const duration = 1200;
-    const step = Math.ceil(value / (duration / 16));
+    const step = Math.max(1, Math.ceil(value / (duration / 16)));
     const timer = setInterval(() => {
       start += step;
       if (start >= value) {
@@ -51,7 +58,7 @@ export default function WebGisStatsBar() {
       transition={{ duration: 0.5 }}
       className="w-full"
     >
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {stats.map((stat, i) => (
           <motion.div
             key={stat.label}

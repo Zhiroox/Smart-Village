@@ -92,13 +92,13 @@ export default function HomePage() {
             <p className="text-sm text-slate-500">Akses cepat ke modul administrasi, informasi publik, dan pemetaan desa</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 max-w-lg mx-auto gap-3 md:gap-5">
-            <Link href="/webgis" className="group relative bg-white active:bg-amber-50/50 border border-slate-300 p-4 md:p-6 rounded-2xl transition-all duration-200 flex flex-col">
+          <div className="flex justify-center">
+            <Link href="/webgis" className="w-full max-w-md group relative bg-white active:bg-amber-50/50 p-4 md:p-6 rounded-2xl shadow-soft hover:shadow-soft-lg transition-all duration-200 flex flex-col">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-3 md:mb-5">
                 <MapPin className="w-5 h-5 md:w-6 md:h-6" />
               </div>
               <h3 className="font-bold text-slate-800 text-sm md:text-base mb-1 md:mb-2">Peta WebGIS</h3>
-              <p className="text-xs text-slate-500 leading-relaxed hidden sm:block">Pemetaan spasial batas desa, sarana umum, dan titik wisata</p>
+              <p className="text-xs text-slate-500 leading-relaxed">Pemetaan spasial batas desa, sarana umum, dan titik wisata</p>
               <ChevronRight className="absolute bottom-3 right-3 md:bottom-5 md:right-5 w-4 h-4 text-slate-400" />
             </Link>
           </div>

@@ -38,17 +38,13 @@ const WebGisCharts = dynamic(
   }
 );
 
-// All filterable categories
+// All filterable categories (matching actual markers)
 const filterCategories = [
-  { key: 'Pertanian', label: 'Sawah', icon: '🌾', color: '#84cc16', count: 0 },
-  { key: 'Peternakan', label: 'Peternakan', icon: '🐄', color: '#f97316', count: 0 },
-  { key: 'Wisata', label: 'Wisata', icon: '🌳', color: '#8b5cf6', count: 0 },
-  { key: 'Area Rawan Bencana', label: 'Mitigasi', icon: '⚠️', color: '#ef4444', count: 0 },
-  { key: 'Kantor Desa', label: 'Kantor Desa', icon: '🏛️', color: '#3b82f6', count: 0 },
   { key: 'Sekolah', label: 'Sekolah', icon: '🏫', color: '#f59e0b', count: 0 },
   { key: 'Masjid', label: 'Masjid', icon: '🕌', color: '#10b981', count: 0 },
+  { key: 'Kantor Desa', label: 'Kantor Desa', icon: '🏛️', color: '#3b82f6', count: 0 },
   { key: 'Puskesmas', label: 'Puskesmas', icon: '🏥', color: '#f43f5e', count: 0 },
-  { key: 'Rute Evakuasi', label: 'Rute Evakuasi', icon: '🚨', color: '#06b6d4', count: 0 },
+  { key: 'Area Rawan Bencana', label: 'Lainnya', icon: '📍', color: '#ef4444', count: 0 },
 ];
 
 export default function WebGisPage() {
@@ -148,11 +144,8 @@ export default function WebGisPage() {
           </div>
 
           {/* Interactive Map — appears first on mobile */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="order-1 lg:order-2 flex-1 h-[480px] sm:h-[520px] lg:h-[640px] rounded-2xl overflow-hidden border border-slate-200/60 dark:border-slate-700/60 shadow-sm"
+          <div
+            className="order-1 lg:order-2 flex-1 w-full min-h-[420px] h-[420px] sm:h-[520px] lg:h-[640px] rounded-2xl overflow-hidden shadow-md border border-slate-200/80 dark:border-slate-700/80 relative bg-slate-100 dark:bg-slate-800"
           >
             <MapComponent
               locations={mockGisLocations}
@@ -162,7 +155,7 @@ export default function WebGisPage() {
               onToggleDarkMode={handleToggleDarkMode}
               onToggleSatellite={handleToggleSatellite}
             />
-          </motion.div>
+          </div>
         </div>
 
         {/* Charts Dashboard */}

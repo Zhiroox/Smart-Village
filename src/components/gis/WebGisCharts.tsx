@@ -6,22 +6,34 @@ import {
   PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
-import { TrendingUp, BarChart3, ShieldAlert } from 'lucide-react';
+import { MapPin, BarChart3 } from 'lucide-react';
+import { mockGisLocations } from '@/lib/data/mockData';
 
-interface ChartDataItem {
-  name: string;
-  value: number;
-  color?: string;
-  satuan?: string;
-}
+// Derive chart data dynamically from actual markers
+const categoryCounts = mockGisLocations.reduce<Record<string, number>>((acc, loc) => {
+  acc[loc.category] = (acc[loc.category] || 0) + 1;
+  return acc;
+}, {});
 
-interface WebGisChartsProps {
-  umkmData: ChartDataItem[];
-  komoditasData: ChartDataItem[];
-  risikoData: ChartDataItem[];
-}
+const CATEGORY_COLORS: Record<string, string> = {
+  'Sekolah': '#f59e0b',
+  'Masjid': '#10b981',
+  'Kantor Desa': '#3b82f6',
+  'Puskesmas': '#f43f5e',
+  'Area Rawan Bencana': '#ef4444',
+};
 
-const KOMODITAS_COLORS = ['#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#d1fae5', '#ecfdf5'];
+const pieData = Object.entries(categoryCounts).map(([name, value]) => ({
+  name,
+  value,
+  color: CATEGORY_COLORS[name] || '#94a3b8',
+}));
+
+const barData = Object.entries(categoryCounts).map(([name, value]) => ({
+  name: name === 'Area Rawan Bencana' ? 'Lainnya' : name,
+  value,
+  color: CATEGORY_COLORS[name] || '#94a3b8',
+}));
 
 const cardVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -33,22 +45,28 @@ const cardVariants = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 shadow-lg">
-        <p className="text-xs font-bold text-slate-800 dark:text-white">{label || payload[0]?.name}</p>
-        <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">{payload[0]?.value} {payload[0]?.payload?.satuan || ''}</p>
+        <p className="text-xs font-bold text-slate-800 dark:text-white">{payload[0]?.name}</p>
+        <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">{payload[0]?.value} lokasi</p>
       </div>
     );
   }
   return null;
 };
 
-export default function WebGisCharts({ umkmData, komoditasData, risikoData }: WebGisChartsProps) {
+interface WebGisChartsProps {
+  umkmData?: unknown[];
+  komoditasData?: unknown[];
+  risikoData?: unknown[];
+}
+
+export default function WebGisCharts(_props: WebGisChartsProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {/* UMKM Pie Chart */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Distribusi Marker Pie Chart */}
       <motion.div
         custom={0}
         variants={cardVariants}
@@ -59,19 +77,19 @@ export default function WebGisCharts({ umkmData, komoditasData, risikoData }: We
         className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow"
       >
         <div className="flex items-center gap-2 mb-4">
-          <div className="w-8 h-8 rounded-lg bg-violet-500/15 text-violet-600 flex items-center justify-center">
-            <TrendingUp className="w-4 h-4" />
+          <div className="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-600 flex items-center justify-center">
+            <MapPin className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Statistik UMKM</h4>
-            <p className="text-[10px] text-slate-400">Distribusi per kategori</p>
+            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Distribusi Marker</h4>
+            <p className="text-[10px] text-slate-400">Sebaran titik lokasi per kategori</p>
           </div>
         </div>
         <div className="h-52">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
-                data={umkmData}
+                data={pieData}
                 cx="50%"
                 cy="50%"
                 innerRadius={40}
@@ -80,7 +98,7 @@ export default function WebGisCharts({ umkmData, komoditasData, risikoData }: We
                 dataKey="value"
                 strokeWidth={0}
               >
-                {umkmData.map((entry, index) => (
+                {pieData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
@@ -95,7 +113,7 @@ export default function WebGisCharts({ umkmData, komoditasData, risikoData }: We
         </div>
       </motion.div>
 
-      {/* Komoditas Bar Chart */}
+      {/* Jumlah Marker Bar Chart */}
       <motion.div
         custom={1}
         variants={cardVariants}
@@ -106,17 +124,17 @@ export default function WebGisCharts({ umkmData, komoditasData, risikoData }: We
         className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow"
       >
         <div className="flex items-center gap-2 mb-4">
-          <div className="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-600 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-blue-500/15 text-blue-600 flex items-center justify-center">
             <BarChart3 className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Komoditas</h4>
-            <p className="text-[10px] text-slate-400">Luas lahan pertanian (Ha)</p>
+            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Jumlah per Kategori</h4>
+            <p className="text-[10px] text-slate-400">Total {mockGisLocations.length} titik lokasi</p>
           </div>
         </div>
         <div className="h-52">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={komoditasData} barCategoryGap="20%">
+            <BarChart data={barData} barCategoryGap="20%">
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.15)" />
               <XAxis
                 dataKey="name"
@@ -129,61 +147,15 @@ export default function WebGisCharts({ umkmData, komoditasData, risikoData }: We
                 axisLine={false}
                 tickLine={false}
                 width={30}
+                allowDecimals={false}
               />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="value" radius={[6, 6, 0, 0]}>
-                {komoditasData.map((_, index) => (
-                  <Cell key={`bar-${index}`} fill={KOMODITAS_COLORS[index % KOMODITAS_COLORS.length]} />
+                {barData.map((entry, index) => (
+                  <Cell key={`bar-${index}`} fill={entry.color} />
                 ))}
               </Bar>
             </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </motion.div>
-
-      {/* Risiko Bencana Doughnut Chart */}
-      <motion.div
-        custom={2}
-        variants={cardVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-50px' }}
-        whileHover={{ y: -4 }}
-        className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow"
-      >
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-8 h-8 rounded-lg bg-rose-500/15 text-rose-600 flex items-center justify-center">
-            <ShieldAlert className="w-4 h-4" />
-          </div>
-          <div>
-            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Risiko Bencana</h4>
-            <p className="text-[10px] text-slate-400">Titik rawan per jenis</p>
-          </div>
-        </div>
-        <div className="h-52">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={risikoData}
-                cx="50%"
-                cy="50%"
-                innerRadius={45}
-                outerRadius={70}
-                paddingAngle={6}
-                dataKey="value"
-                strokeWidth={0}
-              >
-                {risikoData.map((entry, index) => (
-                  <Cell key={`risk-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip content={<CustomTooltip />} />
-              <Legend
-                formatter={(value) => <span className="text-[10px] text-slate-600 dark:text-slate-400">{value}</span>}
-                iconSize={8}
-                wrapperStyle={{ fontSize: '10px' }}
-              />
-            </PieChart>
           </ResponsiveContainer>
         </div>
       </motion.div>
