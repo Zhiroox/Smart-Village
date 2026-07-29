@@ -1,10 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { StatCard } from '@/components/common/StatCard';
 import { mockQuickStats, mockNews, mockPotensi } from '@/lib/data/mockData';
+import { fetchNewsFromSupabase, fetchPotensiFromSupabase } from '@/lib/supabase';
+import { NewsItem, PotensiItem } from '@/lib/types';
 import { 
   Users, 
   MapPin, 
@@ -22,8 +24,19 @@ import {
 
 export default function HomePage() {
   const stats = mockQuickStats['Desa Pagutan'];
-  const news = mockNews;
-  const potensi = mockPotensi;
+  const [news, setNews] = useState<NewsItem[]>(mockNews);
+  const [potensiList, setPotensiList] = useState<PotensiItem[]>(mockPotensi);
+
+  useEffect(() => {
+    const loadHomeData = async () => {
+      const newsData = await fetchNewsFromSupabase();
+      if (newsData && newsData.length > 0) setNews(newsData);
+      
+      const potensiData = await fetchPotensiFromSupabase();
+      if (potensiData && potensiData.length > 0) setPotensiList(potensiData);
+    };
+    loadHomeData();
+  }, []);
 
   return (
     <div className="space-y-0 pb-0 bg-slate-50">
@@ -191,15 +204,24 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="lg:col-span-6 grid grid-cols-2 gap-4">
-                {potensi.slice(0, 2).map(item => (
-                  <div key={item.id} className="bg-slate-50 border border-slate-200 hover:border-emerald-300 rounded-2xl p-4 transition-all duration-200 group hover:-translate-y-1 hover:shadow-md">
-                    <div className="relative h-32 rounded-xl overflow-hidden mb-3">
-                      <Image src={item.imageUrl} alt={item.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" unoptimized />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent" />
+              <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {potensiList.slice(0, 4).map(item => (
+                  <div key={item.id} className="bg-slate-50 border border-slate-200 hover:border-emerald-300 rounded-2xl p-4 transition-all duration-200 group hover:-translate-y-1 hover:shadow-md flex flex-col justify-between">
+                    <div>
+                      <div className="relative h-32 rounded-xl overflow-hidden mb-3">
+                        <Image src={item.imageUrl} alt={item.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" unoptimized />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/25 to-transparent" />
+                        <span className="absolute top-2.5 left-2.5 bg-emerald-700/90 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-sm">
+                          {item.category === 'Agriculture' ? 'Pertanian' : item.category === 'Livestock' ? 'Peternakan' : item.category === 'Tourism' ? 'Wisata' : item.category}
+                        </span>
+                      </div>
+                      <h4 className="font-bold text-sm text-slate-800 line-clamp-1 group-hover:text-emerald-700 transition-colors">{item.name}</h4>
+                      <p className="text-[11px] text-slate-500 font-medium mt-1 line-clamp-2">{item.description}</p>
                     </div>
-                    <h4 className="font-bold text-sm text-slate-800 line-clamp-1 group-hover:text-emerald-700 transition-colors">{item.name}</h4>
-                    <p className="text-[11px] text-emerald-650 font-semibold mt-0.5">{item.category} • {item.village}</p>
+                    <div className="text-[11px] text-emerald-700 font-semibold mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between">
+                      <span>{item.village}</span>
+                      {item.priceOrYield && <span className="text-slate-500 font-normal truncate max-w-[120px]">{item.priceOrYield}</span>}
+                    </div>
                   </div>
                 ))}
               </div>

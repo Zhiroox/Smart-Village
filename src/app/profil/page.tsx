@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { mockOfficials, mockDownloads, mockStafPembantu, mockKadusList } from '@/lib/data/mockData';
 import { 
@@ -17,16 +17,59 @@ import {
   Search,
   ChevronDown,
   MapPin,
-  Phone
+  Phone,
+  User
 } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 export default function ProfilPage() {
   const [activeStaffTab, setActiveStaffTab] = useState<'perangkat' | 'kadus' | 'staf'>('perangkat');
   const [docSearch, setDocSearch] = useState('');
   
-  const officials = mockOfficials;
-  const kadusList = mockKadusList;
-  const stafPembantu = mockStafPembantu;
+  const [officials, setOfficials] = useState(mockOfficials);
+  const [kadusList, setKadusList] = useState(mockKadusList);
+  const [stafPembantu, setStafPembantu] = useState(mockStafPembantu);
+
+  useEffect(() => {
+    const fetchOfficials = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('village_officials')
+          .select('*')
+          .eq('village', 'Desa Pagutan');
+
+        if (error) return;
+
+        if (data && data.length > 0) {
+          const sotk = data
+            .filter(o => !o.position.startsWith('Kadus') && !o.position.includes('Dusun') && !o.position.includes('Staf'))
+            .map(o => ({
+              id: o.id,
+              name: o.name,
+              position: o.position,
+              village: o.village,
+              photoUrl: '',
+              phone: o.phone
+            }));
+          if (sotk.length > 0) setOfficials(sotk);
+
+          const kadus = data
+            .filter(o => (o.position.startsWith('Kadus') || o.position.includes('Dusun')) && o.position !== 'Kepala Dusun')
+            .map(o => ({ name: o.name, position: o.position }));
+          if (kadus.length > 0) setKadusList(kadus);
+
+          const staf = data
+            .filter(o => o.position.includes('Staf'))
+            .map(o => o.name);
+          if (staf.length > 0) setStafPembantu(staf);
+        }
+      } catch (e) {
+        console.error('Error fetching officials in ProfilPage:', e);
+      }
+    };
+
+    fetchOfficials();
+  }, []);
 
   const misiList = [
     "Meningkatkan kegiatan-kegiatan keamanan",
@@ -254,14 +297,8 @@ export default function ProfilPage() {
                     key={official.id} 
                     className="bg-slate-50 border border-slate-200 p-3.5 rounded-xl flex items-center gap-3 active:bg-emerald-50 transition-colors"
                   >
-                    <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 ring-2 ring-slate-200">
-                      <Image 
-                        src={official.photoUrl} 
-                        alt={official.name} 
-                        fill 
-                        className="object-cover object-top" 
-                        unoptimized 
-                      />
+                    <div className="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0 text-emerald-600 shadow-xs">
+                      <User className="w-5 h-5" />
                     </div>
                     <div className="min-w-0">
                       <h4 className="font-bold text-slate-800 text-sm truncate">{official.name}</h4>

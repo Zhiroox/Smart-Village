@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { mockOfficials, mockStafPembantu, mockKadusList } from '@/lib/data/mockData';
-import { Users, ShieldCheck, Award, MapPin, CheckCircle2, Building2 } from 'lucide-react';
+import { Users, ShieldCheck, Award, MapPin, CheckCircle2, Building2, User, Database } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 export default function PemerintahanPage() {
   const [officials, setOfficials] = useState(mockOfficials);
+  const [stafPembantu, setStafPembantu] = useState<string[]>(mockStafPembantu);
+  const [kadusList, setKadusList] = useState<{ name: string; position: string }[]>(mockKadusList);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,15 +25,42 @@ export default function PemerintahanPage() {
         }
 
         if (data && data.length > 0) {
-          const mapped = data.map(o => ({
-            id: o.id,
-            name: o.name,
-            position: o.position,
-            village: o.village,
-            photoUrl: o.photo_url || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400',
-            phone: o.phone
-          }));
-          setOfficials(mapped);
+          // 1. Filter SOTK officials (Kepala Desa, Sekdes, Kaur, Kasi)
+          const sotkData = data
+            .filter(o => !o.position.startsWith('Kadus') && !o.position.includes('Dusun') && !o.position.includes('Staf'))
+            .map(o => ({
+              id: o.id,
+              name: o.name,
+              position: o.position,
+              village: o.village,
+              photoUrl: o.photo_url || '',
+              phone: o.phone
+            }));
+
+          if (sotkData.length > 0) {
+            setOfficials(sotkData);
+          }
+
+          // 2. Filter Kepala Dusun (Kadus)
+          const kadusData = data
+            .filter(o => (o.position.startsWith('Kadus') || o.position.includes('Dusun')) && o.position !== 'Kepala Dusun')
+            .map(o => ({
+              name: o.name,
+              position: o.position
+            }));
+
+          if (kadusData.length > 0) {
+            setKadusList(kadusData);
+          }
+
+          // 3. Filter Staf Pembantu
+          const stafData = data
+            .filter(o => o.position.includes('Staf'))
+            .map(o => o.name);
+
+          if (stafData.length > 0) {
+            setStafPembantu(stafData);
+          }
         }
       } catch (err) {
         console.error('Error fetching officials:', err);
@@ -44,8 +72,8 @@ export default function PemerintahanPage() {
     fetchOfficials();
   }, []);
 
-  const kades = officials.find(o => o.position === 'Kepala Desa');
-  const sekdes = officials.find(o => o.position === 'Sekdes');
+  const kades = officials.find(o => o.position === 'Kepala Desa') || officials[0];
+  const sekdes = officials.find(o => o.position === 'Sekdes' || o.position === 'Sekretaris Desa');
   
   const kaurList = officials.filter(o => o.position.startsWith('Kaur'));
   const kasiList = officials.filter(o => o.position.startsWith('Kasi'));
@@ -59,7 +87,7 @@ export default function PemerintahanPage() {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
         <div className="container mx-auto max-w-6xl relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-full text-xs font-semibold mb-5 backdrop-blur-sm">
-            <Users className="w-3.5 h-3.5" /> Struktur Organisasi &amp; Tata Kerja (SOTK)
+            <Database className="w-3.5 h-3.5 text-emerald-600" /> Live Data Supabase • Structure Organisasi &amp; Tata Kerja (SOTK)
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
             Pemerintahan{' '}
@@ -79,7 +107,7 @@ export default function PemerintahanPage() {
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 rounded-t-3xl" />
           
           <div className="text-center mb-8">
-            <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-1">Struktur Organisasi & Tata Kerja Pemerintah Desa Pagutan</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-1">Struktur Organisasi &amp; Tata Kerja Pemerintah Desa Pagutan</h2>
             <p className="text-sm text-slate-500">Hierarki kepemimpinan dan penugasan aparatur Desa Pagutan</p>
           </div>
 
@@ -89,9 +117,9 @@ export default function PemerintahanPage() {
             {/* KEPALA DESA */}
             {kades && (
               <div className="flex flex-col items-center w-full">
-                <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 text-white px-8 py-5 rounded-2xl shadow-lg border border-emerald-400/40 flex flex-col items-center w-64 hover:scale-105 transition-transform duration-200 cursor-default">
-                  <div className="w-20 h-20 rounded-full overflow-hidden mb-3 ring-4 ring-white/20 relative shadow-lg">
-                    <Image src={kades.photoUrl} alt={kades.name} fill className="object-cover object-top" unoptimized />
+                <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 text-white px-8 py-6 rounded-2xl shadow-lg border border-emerald-400/40 flex flex-col items-center w-64 hover:scale-105 transition-transform duration-200 cursor-default">
+                  <div className="w-14 h-14 rounded-full bg-emerald-700/60 border border-emerald-300/30 flex items-center justify-center mb-3 shadow-inner text-emerald-100">
+                    <User className="w-7 h-7" />
                   </div>
                   <div className="text-[10px] uppercase font-bold text-emerald-200 tracking-widest mb-1">Kepala Desa</div>
                   <div className="font-extrabold text-sm text-white text-center">{kades.name}</div>
@@ -105,8 +133,8 @@ export default function PemerintahanPage() {
             {sekdes && (
               <div className="flex flex-col items-center w-full">
                 <div className="bg-white text-slate-800 px-6 py-4 rounded-2xl shadow-md border border-slate-200 flex flex-col items-center w-56 hover:scale-105 transition-transform duration-200 cursor-default">
-                  <div className="w-16 h-16 rounded-full overflow-hidden mb-2 ring-2 ring-emerald-500/25 relative shadow-sm">
-                    <Image src={sekdes.photoUrl} alt={sekdes.name} fill className="object-cover object-top" unoptimized />
+                  <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center mb-2.5 text-emerald-600 shadow-xs">
+                    <User className="w-6 h-6" />
                   </div>
                   <div className="text-[10px] font-bold text-emerald-600 mb-0.5 uppercase tracking-widest">Sekretaris Desa</div>
                   <div className="font-bold text-xs text-slate-800 text-center">{sekdes.name}</div>
@@ -140,8 +168,8 @@ export default function PemerintahanPage() {
                 <div className="mt-4 grid grid-cols-3 gap-2">
                   {kaurList.map(kaur => (
                     <div key={kaur.id} className="group bg-white border border-blue-100 hover:border-blue-300 hover:bg-blue-50/50 transition-all duration-200 p-3 rounded-xl flex flex-col items-center text-center cursor-default shadow-xs">
-                      <div className="w-12 h-12 rounded-full overflow-hidden mb-2 ring-2 ring-blue-400/30 group-hover:ring-blue-400/65 relative transition-all">
-                        <Image src={kaur.photoUrl} alt={kaur.name} fill className="object-cover object-top" unoptimized />
+                      <div className="w-9 h-9 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center mb-2 text-blue-600 group-hover:bg-blue-100 transition-colors">
+                        <User className="w-4.5 h-4.5" />
                       </div>
                       <div className="text-[8px] font-bold text-blue-600 leading-tight mb-0.5 uppercase">{kaur.position}</div>
                       <div className="font-semibold text-[10px] text-slate-700">{kaur.name}</div>
@@ -160,8 +188,8 @@ export default function PemerintahanPage() {
                 <div className="mt-4 grid grid-cols-3 gap-2">
                   {kasiList.map(kasi => (
                     <div key={kasi.id} className="group bg-white border border-amber-100 hover:border-amber-300 hover:bg-amber-50/50 transition-all duration-200 p-3 rounded-xl flex flex-col items-center text-center cursor-default shadow-xs">
-                      <div className="w-12 h-12 rounded-full overflow-hidden mb-2 ring-2 ring-amber-400/30 group-hover:ring-amber-400/65 relative transition-all">
-                        <Image src={kasi.photoUrl} alt={kasi.name} fill className="object-cover object-top" unoptimized />
+                      <div className="w-9 h-9 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center mb-2 text-amber-600 group-hover:bg-amber-100 transition-colors">
+                        <User className="w-4.5 h-4.5" />
                       </div>
                       <div className="text-[8px] font-bold text-amber-600 leading-tight mb-0.5 uppercase">{kasi.position}</div>
                       <div className="font-semibold text-[10px] text-slate-700">{kasi.name}</div>
@@ -187,7 +215,7 @@ export default function PemerintahanPage() {
                 </span>
               </div>
               <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-                {mockStafPembantu.map((staf, idx) => (
+                {stafPembantu.map((staf, idx) => (
                   <span key={idx} className="bg-white hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 transition-all px-3 py-1.5 rounded-lg text-xs font-medium text-slate-650 hover:text-emerald-700 flex items-center gap-1.5 cursor-default shadow-xs">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
                     {staf}
@@ -211,7 +239,7 @@ export default function PemerintahanPage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {mockKadusList.map((kadus, idx) => (
+            {kadusList.map((kadus, idx) => (
               <div
                 key={idx}
                 className="group bg-slate-50 hover:bg-emerald-50/50 border border-slate-200/85 hover:border-emerald-300 p-4 rounded-xl text-center transition-all duration-200 cursor-default hover:-translate-y-0.5 shadow-xs"

@@ -129,11 +129,6 @@ export const Footer = () => {
         <div>
           © 2026 Pemerintah Desa Pagutan. Dikembangkan bersama Tim KKN SOBATUKLIANG Universitas Gadjah Mada.
         </div>
-        <div className="mt-2 sm:mt-0 flex gap-4">
-          <span className="hover:text-slate-400 cursor-pointer transition-colors">Privasi &amp; Syarat</span>
-          <span className="text-slate-700">•</span>
-          <span className="hover:text-slate-400 cursor-pointer transition-colors">Smart Village v2.0</span>
-        </div>
       </div>
     </footer>
   );

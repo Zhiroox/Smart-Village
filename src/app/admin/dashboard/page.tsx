@@ -4,11 +4,18 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  getStoredNews,
-  getAdminNews,
-  saveNewsItem,
-  updateNewsItem,
-  deleteNewsItem,
+  fetchNewsFromSupabase,
+  createNewsInSupabase,
+  updateNewsInSupabase,
+  deleteNewsFromSupabase,
+  fetchPotensiFromSupabase,
+  createPotensiInSupabase,
+  updatePotensiInSupabase,
+  deletePotensiFromSupabase,
+  fetchGisFromSupabase,
+  createGisInSupabase,
+  updateGisInSupabase,
+  deleteGisFromSupabase,
 } from '@/lib/supabase';
 import { NewsItem, PotensiItem, GisLocation } from '@/lib/types';
 import {
@@ -52,7 +59,7 @@ import { mockPotensi, mockGisLocations } from '@/lib/data/mockData';
 // TIPE FORM WIZARD BERITA
 // =============================================
 type WizardStep = 1 | 2 | 3;
-type NewsCategory = 'Pengumuman' | 'Pembangunan' | 'Kegiatan' | 'Ekonomi';
+type NewsCategory = 'Pengumuman' | 'Pembangunan' | 'Kegiatan' | 'Ekonomi' | 'Kesehatan' | 'Lain-lain' | 'Lainnya';
 type NewsVillage = 'Desa Pagutan' | 'Desa Bujak';
 type PotensiCategory = 'Agriculture' | 'Livestock' | 'UMKM' | 'Tourism';
 
@@ -131,6 +138,9 @@ const CATEGORY_IMAGES: Record<NewsCategory, string> = {
   Pembangunan: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800',
   Kegiatan: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=800',
   Ekonomi: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800',
+  Kesehatan: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=800',
+  'Lain-lain': 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800',
+  Lainnya: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800',
 };
 
 const GIS_CATEGORIES: GisLocation['category'][] = [
@@ -146,27 +156,25 @@ const POTENSI_CATEGORIES: { value: PotensiCategory; label: string; emoji: string
 ];
 
 // =============================================
-// HOOK: Local state storage untuk Potensi & GIS
+// HOOK: Supabase storage untuk Potensi & GIS
 // =============================================
 function usePotensiData() {
   const [items, setItems] = useState<PotensiItem[]>([]);
-  useEffect(() => {
-    const stored = localStorage.getItem('admin_potensi');
-    if (stored) {
-      setItems(JSON.parse(stored));
-    } else {
-      setItems(mockPotensi);
-    }
-  }, []);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const save = (newItems: PotensiItem[]) => {
-    setItems(newItems);
-    localStorage.setItem('admin_potensi', JSON.stringify(newItems));
+  const loadData = async () => {
+    setLoading(true);
+    const data = await fetchPotensiFromSupabase();
+    setItems(data);
+    setLoading(false);
   };
 
-  const addItem = (form: PotensiFormData) => {
-    const newItem: PotensiItem = {
-      id: `potensi-${Date.now()}`,
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const addItem = async (form: PotensiFormData) => {
+    const newItemData: Omit<PotensiItem, 'id'> = {
       name: form.name,
       category: form.category,
       village: form.village,
@@ -177,80 +185,82 @@ function usePotensiData() {
       contactPerson: form.contactPerson,
       priceOrYield: form.priceOrYield,
     };
-    save([...items, newItem]);
+    await createPotensiInSupabase(newItemData);
+    await loadData();
   };
 
-  const updateItem = (id: string, form: PotensiFormData) => {
-    save(items.map(i => i.id === id ? {
-      ...i,
+  const updateItem = async (id: string, form: PotensiFormData) => {
+    await updatePotensiInSupabase(id, {
       name: form.name,
       category: form.category,
       village: form.village,
       description: form.description,
       location: form.location,
-      imageUrl: form.imageUrl || i.imageUrl,
+      imageUrl: form.imageUrl,
       contactPerson: form.contactPerson,
       priceOrYield: form.priceOrYield,
-    } : i));
+    });
+    await loadData();
   };
 
-  const deleteItem = (id: string) => {
-    save(items.filter(i => i.id !== id));
+  const deleteItem = async (id: string) => {
+    await deletePotensiFromSupabase(id);
+    await loadData();
   };
 
-  return { items, addItem, updateItem, deleteItem };
+  return { items, loading, addItem, updateItem, deleteItem, refresh: loadData };
 }
 
 function useGisData() {
   const [items, setItems] = useState<GisLocation[]>([]);
-  useEffect(() => {
-    const stored = localStorage.getItem('admin_gis');
-    if (stored) {
-      setItems(JSON.parse(stored));
-    } else {
-      setItems(mockGisLocations);
-    }
-  }, []);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const save = (newItems: GisLocation[]) => {
-    setItems(newItems);
-    localStorage.setItem('admin_gis', JSON.stringify(newItems));
+  const loadData = async () => {
+    setLoading(true);
+    const data = await fetchGisFromSupabase();
+    setItems(data);
+    setLoading(false);
   };
 
-  const addItem = (form: GisFormData) => {
-    const newItem: GisLocation = {
-      id: `gis-${Date.now()}`,
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const addItem = async (form: GisFormData) => {
+    const newItemData: Omit<GisLocation, 'id'> = {
       name: form.name,
       category: form.category,
       village: form.village,
-      latitude: parseFloat(form.latitude),
-      longitude: parseFloat(form.longitude),
+      latitude: parseFloat(form.latitude) || 0,
+      longitude: parseFloat(form.longitude) || 0,
       description: form.description,
       address: form.address,
       imageUrl: form.imageUrl,
     };
-    save([...items, newItem]);
+    await createGisInSupabase(newItemData);
+    await loadData();
   };
 
-  const updateItem = (id: string, form: GisFormData) => {
-    save(items.map(i => i.id === id ? {
-      ...i,
+  const updateItem = async (id: string, form: GisFormData) => {
+    await updateGisInSupabase(id, {
       name: form.name,
       category: form.category,
       village: form.village,
-      latitude: parseFloat(form.latitude),
-      longitude: parseFloat(form.longitude),
+      latitude: parseFloat(form.latitude) || 0,
+      longitude: parseFloat(form.longitude) || 0,
       description: form.description,
       address: form.address,
       imageUrl: form.imageUrl,
-    } : i));
+    });
+    await loadData();
   };
 
-  const deleteItem = (id: string) => {
-    save(items.filter(i => i.id !== id));
+  const deleteItem = async (id: string) => {
+    await deleteGisFromSupabase(id);
+    await loadData();
   };
 
-  return { items, addItem, updateItem, deleteItem };
+  return { items, loading, addItem, updateItem, deleteItem, refresh: loadData };
 }
 
 // =============================================
@@ -292,9 +302,10 @@ export default function AdminDashboardPage() {
     refreshNews();
   }, []);
 
-  const refreshNews = () => {
-    setAllNews(getStoredNews());
-    setAdminNewsOnly(getAdminNews());
+  const refreshNews = async () => {
+    const data = await fetchNewsFromSupabase();
+    setAllNews(data);
+    setAdminNewsOnly(data);
   };
 
   const handleLogout = () => router.push('/admin/login');
@@ -333,23 +344,23 @@ export default function AdminDashboardPage() {
     setSaveSuccess(false);
   };
 
-  const handleSaveNews = () => {
+  const handleSaveNews = async () => {
     const finalImageUrl = formData.imageUrl.trim() || CATEGORY_IMAGES[formData.category];
     const payload = { ...formData, imageUrl: finalImageUrl };
     if (editingId) {
-      updateNewsItem(editingId, payload);
+      await updateNewsInSupabase(editingId, payload);
     } else {
-      saveNewsItem(payload);
+      await createNewsInSupabase(payload);
     }
     setSaveSuccess(true);
-    refreshNews();
+    await refreshNews();
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (!deleteTarget) return;
-    deleteNewsItem(deleteTarget.id);
+    await deleteNewsFromSupabase(deleteTarget.id);
     setDeleteTarget(null);
-    refreshNews();
+    await refreshNews();
   };
 
   const step1Valid = formData.title.trim().length >= 5;
@@ -382,12 +393,12 @@ export default function AdminDashboardPage() {
     setShowPotensiModal(true);
   };
 
-  const handleSavePotensi = () => {
+  const handleSavePotensi = async () => {
     if (!potensiForm.name.trim() || !potensiForm.description.trim() || !potensiForm.location.trim()) return;
     if (editingPotensiId) {
-      potensi.updateItem(editingPotensiId, potensiForm);
+      await potensi.updateItem(editingPotensiId, potensiForm);
     } else {
-      potensi.addItem(potensiForm);
+      await potensi.addItem(potensiForm);
     }
     setPotensiSaved(true);
   };
@@ -425,12 +436,12 @@ export default function AdminDashboardPage() {
     setShowGisModal(true);
   };
 
-  const handleSaveGis = () => {
+  const handleSaveGis = async () => {
     if (!gisForm.name.trim() || !gisForm.latitude.trim() || !gisForm.longitude.trim()) return;
     if (editingGisId) {
-      gis.updateItem(editingGisId, gisForm);
+      await gis.updateItem(editingGisId, gisForm);
     } else {
-      gis.addItem(gisForm);
+      await gis.addItem(gisForm);
     }
     setGisSaved(true);
   };
@@ -460,6 +471,9 @@ export default function AdminDashboardPage() {
     Pembangunan: 'bg-orange-100 text-orange-800',
     Kegiatan: 'bg-purple-100 text-purple-800',
     Ekonomi: 'bg-emerald-100 text-emerald-800',
+    Kesehatan: 'bg-rose-100 text-rose-800',
+    'Lain-lain': 'bg-slate-100 text-slate-800',
+    Lainnya: 'bg-slate-100 text-slate-800',
   };
 
   const inputClass = "w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white transition-all";
@@ -754,7 +768,7 @@ export default function AdminDashboardPage() {
                 <div>
                   <h2 className="font-bold text-slate-900 text-lg">Kelola Berita & Pengumuman Desa</h2>
                   <p className="text-xs text-slate-500 mt-1">
-                    Total {allNews.length} berita ditampilkan ({adminNewsOnly.length} ditambahkan admin)
+                    Total {allNews.length} berita aktif dikelola
                   </p>
                 </div>
                 <button
@@ -773,7 +787,7 @@ export default function AdminDashboardPage() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[
-                  { step: '1', icon: '📝', title: 'Isi Judul & Kategori', desc: 'Tulis judul berita dan pilih jenis berita' },
+                  { step: '1', icon: '📝', title: 'Isi Judul & Kategori', desc: 'Tulis judul berita dan pilih jenis berita (termasuk Kesehatan & Lainnya)' },
                   { step: '2', icon: '📄', title: 'Tulis Isi Berita', desc: 'Tulis ringkasan singkat dan isi lengkap berita' },
                   { step: '3', icon: '✅', title: 'Simpan & Terbitkan', desc: 'Periksa kembali dan klik simpan. Langsung tampil di website!' },
                 ].map(({ step, icon, title, desc }) => (
@@ -788,15 +802,19 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            {adminNewsOnly.length > 0 && (
-              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
-                <h3 className="font-bold text-slate-900 text-sm">📰 Berita yang Ditambahkan Admin ({adminNewsOnly.length})</h3>
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+              <h3 className="font-bold text-slate-900 text-sm">📰 Daftar Berita Desa ({allNews.length})</h3>
+              {allNews.length === 0 ? (
+                <div className="p-8 text-center text-slate-500 text-xs">
+                  Belum ada berita. Klik tombol &quot;Tulis Berita Baru&quot; untuk menambahkan berita.
+                </div>
+              ) : (
                 <div className="space-y-3">
-                  {adminNewsOnly.map(n => (
-                    <div key={n.id} className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                  {allNews.map(n => (
+                    <div key={n.id} className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-slate-100/80 transition-colors">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${categoryColors[n.category]}`}>{n.category}</span>
+                          <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${categoryColors[n.category] || 'bg-slate-100 text-slate-800'}`}>{n.category}</span>
                           <span className="text-[10px] text-slate-400">{n.publishedAt} • {n.author}</span>
                         </div>
                         <h4 className="font-bold text-slate-900 text-sm leading-snug">{n.title}</h4>
@@ -813,23 +831,7 @@ export default function AdminDashboardPage() {
                     </div>
                   ))}
                 </div>
-              </div>
-            )}
-
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
-              <h3 className="font-bold text-slate-900 text-sm">📁 Berita Bawaan Sistem ({allNews.length - adminNewsOnly.length})</h3>
-              <p className="text-xs text-slate-400">Berita berikut adalah data contoh dari sistem. Tidak dapat diedit melalui panel ini.</p>
-              <div className="space-y-2">
-                {allNews.filter(n => !n.id.startsWith('news-admin-')).map(n => (
-                  <div key={n.id} className="p-3 rounded-xl border border-slate-100 flex items-center justify-between">
-                    <div>
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold mr-2 ${categoryColors[n.category]}`}>{n.category}</span>
-                      <span className="text-xs font-medium text-slate-700">{n.title}</span>
-                    </div>
-                    <span className="text-[10px] text-slate-400 shrink-0 ml-2">{n.publishedAt}</span>
-                  </div>
-                ))}
-              </div>
+              )}
             </div>
           </div>
         )}
@@ -1108,11 +1110,19 @@ export default function AdminDashboardPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-slate-800 mb-3"><Tag className="inline w-4 h-4 mr-1" /> Pilih Kategori <span className="text-rose-500">*</span></label>
-                    <div className="grid grid-cols-2 gap-3">
-                      {(['Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi'] as NewsCategory[]).map(cat => (
-                        <button key={cat} type="button" onClick={() => setFormData(f => ({ ...f, category: cat }))} className={`p-4 rounded-xl border-2 text-sm font-bold text-left transition-all ${formData.category === cat ? 'border-emerald-600 bg-emerald-50 text-emerald-800' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}>
-                          <div className="text-2xl mb-1">{cat === 'Pengumuman' ? '📢' : cat === 'Pembangunan' ? '🏗️' : cat === 'Kegiatan' ? '🎯' : '💼'}</div>
-                          {cat}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {([
+                        { name: 'Pengumuman', emoji: '📢' },
+                        { name: 'Pembangunan', emoji: '🏗️' },
+                        { name: 'Kegiatan', emoji: '🎯' },
+                        { name: 'Ekonomi', emoji: '💼' },
+                        { name: 'Kesehatan', emoji: '🏥' },
+                        { name: 'Lainnya', emoji: '📂' },
+                        { name: 'Lain-lain', emoji: '📌' },
+                      ] as { name: NewsCategory; emoji: string }[]).map(item => (
+                        <button key={item.name} type="button" onClick={() => setFormData(f => ({ ...f, category: item.name }))} className={`p-3.5 rounded-xl border-2 text-xs font-bold text-left transition-all ${formData.category === item.name ? 'border-emerald-600 bg-emerald-50 text-emerald-800' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}>
+                          <div className="text-xl mb-1">{item.emoji}</div>
+                          {item.name}
                         </button>
                       ))}
                     </div>

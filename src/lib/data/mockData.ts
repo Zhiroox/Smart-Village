@@ -71,7 +71,7 @@ export const mockOfficials: VillageOfficial[] = [
     name: 'Subandi',
     position: 'Kepala Desa',
     village: 'Desa Pagutan',
-    photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400',
+    photoUrl: '',
     phone: '0812-3456-7890'
   },
   {
@@ -79,49 +79,49 @@ export const mockOfficials: VillageOfficial[] = [
     name: 'M. Zarwadi MZ',
     position: 'Sekdes',
     village: 'Desa Pagutan',
-    photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400',
+    photoUrl: '',
   },
   {
     id: 'off-3',
     name: 'Ra\'up',
     position: 'Kaur Umum dan TU',
     village: 'Desa Pagutan',
-    photoUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400',
+    photoUrl: '',
   },
   {
     id: 'off-4',
     name: 'Bq. Nurul Hayati',
     position: 'Kaur Keuangan',
     village: 'Desa Pagutan',
-    photoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400',
+    photoUrl: '',
   },
   {
     id: 'off-5',
     name: 'Sukriadi',
     position: 'Kaur Perencanaan',
     village: 'Desa Pagutan',
-    photoUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400',
+    photoUrl: '',
   },
   {
     id: 'off-6',
     name: 'Khairil Makirin',
     position: 'Kasi Pemerintahan',
     village: 'Desa Pagutan',
-    photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400',
+    photoUrl: '',
   },
   {
     id: 'off-7',
     name: 'Herman',
     position: 'Kasi Kesejahteraan',
     village: 'Desa Pagutan',
-    photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400',
+    photoUrl: '',
   },
   {
     id: 'off-8',
     name: 'Herman Jayadi S',
     position: 'Kasi Pelayanan',
     village: 'Desa Pagutan',
-    photoUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400',
+    photoUrl: '',
   }
 ];
 
@@ -159,10 +159,10 @@ export const mockPotensi: PotensiItem[] = [
     village: 'Desa Pagutan',
     description: 'Kerajinan kain tenun ikat dan songket tradisional buatan tangan pengrajin wanita Desa Pagutan dengan motif khas Lombok yang melegenda.',
     location: 'Dusun Pagutan Lauk, Desa Pagutan',
-    imageUrl: 'https://images.unsplash.com/photo-1606744888344-493238951221?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&q=80&w=800',
     gallery: [
-      'https://images.unsplash.com/photo-1606744888344-493238951221?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&q=80&w=800'
+      'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&q=80&w=800'
     ],
     contactPerson: 'Ibu Inaq Senim (0878-1122-3344)',
     priceOrYield: 'Rp 250.000 - Rp 1.500.000 / lembar'
@@ -174,9 +174,9 @@ export const mockPotensi: PotensiItem[] = [
     village: 'Desa Pagutan',
     description: 'Produk anyaman bambu perabotan rumah tangga, tempat nasi, kap lampu ramah lingkungan berkualitas tinggi.',
     location: 'Dusun Tunjang, Desa Pagutan',
-    imageUrl: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&q=80&w=800',
     gallery: [
-      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800'
+      'https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&q=80&w=800'
     ],
     contactPerson: 'Pak Amaq Murni (0819-3344-5566)',
     priceOrYield: 'Rp 35.000 - Rp 300.000 / pcs'

@@ -14,7 +14,7 @@ export interface NewsItem {
   slug: string;
   summary: string;
   content: string;
-  category: 'Pengumuman' | 'Pembangunan' | 'Kegiatan' | 'Ekonomi';
+  category: 'Pengumuman' | 'Pembangunan' | 'Kegiatan' | 'Ekonomi' | 'Kesehatan' | 'Lain-lain' | 'Lainnya';
   village: 'Desa Pagutan' | 'Desa Bujak';
   imageUrl: string;
   publishedAt: string;
@@ -26,7 +26,7 @@ export interface VillageOfficial {
   name: string;
   position: string;
   village: 'Desa Pagutan' | 'Desa Bujak';
-  photoUrl: string;
+  photoUrl?: string;
   phone?: string;
 }
 

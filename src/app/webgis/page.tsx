@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import { mockGisLocations, umkmChartData, komoditasChartData, risikoChartData } from '@/lib/data/mockData';
+import { fetchGisFromSupabase } from '@/lib/supabase';
+import { GisLocation } from '@/lib/types';
 import { Map } from 'lucide-react';
 import WebGisStatsBar from '@/components/gis/WebGisStatsBar';
 import WebGisFilterSidebar from '@/components/gis/WebGisFilterSidebar';
@@ -48,10 +50,20 @@ const filterCategories = [
 ];
 
 export default function WebGisPage() {
-  // Compute counts from mock data
+  const [gisLocations, setGisLocations] = useState<GisLocation[]>(mockGisLocations);
+
+  useEffect(() => {
+    const loadGis = async () => {
+      const data = await fetchGisFromSupabase();
+      if (data && data.length > 0) setGisLocations(data);
+    };
+    loadGis();
+  }, []);
+
+  // Compute counts from data
   const categoriesWithCounts = filterCategories.map(cat => ({
     ...cat,
-    count: mockGisLocations.filter(l => l.category === cat.key).length,
+    count: gisLocations.filter(l => l.category === cat.key).length,
   }));
 
   // All filters active by default
@@ -148,7 +160,7 @@ export default function WebGisPage() {
             className="order-1 lg:order-2 flex-1 w-full min-h-[420px] h-[420px] sm:h-[520px] lg:h-[640px] rounded-2xl overflow-hidden shadow-md border border-slate-200/80 dark:border-slate-700/80 relative bg-slate-100 dark:bg-slate-800"
           >
             <MapComponent
-              locations={mockGisLocations}
+              locations={gisLocations}
               activeFilters={activeFilters}
               isDarkMode={isDarkMode}
               isSatellite={isSatellite}

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getStoredNews } from '@/lib/supabase';
+import { fetchNewsFromSupabase } from '@/lib/supabase';
 import { NewsItem } from '@/lib/types';
 import { Newspaper, Search, ChevronRight, Calendar, User } from 'lucide-react';
 
@@ -12,11 +12,14 @@ export default function BeritaPage() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
 
-  const categories = ['Semua', 'Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi'];
+  const categories = ['Semua', 'Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi', 'Kesehatan', 'Lainnya', 'Lain-lain'];
 
   useEffect(() => {
-    // Load dari localStorage + mockData setiap kali halaman dibuka
-    setNewsData(getStoredNews());
+    const loadNews = async () => {
+      const data = await fetchNewsFromSupabase();
+      setNewsData(data);
+    };
+    loadNews();
   }, []);
 
   const filteredNews = newsData.filter((item) => {
