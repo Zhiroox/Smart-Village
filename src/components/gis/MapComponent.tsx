@@ -46,8 +46,11 @@ export const MapComponent: React.FC<MapComponentProps> = ({
   const leafletMapRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
   const tileLayerRef = useRef<any>(null);
+  const isInitialFitDoneRef = useRef<boolean>(false);
 
-  const filteredLocations = locations.filter(loc => activeFilters.includes(loc.category));
+  const filteredLocations = (activeFilters && activeFilters.length > 0)
+    ? locations.filter(loc => activeFilters.includes(loc.category))
+    : locations;
 
   useEffect(() => {
     setIsMounted(true);
@@ -189,8 +192,8 @@ export const MapComponent: React.FC<MapComponentProps> = ({
         className: 'custom-marker',
         html: `
           <div class="gis-marker-anim" style="
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             background: ${colors.marker};
             border: 3px solid white;
             border-radius: 50%;
@@ -198,60 +201,89 @@ export const MapComponent: React.FC<MapComponentProps> = ({
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-            font-size: 16px;
+            font-size: 17px;
             cursor: pointer;
-            animation: markerPop 0.4s ease-out ${index * 0.03}s both;
+            transition: transform 0.2s ease;
+            pointer-events: auto;
           ">${colors.icon}</div>
         `,
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
-        popupAnchor: [0, -20],
+        iconSize: [38, 38],
+        iconAnchor: [19, 19],
+        popupAnchor: [0, -22],
       });
 
       const marker = leafletLib.marker([loc.latitude, loc.longitude], { icon }).addTo(map);
 
+      const imageSection = loc.imageUrl
+        ? `<div style="width:100%; height:120px; border-radius:10px; overflow:hidden; margin-bottom:10px;">
+             <img src="${loc.imageUrl}" alt="${loc.name}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'" />
+           </div>`
+        : '';
+
       const popupContent = `
-        <div class="gis-popup-content" style="min-width: 220px; font-family: system-ui, -apple-system, sans-serif;">
+        <div class="gis-popup-content" style="min-width: 240px; max-width: 300px; font-family: 'Inter', system-ui, -apple-system, sans-serif; padding: 4px 0;">
+          ${imageSection}
           <div style="
-            display: inline-block;
-            background: ${colors.marker}20;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: ${colors.marker}15;
             color: ${colors.marker};
             font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding: 3px 8px;
-            border-radius: 6px;
+            padding: 4px 10px;
+            border-radius: 8px;
             margin-bottom: 8px;
+            border: 1px solid ${colors.marker}25;
           ">${colors.icon} ${loc.category}</div>
-          <h3 style="margin: 0 0 6px; font-size: 14px; font-weight: 700; color: #1e293b;">${loc.name}</h3>
-          <p style="margin: 0 0 8px; font-size: 12px; color: #64748b; line-height: 1.5;">${loc.description}</p>
-          <div style="display: flex; align-items: flex-start; gap: 4px; font-size: 11px; color: #94a3b8;">
-            <span>📍</span>
+
+          <h3 style="margin: 0 0 4px; font-size: 15px; font-weight: 800; color: #0f172a; line-height: 1.3;">${loc.name}</h3>
+
+          <div style="display: inline-block; font-size: 10px; color: #059669; font-weight: 600; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px;">${loc.village}</div>
+
+          <p style="margin: 0 0 10px; font-size: 12px; color: #475569; line-height: 1.6;">${loc.description}</p>
+
+          <div style="display: flex; align-items: flex-start; gap: 5px; font-size: 11px; color: #64748b; background: #f8fafc; padding: 8px 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <span style="flex-shrink:0;">📍</span>
             <span>${loc.address}</span>
           </div>
-          <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e2e8f0; font-size: 10px; color: #94a3b8; font-family: monospace;">
-            ${loc.latitude.toFixed(6)}°S, ${loc.longitude.toFixed(6)}°E
+
+          <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 10px; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">
+              ${loc.latitude.toFixed(6)}°S, ${loc.longitude.toFixed(6)}°E
+            </span>
           </div>
         </div>
       `;
 
       marker.bindPopup(popupContent, {
-        maxWidth: 280,
+        maxWidth: 320,
+        minWidth: 240,
         className: 'custom-popup gis-popup-animated',
+        closeButton: true,
+        autoPan: true,
+        autoPanPadding: leafletLib.point(40, 40),
+      });
+
+      // Explicit click handler to ensure popup opens reliably
+      marker.on('click', function() {
+        marker.openPopup();
       });
 
       markersRef.current.push(marker);
     });
 
-    // Fit bounds
-    if (filteredLocations.length > 1) {
-      const bounds = leafletLib.latLngBounds(filteredLocations.map(loc => [loc.latitude, loc.longitude]));
-      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 16 });
-    } else if (filteredLocations.length === 1) {
-      map.setView([filteredLocations[0].latitude, filteredLocations[0].longitude], 16);
-    } else {
-      map.setView(MAP_CENTER, DEFAULT_ZOOM);
+    // Fit bounds only ONCE on initial render so map doesn't jump on every filter toggle
+    if (!isInitialFitDoneRef.current && filteredLocations.length > 0) {
+      if (filteredLocations.length > 1) {
+        const bounds = leafletLib.latLngBounds(filteredLocations.map(loc => [loc.latitude, loc.longitude]));
+        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 16 });
+      } else if (filteredLocations.length === 1) {
+        map.setView([filteredLocations[0].latitude, filteredLocations[0].longitude], 16);
+      }
+      isInitialFitDoneRef.current = true;
     }
   }, [filteredLocations, leafletLib]);
 

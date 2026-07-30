@@ -154,6 +154,37 @@ export const deleteNewsFromSupabase = async (id: string): Promise<boolean> => {
   }
 };
 
+export const fetchNewsByIdFromSupabase = async (idOrSlug: string): Promise<NewsItem | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('news')
+      .select('*')
+      .or(`id.eq.${idOrSlug},slug.eq.${idOrSlug}`)
+      .single();
+
+    if (!error && data) {
+      return {
+        id: data.id,
+        title: data.title,
+        slug: data.slug,
+        summary: data.summary,
+        content: data.content,
+        category: data.category,
+        village: data.village,
+        imageUrl: data.image_url || '',
+        publishedAt: data.published_at || new Date().toISOString().slice(0, 10),
+        author: data.author,
+      };
+    }
+  } catch (e) {
+    console.error('Error fetching single news from Supabase:', e);
+  }
+
+  // Fallback search in all news
+  const all = await fetchNewsFromSupabase();
+  return all.find(n => n.id === idOrSlug || n.slug === idOrSlug) || null;
+};
+
 // Synchronous Fallbacks for News
 const getStoredNewsSync = (): NewsItem[] => {
   if (typeof window === 'undefined') return mockNews;

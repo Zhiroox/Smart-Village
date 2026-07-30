@@ -1,17 +1,58 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { mockNews } from '@/lib/data/mockData';
-import { ArrowLeft, Calendar, User, Tag, MapPin, Share2 } from 'lucide-react';
+import { fetchNewsByIdFromSupabase } from '@/lib/supabase';
+import { NewsItem } from '@/lib/types';
+import { ArrowLeft, Calendar, User, Tag, MapPin, Share2, Loader2 } from 'lucide-react';
 
 export default function BeritaDetailPage() {
   const params = useParams();
   const newsId = params?.id as string;
 
-  const newsItem = mockNews.find(n => n.id === newsId) || mockNews[0];
+  const [newsItem, setNewsItem] = useState<NewsItem | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const loadNewsDetail = async () => {
+      if (!newsId) return;
+      setLoading(true);
+      const data = await fetchNewsByIdFromSupabase(newsId);
+      if (data) {
+        setNewsItem(data);
+      } else {
+        const fallback = mockNews.find(n => n.id === newsId) || mockNews[0];
+        setNewsItem(fallback);
+      }
+      setLoading(false);
+    };
+    loadNewsDetail();
+  }, [newsId]);
+
+  if (loading) {
+    return (
+      <div className="py-20 bg-slate-50 min-h-screen flex items-center justify-center">
+        <div className="text-center space-y-3">
+          <Loader2 className="w-8 h-8 text-emerald-600 animate-spin mx-auto" />
+          <p className="text-xs text-slate-500 font-medium">Memuat berita desa...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!newsItem) {
+    return (
+      <div className="py-20 bg-slate-50 min-h-screen text-center space-y-4">
+        <h2 className="text-xl font-bold text-slate-800">Berita Tidak Ditemukan</h2>
+        <Link href="/berita" className="inline-flex items-center gap-2 text-xs font-semibold text-white bg-emerald-600 px-4 py-2 rounded-xl">
+          <ArrowLeft className="w-4 h-4" /> Kembali ke Daftar Berita
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="py-10 bg-slate-50 min-h-screen">

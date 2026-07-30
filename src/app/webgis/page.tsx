@@ -42,11 +42,17 @@ const WebGisCharts = dynamic(
 
 // All filterable categories (matching actual markers)
 const filterCategories = [
+  { key: 'Kantor Desa', label: 'Kantor Desa', icon: '🏛️', color: '#3b82f6', count: 0 },
   { key: 'Sekolah', label: 'Sekolah', icon: '🏫', color: '#f59e0b', count: 0 },
   { key: 'Masjid', label: 'Masjid', icon: '🕌', color: '#10b981', count: 0 },
-  { key: 'Kantor Desa', label: 'Kantor Desa', icon: '🏛️', color: '#3b82f6', count: 0 },
   { key: 'Puskesmas', label: 'Puskesmas', icon: '🏥', color: '#f43f5e', count: 0 },
-  { key: 'Area Rawan Bencana', label: 'Lainnya', icon: '📍', color: '#ef4444', count: 0 },
+  { key: 'Wisata', label: 'Ekowisata', icon: '🎭', color: '#8b5cf6', count: 0 },
+  { key: 'Pertanian', label: 'Pertanian', icon: '🌾', color: '#84cc16', count: 0 },
+  { key: 'Peternakan', label: 'Peternakan', icon: '🐄', color: '#f97316', count: 0 },
+  { key: 'Area Rawan Bencana', label: 'Rawan Bencana', icon: '⚠️', color: '#ef4444', count: 0 },
+  { key: 'Rute Evakuasi', label: 'Rute Evakuasi', icon: '🚨', color: '#06b6d4', count: 0 },
+  { key: 'Batas Desa', label: 'Batas Desa', icon: '🗺️', color: '#64748b', count: 0 },
+  { key: 'Batas Dusun', label: 'Batas Dusun', icon: '📍', color: '#94a3b8', count: 0 },
 ];
 
 export default function WebGisPage() {

@@ -70,7 +70,7 @@ export default function HomePage() {
             </h1>
             
             <p className="text-white/80 text-sm md:text-base leading-relaxed mb-7 md:mb-10 max-w-2xl px-2 md:px-0 drop-shadow">
-              Pusat transparansi informasi publik, tata kelola pemerintahan digital, pengajuan surat mandiri online, serta katalog potensi ekonomi &amp; pariwisata Kecamatan Batukliang, Kabupaten Lombok Tengah.
+              Pusat transparansi informasi publik, tata kelola pemerintahan digital, serta katalog potensi ekonomi &amp; pariwisata Kecamatan Batukliang, Kabupaten Lombok Tengah.
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full sm:w-auto">

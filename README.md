@@ -1,4 +1,4 @@
-# 🌾 Platform Smart Village Desa Pagutan & Desa Bujak
+# 🌾 Platform Smart Village Desa Pagutan
 > **Kecamatan Batukliang, Kabupaten Lombok Tengah, Nusa Tenggara Barat**  
 > *Portal Resmi Tata Kelola Digital, WebGIS, Pelayanan Mandiri Online, & Pemberdayaan Ekonomi Desa (Program KKN 2026)*
 
@@ -12,13 +12,9 @@
 2. **🗺️ WebGIS Tematik Spasial**:
    - Peta interaktif berbasis **Leaflet.js** & **OpenStreetMap** disesuaikan dengan koordinat presisi Batukliang.
    - Filter layer: Kantor Desa, Sekolah, Masjid, Puskesmas/Posyandu, Wisata, Pertanian, Peternakan, Area Rawan Bencana, dan Rute Evakuasi.
-3. **📄 Layanan Mandiri Surat Online (Administrasi Warga)**:
-   - Formulir pengajuan mandiri untuk 7+ jenis surat keterangan (SKU, SKTM, Domisili, Rekomendasi Nikah, Pindah, dll).
-   - Generasi nomor resi pendaftaran otomatis (contoh: `PGT-2026-0001` atau `BJK-2026-0002`).
-   - Fitur **Cek Status Resi** real-time dengan alur progres: *Menunggu → Diverifikasi → Diproses → Selesai → Ditolak*.
-4. **🛍️ Katalog Potensi Ekonomi & UMKM**:
+3. **Katalog Potensi Ekonomi & UMKM**:
    - Etalase produk unggulan Tenun Khas Sasak, Kerajinan Anyaman Bambu, Komoditas Padi Organik Subak, dan Ekowisata Panorama.
-5. **🔐 Dashboard Admin / Operator Desa**:
+4. **🔐 Dashboard Admin / Operator Desa**:
    - Panel autentikasi aman untuk perangkat desa.
    - Grafik analitik bulanan berbasis **Recharts**.
    - Sistem verifikasi berkas permohonan surat warga dan manajemen konten (CRUD).
@@ -29,7 +25,7 @@
 
 - **Frontend Framework**: Next.js 15 (App Router, React 19, TypeScript)
 - **Styling & UI**: Tailwind CSS, Minimalist Government Emerald Palette, Lucide Icons
-- **Database & Auth**: Supabase (PostgreSQL, Client Hooks, Sync Offline Fallback)
+- **Database & Auth**: Supabase
 - **Pemetaan (Maps)**: Leaflet.js, React-Leaflet, OpenStreetMap
 - **Visualisasi Data**: Recharts
 
