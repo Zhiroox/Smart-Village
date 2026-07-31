@@ -16,8 +16,12 @@ import {
   createGisInSupabase,
   updateGisInSupabase,
   deleteGisFromSupabase,
+  fetchOfficialsFromSupabase,
+  createOfficialInSupabase,
+  updateOfficialInSupabase,
+  deleteOfficialFromSupabase,
 } from '@/lib/supabase';
-import { NewsItem, PotensiItem, GisLocation } from '@/lib/types';
+import { NewsItem, PotensiItem, GisLocation, VillageOfficial } from '@/lib/types';
 import {
   BarChart,
   Bar,
@@ -50,10 +54,14 @@ import {
   Tag,
   Eye,
   User,
+  Users,
   Save,
   Navigation,
+  Phone,
+  Briefcase,
 } from 'lucide-react';
 import { mockPotensi, mockGisLocations } from '@/lib/data/mockData';
+import ImageUploadInput from '@/components/common/ImageUploadInput';
 
 // =============================================
 // TIPE FORM WIZARD BERITA
@@ -98,6 +106,15 @@ interface GisFormData {
   imageUrl: string;
 }
 
+interface OfficialFormData {
+  id: string;
+  name: string;
+  position: string;
+  village: NewsVillage;
+  photoUrl: string;
+  phone: string;
+}
+
 const EMPTY_NEWS_FORM: NewsFormData = {
   title: '',
   category: 'Pengumuman',
@@ -131,6 +148,15 @@ const EMPTY_GIS_FORM: GisFormData = {
   description: '',
   address: '',
   imageUrl: '',
+};
+
+const EMPTY_OFFICIAL_FORM: OfficialFormData = {
+  id: '',
+  name: '',
+  position: 'Kepala Desa',
+  village: 'Desa Pagutan',
+  photoUrl: '',
+  phone: '',
 };
 
 const CATEGORY_IMAGES: Record<NewsCategory, string> = {
@@ -263,12 +289,58 @@ function useGisData() {
   return { items, loading, addItem, updateItem, deleteItem, refresh: loadData };
 }
 
+function useOfficialsData() {
+  const [items, setItems] = useState<VillageOfficial[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const loadData = async () => {
+    setLoading(true);
+    const data = await fetchOfficialsFromSupabase();
+    setItems(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const addItem = async (form: OfficialFormData) => {
+    const newItemData: Omit<VillageOfficial, 'id'> = {
+      name: form.name,
+      position: form.position,
+      village: form.village,
+      photoUrl: form.photoUrl,
+      phone: form.phone,
+    };
+    await createOfficialInSupabase(newItemData);
+    await loadData();
+  };
+
+  const updateItem = async (id: string, form: OfficialFormData) => {
+    await updateOfficialInSupabase(id, {
+      name: form.name,
+      position: form.position,
+      village: form.village,
+      photoUrl: form.photoUrl,
+      phone: form.phone,
+    });
+    await loadData();
+  };
+
+  const deleteItem = async (id: string) => {
+    await deleteOfficialFromSupabase(id);
+    await loadData();
+  };
+
+  return { items, loading, addItem, updateItem, deleteItem, refresh: loadData };
+}
+
 // =============================================
 // KOMPONEN UTAMA
 // =============================================
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'potensi' | 'webgis' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'potensi' | 'webgis' | 'officials' | 'settings'>('overview');
 
   // STATE BERITA
   const [allNews, setAllNews] = useState<NewsItem[]>([]);
@@ -297,6 +369,14 @@ export default function AdminDashboardPage() {
   const [editingGisId, setEditingGisId] = useState<string | null>(null);
   const [deleteGisTarget, setDeleteGisTarget] = useState<GisLocation | null>(null);
   const [gisSaved, setGisSaved] = useState(false);
+
+  // STATE OFFICIALS (PERANGKAT DESA)
+  const officials = useOfficialsData();
+  const [showOfficialModal, setShowOfficialModal] = useState(false);
+  const [officialForm, setOfficialForm] = useState<OfficialFormData>(EMPTY_OFFICIAL_FORM);
+  const [editingOfficialId, setEditingOfficialId] = useState<string | null>(null);
+  const [deleteOfficialTarget, setDeleteOfficialTarget] = useState<VillageOfficial | null>(null);
+  const [officialSaved, setOfficialSaved] = useState(false);
 
   useEffect(() => {
     refreshNews();
@@ -452,6 +532,46 @@ export default function AdminDashboardPage() {
     setGisSaved(false);
   };
 
+  // ----------------------
+  // Handler Official (Perangkat Desa)
+  // ----------------------
+  const openAddOfficial = () => {
+    setOfficialForm(EMPTY_OFFICIAL_FORM);
+    setEditingOfficialId(null);
+    setOfficialSaved(false);
+    setShowOfficialModal(true);
+  };
+
+  const openEditOfficial = (item: VillageOfficial) => {
+    setOfficialForm({
+      id: item.id,
+      name: item.name,
+      position: item.position,
+      village: item.village,
+      photoUrl: item.photoUrl || '',
+      phone: item.phone || '',
+    });
+    setEditingOfficialId(item.id);
+    setOfficialSaved(false);
+    setShowOfficialModal(true);
+  };
+
+  const handleSaveOfficial = async () => {
+    if (!officialForm.name.trim() || !officialForm.position.trim()) return;
+    if (editingOfficialId) {
+      await officials.updateItem(editingOfficialId, officialForm);
+    } else {
+      await officials.addItem(officialForm);
+    }
+    setOfficialSaved(true);
+  };
+
+  const closeOfficialModal = () => {
+    setShowOfficialModal(false);
+    setEditingOfficialId(null);
+    setOfficialSaved(false);
+  };
+
   // Chart data (overview)
   const chartMonthlyData = [
     { month: 'Jan', data: 12 }, { month: 'Feb', data: 19 },
@@ -516,6 +636,7 @@ export default function AdminDashboardPage() {
               { key: 'news', icon: <Newspaper className="w-4 h-4" />, label: 'Kelola Berita Desa' },
               { key: 'potensi', icon: <ShoppingBag className="w-4 h-4" />, label: 'Kelola Potensi UMKM' },
               { key: 'webgis', icon: <MapPin className="w-4 h-4" />, label: 'Marker WebGIS' },
+              { key: 'officials', icon: <Users className="w-4 h-4" />, label: 'Perangkat Desa (SOTK)' },
               { key: 'settings', icon: <Settings className="w-4 h-4" />, label: 'Pengaturan Sistem' },
             ].map(({ key, icon, label }) => (
               <button
@@ -559,7 +680,7 @@ export default function AdminDashboardPage() {
           <div className="space-y-6">
 
             {/* ---- Stat Cards ---- */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
               {[
                 {
                   label: 'Total Berita',
@@ -587,6 +708,15 @@ export default function AdminDashboardPage() {
                   accent: 'bg-blue-50 text-blue-600',
                   border: 'border-blue-200',
                   icon: '📍',
+                },
+                {
+                  label: 'Perangkat Desa',
+                  value: officials.items.length,
+                  sub: `Aparatur & SOTK Desa`,
+                  color: 'text-amber-700',
+                  accent: 'bg-amber-50 text-amber-600',
+                  border: 'border-amber-200',
+                  icon: '🏛️',
                 },
                 {
                   label: 'Berita Admin',
@@ -1010,6 +1140,87 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
+        {/* ============= TAB: PERANGKAT DESA (SOTK) ============= */}
+        {activeTab === 'officials' && (
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                  <h2 className="font-bold text-slate-900 text-lg">Kelola Aparatur & Perangkat Desa (SOTK)</h2>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Total {officials.items.length} aparatur desa dikelola (Kepala Desa, Sekdes, Kaur, Kasi, Kadus, Staf)
+                  </p>
+                </div>
+                <button
+                  onClick={openAddOfficial}
+                  className="flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl shadow-md shadow-emerald-600/20 transition-all active:scale-95"
+                >
+                  <Plus className="w-5 h-5" /> Tambah Perangkat Desa
+                </button>
+              </div>
+            </div>
+
+            {/* List / Cards Perangkat Desa */}
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+              <h3 className="font-bold text-slate-900 text-sm">Daftar Aparatur Desa ({officials.items.length})</h3>
+              {officials.items.length === 0 ? (
+                <div className="p-8 text-center text-slate-500 text-xs">
+                  Belum ada data perangkat desa. Klik tombol &quot;Tambah Perangkat Desa&quot; untuk menambahkan data.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {officials.items.map(item => (
+                    <div key={item.id} className="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-emerald-300 transition-all flex items-start gap-3.5">
+                      <div className="w-14 h-14 rounded-2xl bg-emerald-100 shrink-0 overflow-hidden border border-slate-200 relative">
+                        {item.photoUrl ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img src={item.photoUrl} alt={item.name} className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-emerald-700 font-extrabold text-xl">
+                            {item.name.charAt(0)}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-1 mb-1">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">
+                            {item.position}
+                          </span>
+                          <span className="text-[10px] text-slate-400">{item.village}</span>
+                        </div>
+                        <h4 className="font-extrabold text-slate-900 text-sm leading-snug truncate">{item.name}</h4>
+                        {item.phone && (
+                          <p className="text-[11px] text-slate-500 mt-1 flex items-center gap-1">
+                            <Phone className="w-3 h-3 text-emerald-600 shrink-0" />
+                            {item.phone}
+                          </p>
+                        )}
+
+                        <div className="flex items-center gap-2 mt-3 pt-2 border-t border-slate-200/70">
+                          <button
+                            onClick={() => openEditOfficial(item)}
+                            className="flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-700 hover:bg-blue-100 font-semibold rounded-lg text-xs transition-colors"
+                          >
+                            <Edit className="w-3 h-3" /> Edit
+                          </button>
+                          <button
+                            onClick={() => setDeleteOfficialTarget(item)}
+                            className="flex items-center gap-1 px-2.5 py-1 bg-rose-50 text-rose-700 hover:bg-rose-100 font-semibold rounded-lg text-xs transition-colors"
+                          >
+                            <Trash2 className="w-3 h-3" /> Hapus
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* ============= TAB: SETTINGS ============= */}
         {activeTab === 'settings' && (
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
@@ -1171,18 +1382,14 @@ export default function AdminDashboardPage() {
                   <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800">
                     <strong>🖼️ Langkah 3:</strong> Tambahkan foto (opsional) dan periksa kembali sebelum simpan.
                   </div>
-                  <div>
-                    <label className="block text-sm font-bold text-slate-800 mb-1 flex items-center gap-2">
-                      <ImageIcon className="w-4 h-4" /> URL Foto Berita (Opsional)
-                    </label>
-                    <p className="text-xs text-slate-400 mb-2">Jika tidak diisi, foto akan dipilih otomatis sesuai kategori &quot;{formData.category}&quot;.</p>
-                    <input type="url" placeholder="https://..." value={formData.imageUrl} onChange={e => setFormData(f => ({ ...f, imageUrl: e.target.value }))} className="w-full p-3 bg-slate-50 border-2 border-slate-200 focus:border-emerald-500 rounded-xl text-sm focus:outline-none" />
-                  </div>
-                  <div className="rounded-xl overflow-hidden border-2 border-slate-200 h-40 relative">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={formData.imageUrl.trim() || CATEGORY_IMAGES[formData.category]} alt="preview" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).src = CATEGORY_IMAGES[formData.category]; }} />
-                    <div className="absolute bottom-2 left-2 bg-emerald-600/90 text-white text-[11px] px-2 py-1 rounded-md font-bold">{formData.category}</div>
-                  </div>
+                  <ImageUploadInput
+                    label="Foto Berita (PNG, JPG, JPEG)"
+                    value={formData.imageUrl}
+                    onChange={(val) => setFormData((f) => ({ ...f, imageUrl: val }))}
+                    fallbackCategory={formData.category}
+                    defaultCategoryImages={CATEGORY_IMAGES}
+                    helperText={`Unggah foto berita (format PNG, JPG, JPEG) dari perangkat Anda atau masukkan link URL. Jika kosong, gambar default kategori "${formData.category}" akan digunakan.`}
+                  />
                   <div className="bg-slate-50 rounded-xl border border-slate-200 p-5 space-y-3">
                     <div className="flex items-center gap-2"><Eye className="w-4 h-4 text-slate-400" /><span className="text-xs font-bold text-slate-500 uppercase">Preview Berita</span></div>
                     <h4 className="font-bold text-slate-900 text-base leading-snug">{formData.title || '—'}</h4>
@@ -1310,11 +1517,13 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
 
-                  {/* URL Foto */}
-                  <div>
-                    <label className={labelClass}><ImageIcon className="inline w-3.5 h-3.5 mr-1" /> URL Foto (Opsional)</label>
-                    <input type="url" placeholder="https://..." value={potensiForm.imageUrl} onChange={e => setPotensiForm(f => ({ ...f, imageUrl: e.target.value }))} className={inputClass} />
-                  </div>
+                  {/* Foto UMKM / Potensi */}
+                  <ImageUploadInput
+                    label="Foto Produk / Usaha UMKM (PNG, JPG)"
+                    value={potensiForm.imageUrl}
+                    onChange={(val) => setPotensiForm((f) => ({ ...f, imageUrl: val }))}
+                    helperText="Unggah foto produk atau usaha UMKM (format PNG, JPG, JPEG, WEBP) dari komputer/HP Anda atau gunakan URL gambar."
+                  />
                 </div>
 
                 <div className="p-6 border-t border-slate-100 flex items-center justify-between gap-3">
@@ -1424,11 +1633,13 @@ export default function AdminDashboardPage() {
                     <textarea rows={2} placeholder="Keterangan singkat tentang lokasi ini..." value={gisForm.description} onChange={e => setGisForm(f => ({ ...f, description: e.target.value }))} className={`${inputClass} resize-none`} />
                   </div>
 
-                  {/* URL Foto */}
-                  <div>
-                    <label className={labelClass}><ImageIcon className="inline w-3.5 h-3.5 mr-1" /> URL Foto Lokasi (Opsional)</label>
-                    <input type="url" placeholder="https://..." value={gisForm.imageUrl} onChange={e => setGisForm(f => ({ ...f, imageUrl: e.target.value }))} className={inputClass} />
-                  </div>
+                  {/* Foto Lokasi GIS */}
+                  <ImageUploadInput
+                    label="Foto Titik Lokasi WebGIS (PNG, JPG)"
+                    value={gisForm.imageUrl}
+                    onChange={(val) => setGisForm((f) => ({ ...f, imageUrl: val }))}
+                    helperText="Unggah foto lokasi tempat/fasilitas (PNG, JPG, JPEG, WEBP) dari perangkat Anda atau gunakan URL gambar."
+                  />
                 </div>
 
                 <div className="p-6 border-t border-slate-100 flex items-center justify-between gap-3">
@@ -1500,6 +1711,132 @@ export default function AdminDashboardPage() {
             <div className="flex gap-3">
               <button onClick={() => setDeleteGisTarget(null)} className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all">Batal</button>
               <button onClick={() => { gis.deleteItem(deleteGisTarget.id); setDeleteGisTarget(null); }} className="flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl transition-all">Ya, Hapus</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ==================== MODAL: TAMBAH/EDIT PERANGKAT DESA ==================== */}
+      {showOfficialModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl w-full max-w-xl shadow-2xl flex flex-col max-h-[90vh]">
+            <div className="flex items-center justify-between p-6 border-b border-slate-100">
+              <div>
+                <h3 className="font-extrabold text-slate-900 text-lg">
+                  {officialSaved ? '✅ Berhasil Disimpan!' : editingOfficialId ? '✏️ Edit Perangkat Desa' : '➕ Tambah Perangkat Desa'}
+                </h3>
+                {!officialSaved && <p className="text-xs text-slate-500 mt-0.5">Isi data aparatur / SOTK pemerintah desa</p>}
+              </div>
+              <button onClick={closeOfficialModal} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
+                <X className="w-5 h-5 text-slate-600" />
+              </button>
+            </div>
+
+            {officialSaved ? (
+              <div className="flex-1 flex flex-col items-center justify-center py-12 space-y-4 px-6">
+                <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-10 h-10 text-emerald-600" />
+                </div>
+                <h4 className="text-xl font-extrabold text-slate-900">
+                  {editingOfficialId ? 'Data Berhasil Diperbarui! 🎉' : 'Data Berhasil Ditambahkan! 🎉'}
+                </h4>
+                <p className="text-slate-500 text-sm text-center max-w-xs">
+                  Data aparatur &quot;<strong>{officialForm.name}</strong>&quot; ({officialForm.position}) tersimpan.
+                </p>
+                <div className="flex gap-3 pt-2">
+                  <button onClick={closeOfficialModal} className="px-5 py-3 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-500 transition-all">Selesai</button>
+                  <button onClick={() => { setOfficialForm(EMPTY_OFFICIAL_FORM); setEditingOfficialId(null); setOfficialSaved(false); }} className="px-5 py-3 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition-all">Tambah Lagi</button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="flex-1 overflow-y-auto p-6 space-y-5">
+                  {/* Nama Lengkap */}
+                  <div>
+                    <label className={labelClass}>Nama Lengkap (beserta Gelar) <span className="text-rose-500">*</span></label>
+                    <input type="text" placeholder="Cth: Subandi, M. Zarwadi MZ, Bq. Nurul Hayati..." value={officialForm.name} onChange={e => setOfficialForm(f => ({ ...f, name: e.target.value }))} className={inputClass} />
+                  </div>
+
+                  {/* Jabatan / Posisi */}
+                  <div>
+                    <label className={labelClass}>Jabatan / Posisi SOTK <span className="text-rose-500">*</span></label>
+                    <input type="text" list="official-positions" placeholder="Cth: Kepala Desa, Sekdes, Kaur Keuangan..." value={officialForm.position} onChange={e => setOfficialForm(f => ({ ...f, position: e.target.value }))} className={inputClass} />
+                    <datalist id="official-positions">
+                      <option value="Kepala Desa" />
+                      <option value="Sekdes" />
+                      <option value="Kaur Umum dan TU" />
+                      <option value="Kaur Keuangan" />
+                      <option value="Kaur Perencanaan" />
+                      <option value="Kasi Pemerintahan" />
+                      <option value="Kasi Kesejahteraan" />
+                      <option value="Kasi Pelayanan" />
+                      <option value="Kadus" />
+                      <option value="Staf Pembantu" />
+                    </datalist>
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {['Kepala Desa', 'Sekdes', 'Kaur Keuangan', 'Kasi Pemerintahan', 'Kadus'].map(pos => (
+                        <button key={pos} type="button" onClick={() => setOfficialForm(f => ({ ...f, position: pos }))} className="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-[11px] font-semibold text-slate-700 hover:text-emerald-700 rounded-md border border-slate-200 transition-colors">
+                          + {pos}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Desa */}
+                  <div>
+                    <label className={labelClass}>Desa</label>
+                    <select value={officialForm.village} onChange={e => setOfficialForm(f => ({ ...f, village: e.target.value as NewsVillage }))} className={inputClass}>
+                      <option value="Desa Pagutan">Desa Pagutan</option>
+                      <option value="Desa Bujak">Desa Bujak</option>
+                    </select>
+                  </div>
+
+                  {/* No HP / WhatsApp */}
+                  <div>
+                    <label className={labelClass}><Phone className="inline w-3.5 h-3.5 mr-1" /> Nomor HP / WhatsApp (Opsional)</label>
+                    <input type="text" placeholder="Cth: 0812-3456-7890" value={officialForm.phone} onChange={e => setOfficialForm(f => ({ ...f, phone: e.target.value }))} className={inputClass} />
+                  </div>
+
+                  {/* Foto Perangkat Desa */}
+                  <ImageUploadInput
+                    label="Foto Perangkat Desa (PNG, JPG)"
+                    value={officialForm.photoUrl}
+                    onChange={(val) => setOfficialForm((f) => ({ ...f, photoUrl: val }))}
+                    helperText="Unggah foto profil aparatur desa (format PNG, JPG, JPEG, WEBP) dari perangkat Anda atau gunakan URL."
+                  />
+                </div>
+
+                <div className="p-6 border-t border-slate-100 flex items-center justify-between gap-3">
+                  <button onClick={closeOfficialModal} className="px-4 py-2.5 bg-slate-100 text-slate-600 font-semibold rounded-xl text-sm hover:bg-slate-200 transition-colors">Batal</button>
+                  <button
+                    onClick={handleSaveOfficial}
+                    disabled={!officialForm.name.trim() || !officialForm.position.trim()}
+                    className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-200 disabled:text-slate-400 text-white font-bold rounded-xl transition-all"
+                  >
+                    <Save className="w-4 h-4" />
+                    {editingOfficialId ? 'Perbarui Data' : 'Simpan Data'}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ==================== MODAL: KONFIRMASI HAPUS OFFICIAL ==================== */}
+      {deleteOfficialTarget && (
+        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-5 text-center">
+            <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto">
+              <AlertTriangle className="w-8 h-8 text-rose-600" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-slate-900 text-lg">Hapus Perangkat Desa Ini?</h3>
+              <p className="text-sm text-slate-500 mt-2">Aparatur &quot;<strong>{deleteOfficialTarget.name}</strong>&quot; ({deleteOfficialTarget.position}) akan dihapus.</p>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteOfficialTarget(null)} className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all">Batal</button>
+              <button onClick={() => { officials.deleteItem(deleteOfficialTarget.id); setDeleteOfficialTarget(null); }} className="flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl transition-all">Ya, Hapus</button>
             </div>
           </div>
         </div>

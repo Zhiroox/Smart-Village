@@ -66,53 +66,6 @@ interface WebGisChartsProps {
 export default function WebGisCharts(_props: WebGisChartsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {/* Distribusi Marker Pie Chart */}
-      <motion.div
-        custom={0}
-        variants={cardVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-50px' }}
-        whileHover={{ y: -4 }}
-        className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow"
-      >
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-600 flex items-center justify-center">
-            <MapPin className="w-4 h-4" />
-          </div>
-          <div>
-            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Distribusi Marker</h4>
-            <p className="text-[10px] text-slate-400">Sebaran titik lokasi per kategori</p>
-          </div>
-        </div>
-        <div className="h-52">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={pieData}
-                cx="50%"
-                cy="50%"
-                innerRadius={40}
-                outerRadius={70}
-                paddingAngle={4}
-                dataKey="value"
-                strokeWidth={0}
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip content={<CustomTooltip />} />
-              <Legend
-                formatter={(value) => <span className="text-[10px] text-slate-600 dark:text-slate-400">{value}</span>}
-                iconSize={8}
-                wrapperStyle={{ fontSize: '10px' }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </motion.div>
-
       {/* Jumlah Marker Bar Chart */}
       <motion.div
         custom={1}

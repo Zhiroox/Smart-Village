@@ -89,7 +89,7 @@ export default function BeritaDetailPage() {
 
           {/* Featured Image */}
           <div className="relative h-72 md:h-96 w-full rounded-2xl overflow-hidden shadow-md">
-            <Image src={newsItem.imageUrl} alt={newsItem.title} fill className="object-cover" />
+            <Image src={newsItem.imageUrl} alt={newsItem.title} fill className="object-cover" unoptimized />
           </div>
 
           {/* Article Content Body */}

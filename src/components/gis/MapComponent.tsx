@@ -12,6 +12,7 @@ interface MapComponentProps {
   isSatellite: boolean;
   onToggleDarkMode: () => void;
   onToggleSatellite: () => void;
+  onSelectLocation?: (location: GisLocation) => void;
 }
 
 // Category color mapping
@@ -38,6 +39,7 @@ export const MapComponent: React.FC<MapComponentProps> = ({
   isSatellite,
   onToggleDarkMode,
   onToggleSatellite,
+  onSelectLocation,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [mouseCoords, setMouseCoords] = useState<{ lat: number; lng: number } | null>(null);
@@ -48,9 +50,7 @@ export const MapComponent: React.FC<MapComponentProps> = ({
   const tileLayerRef = useRef<any>(null);
   const isInitialFitDoneRef = useRef<boolean>(false);
 
-  const filteredLocations = (activeFilters && activeFilters.length > 0)
-    ? locations.filter(loc => activeFilters.includes(loc.category))
-    : locations;
+  const filteredLocations = locations.filter(loc => activeFilters.includes(loc.category));
 
   useEffect(() => {
     setIsMounted(true);
@@ -267,9 +267,12 @@ export const MapComponent: React.FC<MapComponentProps> = ({
         autoPanPadding: leafletLib.point(40, 40),
       });
 
-      // Explicit click handler to ensure popup opens reliably
+      // Explicit click handler to ensure popup opens reliably & trigger selected location detail
       marker.on('click', function() {
         marker.openPopup();
+        if (onSelectLocation) {
+          onSelectLocation(loc);
+        }
       });
 
       markersRef.current.push(marker);

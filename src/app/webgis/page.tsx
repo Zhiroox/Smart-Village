@@ -9,6 +9,7 @@ import { GisLocation } from '@/lib/types';
 import { Map } from 'lucide-react';
 import WebGisStatsBar from '@/components/gis/WebGisStatsBar';
 import WebGisFilterSidebar from '@/components/gis/WebGisFilterSidebar';
+import GisLocationDetailCard from '@/components/gis/GisLocationDetailCard';
 
 // Dynamic imports for heavy components (no SSR)
 const MapComponent = dynamic(
@@ -57,6 +58,7 @@ const filterCategories = [
 
 export default function WebGisPage() {
   const [gisLocations, setGisLocations] = useState<GisLocation[]>(mockGisLocations);
+  const [selectedLocation, setSelectedLocation] = useState<GisLocation | null>(null);
 
   useEffect(() => {
     const loadGis = async () => {
@@ -96,7 +98,6 @@ export default function WebGisPage() {
 
   const handleSearchSubmit = useCallback(() => {
     // Filter sidebar search (filter locations by name)
-    // This is complementary to the map search tool
   }, []);
 
   return (
@@ -172,9 +173,20 @@ export default function WebGisPage() {
               isSatellite={isSatellite}
               onToggleDarkMode={handleToggleDarkMode}
               onToggleSatellite={handleToggleSatellite}
+              onSelectLocation={setSelectedLocation}
             />
           </div>
         </div>
+
+        {/* SECTION DETAIL LOKASI TERPILIH (Appears when a marker is clicked) */}
+        {selectedLocation && (
+          <div id="gis-detail-section" className="scroll-mt-6">
+            <GisLocationDetailCard
+              location={selectedLocation}
+              onClose={() => setSelectedLocation(null)}
+            />
+          </div>
+        )}
 
         {/* Charts Dashboard */}
         <WebGisCharts

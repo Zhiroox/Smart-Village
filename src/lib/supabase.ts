@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import { mockApplications, mockNews, mockPotensi, mockGisLocations } from './data/mockData';
-import { AdministrativeApplication, NewsItem, PotensiItem, GisLocation } from './types';
+import { mockApplications, mockNews, mockPotensi, mockGisLocations, mockOfficials } from './data/mockData';
+import { AdministrativeApplication, NewsItem, PotensiItem, GisLocation, VillageOfficial } from './types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
@@ -12,6 +12,7 @@ const APPS_STORAGE_KEY = 'smart_village_applications';
 const NEWS_STORAGE_KEY = 'smart_village_news';
 const POTENSI_STORAGE_KEY = 'admin_potensi';
 const GIS_STORAGE_KEY = 'admin_gis';
+const OFFICIALS_STORAGE_KEY = 'admin_officials';
 
 // =============================================
 // 1. NEWS (BERITA DESA) — SUPABASE CRUD
@@ -569,4 +570,163 @@ export const updateApplicationStatus = (id: string, status: AdministrativeApplic
   }
   return false;
 };
+
+// =============================================
+// 5. VILLAGE OFFICIALS (SOTK PERANGKAT DESA)
+// =============================================
+
+export const fetchOfficialsFromSupabase = async (): Promise<VillageOfficial[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('village_officials')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    if (error || !data || data.length === 0) {
+      return getStoredOfficialsSync();
+    }
+
+    const items: VillageOfficial[] = data.map((item: any) => ({
+      id: item.id,
+      name: item.name,
+      position: item.position,
+      village: item.village,
+      photoUrl: item.photo_url || '',
+      phone: item.phone || '',
+    }));
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(OFFICIALS_STORAGE_KEY, JSON.stringify(items));
+    }
+    return items;
+  } catch (err) {
+    console.error('Error fetching village officials from Supabase:', err);
+    return getStoredOfficialsSync();
+  }
+};
+
+export const createOfficialInSupabase = async (
+  item: Omit<VillageOfficial, 'id'>
+): Promise<VillageOfficial | null> => {
+  const payload = {
+    name: item.name,
+    position: item.position,
+    village: item.village,
+    photo_url: item.photoUrl || '',
+    phone: item.phone || '',
+  };
+
+  try {
+    const { data: inserted, error } = await supabase
+      .from('village_officials')
+      .insert([payload])
+      .select('*')
+      .single();
+
+    if (error) {
+      console.error('Supabase official insert error:', error);
+      return saveOfficialItemSync(item);
+    }
+
+    const newItem: VillageOfficial = {
+      id: inserted.id,
+      name: inserted.name,
+      position: inserted.position,
+      village: inserted.village,
+      photoUrl: inserted.photo_url || '',
+      phone: inserted.phone || '',
+    };
+    return newItem;
+  } catch (err) {
+    console.error('Error inserting official to Supabase:', err);
+    return saveOfficialItemSync(item);
+  }
+};
+
+export const updateOfficialInSupabase = async (
+  id: string,
+  data: Partial<Omit<VillageOfficial, 'id'>>
+): Promise<boolean> => {
+  const payload: any = {};
+  if (data.name !== undefined) payload.name = data.name;
+  if (data.position !== undefined) payload.position = data.position;
+  if (data.village !== undefined) payload.village = data.village;
+  if (data.photoUrl !== undefined) payload.photo_url = data.photoUrl;
+  if (data.phone !== undefined) payload.phone = data.phone;
+
+  try {
+    const { error } = await supabase
+      .from('village_officials')
+      .update(payload)
+      .eq('id', id);
+
+    if (error) {
+      console.error('Supabase official update error:', error);
+      return updateOfficialItemSync(id, data);
+    }
+    return true;
+  } catch (err) {
+    console.error('Error updating official in Supabase:', err);
+    return updateOfficialItemSync(id, data);
+  }
+};
+
+export const deleteOfficialFromSupabase = async (id: string): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('village_officials')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Supabase official delete error:', error);
+      return deleteOfficialItemSync(id);
+    }
+    return true;
+  } catch (err) {
+    console.error('Error deleting official from Supabase:', err);
+    return deleteOfficialItemSync(id);
+  }
+};
+
+// LocalStorage Sync Helpers for Village Officials
+const getStoredOfficialsSync = (): VillageOfficial[] => {
+  if (typeof window === 'undefined') return mockOfficials;
+  const stored = localStorage.getItem(OFFICIALS_STORAGE_KEY);
+  if (stored) {
+    try { return JSON.parse(stored); } catch { return mockOfficials; }
+  }
+  return mockOfficials;
+};
+
+const saveOfficialItemSync = (data: Omit<VillageOfficial, 'id'>): VillageOfficial => {
+  const current = getStoredOfficialsSync();
+  const newItem: VillageOfficial = { ...data, id: `off-${Date.now()}` };
+  const updated = [...current, newItem];
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(OFFICIALS_STORAGE_KEY, JSON.stringify(updated));
+  }
+  return newItem;
+};
+
+const updateOfficialItemSync = (id: string, data: Partial<Omit<VillageOfficial, 'id'>>): boolean => {
+  const current = getStoredOfficialsSync();
+  const index = current.findIndex(i => i.id === id);
+  if (index === -1) return false;
+  current[index] = { ...current[index], ...data };
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(OFFICIALS_STORAGE_KEY, JSON.stringify(current));
+  }
+  return true;
+};
+
+const deleteOfficialItemSync = (id: string): boolean => {
+  const current = getStoredOfficialsSync();
+  const updated = current.filter(i => i.id !== id);
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(OFFICIALS_STORAGE_KEY, JSON.stringify(updated));
+  }
+  return true;
+};
+
 
