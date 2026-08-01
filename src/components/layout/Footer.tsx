@@ -14,8 +14,12 @@ export const Footer = () => {
         {/* Col 1: Identity */}
         <div>
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white shadow-lg shadow-emerald-900/40">
-              <Landmark className="w-5 h-5" />
+            <div className="w-11 h-11 rounded-xl bg-white p-0.5 shadow-lg shadow-emerald-950/40 overflow-hidden flex items-center justify-center shrink-0">
+              <img 
+                src="/logo.jpg" 
+                alt="Logo Desa Pagutan" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
               <h3 className="text-white font-extrabold text-base">SMART VILLAGE</h3>

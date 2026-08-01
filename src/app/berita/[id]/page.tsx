@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { mockNews } from '@/lib/data/mockData';
 import { fetchNewsByIdFromSupabase } from '@/lib/supabase';
 import { NewsItem } from '@/lib/types';
 import { ArrowLeft, Calendar, User, Tag, MapPin, Share2, Loader2 } from 'lucide-react';
@@ -21,12 +20,7 @@ export default function BeritaDetailPage() {
       if (!newsId) return;
       setLoading(true);
       const data = await fetchNewsByIdFromSupabase(newsId);
-      if (data) {
-        setNewsItem(data);
-      } else {
-        const fallback = mockNews.find(n => n.id === newsId) || mockNews[0];
-        setNewsItem(fallback);
-      }
+      setNewsItem(data);
       setLoading(false);
     };
     loadNewsDetail();

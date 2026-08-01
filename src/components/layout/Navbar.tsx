@@ -47,7 +47,7 @@ export const Navbar = () => {
         <div className="flex items-center justify-between container mx-auto">
           <div className="flex items-center gap-2">
             <Landmark className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="text-emerald-200">Portal Resmi Smart Village &bull; Kecamatan Batukliang &bull; Lombok Tengah</span>
+            <span className="text-emerald-200">Portal Resmi Desa Pagutan &bull; Kecamatan Batukliang &bull; Lombok Tengah</span>
           </div>
           <div className="flex items-center gap-4 text-emerald-300 text-xs shrink-0">
             <span>Kab. Lombok Tengah, NTB</span>
@@ -62,15 +62,16 @@ export const Navbar = () => {
 
       {/* Main Navbar */}
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white shadow-lg shadow-emerald-950/20 group-hover:shadow-emerald-500/30 group-hover:scale-105 transition-all duration-200 shrink-0">
-            <Landmark className="w-4 h-4 md:w-6 md:h-6" />
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-white border border-slate-200/80 p-0.5 shadow-md group-hover:shadow-emerald-500/20 group-hover:scale-105 transition-all duration-200 shrink-0 overflow-hidden flex items-center justify-center">
+            <img 
+              src="/logo.jpg" 
+              alt="Logo Desa Pagutan" 
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
             <div className="font-extrabold text-slate-800 text-sm md:text-lg leading-tight group-hover:text-emerald-600 transition-colors">
-              SMART VILLAGE
-            </div>
-            <div className="text-[10px] md:text-xs text-emerald-600 font-semibold tracking-wide">
               Desa Pagutan
             </div>
           </div>

@@ -60,7 +60,6 @@ import {
   Phone,
   Briefcase,
 } from 'lucide-react';
-import { mockPotensi, mockGisLocations } from '@/lib/data/mockData';
 import ImageUploadInput from '@/components/common/ImageUploadInput';
 
 // =============================================

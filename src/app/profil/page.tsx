@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { mockOfficials, mockDownloads, mockStafPembantu, mockKadusList } from '@/lib/data/mockData';
+import { VillageOfficial, DownloadItem } from '@/lib/types';
 import { 
   History, 
   Target, 
@@ -26,9 +26,10 @@ export default function ProfilPage() {
   const [activeStaffTab, setActiveStaffTab] = useState<'perangkat' | 'kadus' | 'staf'>('perangkat');
   const [docSearch, setDocSearch] = useState('');
   
-  const [officials, setOfficials] = useState(mockOfficials);
-  const [kadusList, setKadusList] = useState(mockKadusList);
-  const [stafPembantu, setStafPembantu] = useState(mockStafPembantu);
+  const [officials, setOfficials] = useState<VillageOfficial[]>([]);
+  const [kadusList, setKadusList] = useState<{ name: string; position: string }[]>([]);
+  const [stafPembantu, setStafPembantu] = useState<string[]>([]);
+  const [downloads] = useState<DownloadItem[]>([]);
 
   useEffect(() => {
     const fetchOfficials = async () => {
@@ -83,7 +84,7 @@ export default function ProfilPage() {
     "Akses Infrastruktur yang memadai dan berkualitas sampai setiap Dusun."
   ];
 
-  const filteredDownloads = mockDownloads.filter(dl => 
+  const filteredDownloads = downloads.filter(dl => 
     dl.title.toLowerCase().includes(docSearch.toLowerCase()) ||
     dl.category.toLowerCase().includes(docSearch.toLowerCase())
   );

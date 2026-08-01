@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
-import { mockGisLocations, umkmChartData, komoditasChartData, risikoChartData } from '@/lib/data/mockData';
 import { fetchGisFromSupabase } from '@/lib/supabase';
 import { GisLocation } from '@/lib/types';
 import { Map } from 'lucide-react';
@@ -57,7 +56,7 @@ const filterCategories = [
 ];
 
 export default function WebGisPage() {
-  const [gisLocations, setGisLocations] = useState<GisLocation[]>(mockGisLocations);
+  const [gisLocations, setGisLocations] = useState<GisLocation[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<GisLocation | null>(null);
 
   useEffect(() => {
@@ -146,7 +145,7 @@ export default function WebGisPage() {
 
       <div className="container mx-auto px-4 max-w-7xl py-6 space-y-5">
         {/* Stats Bar */}
-        <WebGisStatsBar />
+        <WebGisStatsBar locations={gisLocations} />
 
         {/* Map + Sidebar */}
         <div className="flex flex-col lg:flex-row gap-4">
@@ -189,11 +188,7 @@ export default function WebGisPage() {
         )}
 
         {/* Charts Dashboard */}
-        <WebGisCharts
-          umkmData={umkmChartData}
-          komoditasData={komoditasChartData}
-          risikoData={risikoChartData}
-        />
+        <WebGisCharts locations={gisLocations} />
       </div>
     </div>
   );

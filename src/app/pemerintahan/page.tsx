@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { mockOfficials, mockStafPembantu, mockKadusList } from '@/lib/data/mockData';
+import { VillageOfficial } from '@/lib/types';
 import { Users, ShieldCheck, Award, MapPin, CheckCircle2, Building2, User, Database } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 export default function PemerintahanPage() {
-  const [officials, setOfficials] = useState(mockOfficials);
-  const [stafPembantu, setStafPembantu] = useState<string[]>(mockStafPembantu);
-  const [kadusList, setKadusList] = useState<{ name: string; position: string }[]>(mockKadusList);
+  const [officials, setOfficials] = useState<VillageOfficial[]>([]);
+  const [stafPembantu, setStafPembantu] = useState<string[]>([]);
+  const [kadusList, setKadusList] = useState<{ name: string; position: string }[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function PemerintahanPage() {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
         <div className="container mx-auto max-w-6xl relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-full text-xs font-semibold mb-5 backdrop-blur-sm">
-            <Database className="w-3.5 h-3.5 text-emerald-600" /> Live Data Supabase • Structure Organisasi &amp; Tata Kerja (SOTK)
+            <Database className="w-3.5 h-3.5 text-emerald-600" /> Struktur Organisasi &amp; Tata Kerja (SOTK)
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
             Pemerintahan{' '}

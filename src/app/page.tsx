@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { StatCard } from '@/components/common/StatCard';
-import { mockQuickStats, mockNews, mockPotensi } from '@/lib/data/mockData';
 import { fetchNewsFromSupabase, fetchPotensiFromSupabase } from '@/lib/supabase';
 import { NewsItem, PotensiItem } from '@/lib/types';
 import { 
@@ -21,11 +20,65 @@ import {
   TrendingUp
 } from 'lucide-react';
 
+const defaultStats = {
+  population: 3250,
+  dusunCount: 8,
+  umkmCount: 45,
+  farmlandArea: 210,
+  tourismSpots: 5,
+};
+
+const defaultPotensiList: PotensiItem[] = [
+  {
+    id: 'padi',
+    name: 'Padi & Beras Lokal',
+    category: 'Agriculture',
+    village: 'Desa Pagutan',
+    description: 'Komoditas pangan utama lahan sawah Desa Pagutan dengan produksi melimpah dan kualitas beras terjamin.',
+    location: 'Desa Pagutan',
+    imageUrl: 'https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?auto=format&fit=crop&q=80&w=400',
+    gallery: [],
+    priceOrYield: 'Pangan Utama',
+  },
+  {
+    id: 'cabai',
+    name: 'Cabai Rawit & Hortikultura',
+    category: 'Agriculture',
+    village: 'Desa Pagutan',
+    description: 'Komoditas hortikultura unggulan dengan nilai ekonomi tinggi dan permintaan luas di pasar.',
+    location: 'Desa Pagutan',
+    imageUrl: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&q=80&w=400',
+    gallery: [],
+    priceOrYield: 'Hortikultura',
+  },
+  {
+    id: 'atap-alang-alang',
+    name: 'Atap Alang-Alang Ekspor',
+    category: 'UMKM',
+    village: 'Desa Pagutan',
+    description: 'Kerajinan atap tradisional ramah lingkungan yang menembus pasar ekspor resor hingga Eropa.',
+    location: 'Desa Pagutan',
+    imageUrl: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=400',
+    gallery: [],
+    priceOrYield: 'Ekonomi Kreatif',
+  },
+  {
+    id: 'telur-ayam',
+    name: 'Telur Ayam Petelur',
+    category: 'Livestock',
+    village: 'Desa Pagutan',
+    description: 'Peternakan unggas lokal yang secara rutin menyuplai kebutuhan telur segar harian masyarakat.',
+    location: 'Desa Pagutan',
+    imageUrl: 'https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&q=80&w=400',
+    gallery: [],
+    priceOrYield: 'Peternakan',
+  },
+];
 
 export default function HomePage() {
-  const stats = mockQuickStats['Desa Pagutan'];
-  const [news, setNews] = useState<NewsItem[]>(mockNews);
-  const [potensiList, setPotensiList] = useState<PotensiItem[]>(mockPotensi);
+  const stats = defaultStats;
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [potensiList, setPotensiList] = useState<PotensiItem[]>(defaultPotensiList);
 
   useEffect(() => {
     const loadHomeData = async () => {
@@ -58,7 +111,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-14">
             <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/25 text-white text-xs font-semibold backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
-              Portal Resmi Digital Smart Village
+              Portal Resmi Desa
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </div>
             
@@ -188,10 +241,10 @@ export default function HomePage() {
                   Ekonomi &amp; Pariwisata Lokal
                 </span>
                 <h2 className="text-2xl md:text-4xl font-extrabold text-slate-900 leading-tight">
-                  Dukung Produk Unggulan UMKM &amp; Destinasi Wisata Desa Pagutan
+                  Dukung Produk &amp; Komoditas Unggulan Desa Pagutan
                 </h2>
                 <p className="text-slate-550 text-sm leading-relaxed">
-                  Jelajahi kerajinan tenun khas Sasak, olahan bambu ramah lingkungan, komoditas beras organik subak, hingga spot ekowisata panorama sawah di Desa Pagutan.
+                  Jelajahi komoditas unggulan pertanian (padi, cabai, tomat, palawija), peternakan telur ayam, hingga kerajinan anyaman atap alang-alang bernilai ekspor di Desa Pagutan.
                 </p>
                 <div className="pt-2">
                   <Link

@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import { mockApplications, mockNews, mockPotensi, mockGisLocations, mockOfficials } from './data/mockData';
 import { AdministrativeApplication, NewsItem, PotensiItem, GisLocation, VillageOfficial } from './types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
@@ -188,12 +187,12 @@ export const fetchNewsByIdFromSupabase = async (idOrSlug: string): Promise<NewsI
 
 // Synchronous Fallbacks for News
 const getStoredNewsSync = (): NewsItem[] => {
-  if (typeof window === 'undefined') return mockNews;
+  if (typeof window === 'undefined') return [];
   const stored = localStorage.getItem(NEWS_STORAGE_KEY);
   if (stored) {
-    try { return JSON.parse(stored); } catch { return mockNews; }
+    try { return JSON.parse(stored); } catch { return []; }
   }
-  return mockNews;
+  return [];
 };
 
 const saveNewsItemSync = (data: Omit<NewsItem, 'id' | 'slug'>): NewsItem => {
@@ -367,12 +366,12 @@ export const deletePotensiFromSupabase = async (id: string): Promise<boolean> =>
 };
 
 const getStoredPotensiSync = (): PotensiItem[] => {
-  if (typeof window === 'undefined') return mockPotensi;
+  if (typeof window === 'undefined') return [];
   const stored = localStorage.getItem(POTENSI_STORAGE_KEY);
   if (stored) {
-    try { return JSON.parse(stored); } catch { return mockPotensi; }
+    try { return JSON.parse(stored); } catch { return []; }
   }
-  return mockPotensi;
+  return [];
 };
 
 // =============================================
@@ -505,12 +504,12 @@ export const deleteGisFromSupabase = async (id: string): Promise<boolean> => {
 };
 
 const getStoredGisSync = (): GisLocation[] => {
-  if (typeof window === 'undefined') return mockGisLocations;
+  if (typeof window === 'undefined') return [];
   const stored = localStorage.getItem(GIS_STORAGE_KEY);
   if (stored) {
-    try { return JSON.parse(stored); } catch { return mockGisLocations; }
+    try { return JSON.parse(stored); } catch { return []; }
   }
-  return mockGisLocations;
+  return [];
 };
 
 // =============================================
@@ -518,16 +517,15 @@ const getStoredGisSync = (): GisLocation[] => {
 // =============================================
 
 export const getStoredApplications = (): AdministrativeApplication[] => {
-  if (typeof window === 'undefined') return mockApplications;
+  if (typeof window === 'undefined') return [];
   const stored = localStorage.getItem(APPS_STORAGE_KEY);
   if (!stored) {
-    localStorage.setItem(APPS_STORAGE_KEY, JSON.stringify(mockApplications));
-    return mockApplications;
+    return [];
   }
   try {
     return JSON.parse(stored);
   } catch (e) {
-    return mockApplications;
+    return [];
   }
 };
 
@@ -691,12 +689,12 @@ export const deleteOfficialFromSupabase = async (id: string): Promise<boolean> =
 
 // LocalStorage Sync Helpers for Village Officials
 const getStoredOfficialsSync = (): VillageOfficial[] => {
-  if (typeof window === 'undefined') return mockOfficials;
+  if (typeof window === 'undefined') return [];
   const stored = localStorage.getItem(OFFICIALS_STORAGE_KEY);
   if (stored) {
-    try { return JSON.parse(stored); } catch { return mockOfficials; }
+    try { return JSON.parse(stored); } catch { return []; }
   }
-  return mockOfficials;
+  return [];
 };
 
 const saveOfficialItemSync = (data: Omit<VillageOfficial, 'id'>): VillageOfficial => {

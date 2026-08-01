@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { School, Landmark, Hospital, MapPin } from 'lucide-react';
-import { mockGisLocations } from '@/lib/data/mockData';
+import { GisLocation } from '@/lib/types';
 
 interface StatItem {
   icon: React.ReactNode;
@@ -12,21 +12,6 @@ interface StatItem {
   color: string;
   bgColor: string;
 }
-
-// Derive stats dynamically from actual marker data
-const sekolahCount = mockGisLocations.filter(l => l.category === 'Sekolah').length;
-const masjidCount = mockGisLocations.filter(l => l.category === 'Masjid').length;
-const kantorDesaCount = mockGisLocations.filter(l => l.category === 'Kantor Desa').length;
-const puskesmasCount = mockGisLocations.filter(l => l.category === 'Puskesmas').length;
-const totalMarkers = mockGisLocations.length;
-
-const stats: StatItem[] = [
-  { icon: <MapPin className="w-4 h-4" />, value: totalMarkers, label: 'Total Marker', color: 'text-slate-600', bgColor: 'bg-slate-500/15' },
-  { icon: <School className="w-4 h-4" />, value: sekolahCount, label: 'Sekolah', color: 'text-amber-500', bgColor: 'bg-amber-500/15' },
-  { icon: <Landmark className="w-4 h-4" />, value: masjidCount, label: 'Masjid', color: 'text-emerald-500', bgColor: 'bg-emerald-500/15' },
-  { icon: <Landmark className="w-4 h-4" />, value: kantorDesaCount, label: 'Kantor Desa', color: 'text-blue-500', bgColor: 'bg-blue-500/15' },
-  { icon: <Hospital className="w-4 h-4" />, value: puskesmasCount, label: 'Puskesmas', color: 'text-rose-500', bgColor: 'bg-rose-500/15' },
-];
 
 function AnimatedNumber({ value }: { value: number }) {
   const [display, setDisplay] = React.useState(0);
@@ -50,7 +35,24 @@ function AnimatedNumber({ value }: { value: number }) {
   return <span>{display}</span>;
 }
 
-export default function WebGisStatsBar() {
+interface WebGisStatsBarProps {
+  locations?: GisLocation[];
+}
+
+export default function WebGisStatsBar({ locations = [] }: WebGisStatsBarProps) {
+  const sekolahCount = locations.filter(l => l.category === 'Sekolah').length;
+  const masjidCount = locations.filter(l => l.category === 'Masjid').length;
+  const kantorDesaCount = locations.filter(l => l.category === 'Kantor Desa').length;
+  const puskesmasCount = locations.filter(l => l.category === 'Puskesmas').length;
+  const totalMarkers = locations.length;
+
+  const stats: StatItem[] = [
+    { icon: <MapPin className="w-4 h-4" />, value: totalMarkers, label: 'Total Marker', color: 'text-slate-600', bgColor: 'bg-slate-500/15' },
+    { icon: <School className="w-4 h-4" />, value: sekolahCount, label: 'Sekolah', color: 'text-amber-500', bgColor: 'bg-amber-500/15' },
+    { icon: <Landmark className="w-4 h-4" />, value: masjidCount, label: 'Masjid', color: 'text-emerald-500', bgColor: 'bg-emerald-500/15' },
+    { icon: <Landmark className="w-4 h-4" />, value: kantorDesaCount, label: 'Kantor Desa', color: 'text-blue-500', bgColor: 'bg-blue-500/15' },
+    { icon: <Hospital className="w-4 h-4" />, value: puskesmasCount, label: 'Puskesmas', color: 'text-rose-500', bgColor: 'bg-rose-500/15' },
+  ];
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}

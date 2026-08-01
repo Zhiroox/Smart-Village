@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { mockGallery } from '@/lib/data/mockData';
+import { GalleryItem } from '@/lib/types';
 import { Image as ImageIcon, Video, Calendar, Play } from 'lucide-react';
 
 export default function GaleriPage() {
   const [activeFilter, setActiveFilter] = useState<'all' | 'photo' | 'video'>('all');
+  const [galleryItems] = useState<GalleryItem[]>([]);
 
-  const filteredGallery = mockGallery.filter(item => {
+  const filteredGallery = galleryItems.filter(item => {
     return activeFilter === 'all' || item.type === activeFilter;
   });
 

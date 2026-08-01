@@ -293,34 +293,6 @@ export default function PotensiPage() {
                   </div>
                 </div>
               </div>
-
-              {/* Comprehensive List (All item short-descriptions) */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-extrabold text-slate-800 dark:text-slate-300">
-                  Ringkasan Seluruh Komoditas Desa:
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {commodities.map((c) => (
-                    <button
-                      key={c.id}
-                      onClick={() => handleSelect(c.id)}
-                      className={`flex items-start gap-3 p-3 rounded-xl border text-left transition-all ${
-                        selectedId === c.id 
-                          ? 'bg-emerald-50/30 border-emerald-300 dark:bg-emerald-950/10 dark:border-emerald-800' 
-                          : 'bg-white dark:bg-slate-800/40 border-slate-100 dark:border-slate-800 hover:border-slate-200'
-                      }`}
-                    >
-                      <CheckCircle2 className={`w-4 h-4 mt-0.5 shrink-0 ${
-                        selectedId === c.id ? 'text-emerald-500' : 'text-slate-300 dark:text-slate-600'
-                      }`} />
-                      <div>
-                        <div className="text-xs font-bold text-slate-800 dark:text-slate-350">{c.name}</div>
-                        <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 line-clamp-1">{c.shortDesc}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
 
             {/* Right side: Detailed Card view of selected commodity */}

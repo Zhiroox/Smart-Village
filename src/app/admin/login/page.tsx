@@ -31,7 +31,7 @@ export default function AdminLoginPage() {
           <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center mx-auto shadow-md shadow-emerald-600/30">
             <Landmark className="w-6 h-6" />
           </div>
-          <h1 className="text-2xl font-extrabold text-slate-900">Portal Admin Smart Village</h1>
+          <h1 className="text-2xl font-extrabold text-slate-900">Portal Admin Desa</h1>
           <p className="text-xs text-slate-500">Masuk ke sistem kelola data desa & pelayanan publik</p>
         </div>
 

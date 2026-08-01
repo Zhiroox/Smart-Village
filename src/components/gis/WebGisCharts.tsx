@@ -7,13 +7,7 @@ import {
   Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
 import { MapPin, BarChart3 } from 'lucide-react';
-import { mockGisLocations } from '@/lib/data/mockData';
-
-// Derive chart data dynamically from actual markers
-const categoryCounts = mockGisLocations.reduce<Record<string, number>>((acc, loc) => {
-  acc[loc.category] = (acc[loc.category] || 0) + 1;
-  return acc;
-}, {});
+import { GisLocation } from '@/lib/types';
 
 const CATEGORY_COLORS: Record<string, string> = {
   'Sekolah': '#f59e0b',
@@ -22,18 +16,6 @@ const CATEGORY_COLORS: Record<string, string> = {
   'Puskesmas': '#f43f5e',
   'Area Rawan Bencana': '#ef4444',
 };
-
-const pieData = Object.entries(categoryCounts).map(([name, value]) => ({
-  name,
-  value,
-  color: CATEGORY_COLORS[name] || '#94a3b8',
-}));
-
-const barData = Object.entries(categoryCounts).map(([name, value]) => ({
-  name: name === 'Area Rawan Bencana' ? 'Lainnya' : name,
-  value,
-  color: CATEGORY_COLORS[name] || '#94a3b8',
-}));
 
 const cardVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -58,12 +40,24 @@ const CustomTooltip = ({ active, payload }: any) => {
 };
 
 interface WebGisChartsProps {
+  locations?: GisLocation[];
   umkmData?: unknown[];
   komoditasData?: unknown[];
   risikoData?: unknown[];
 }
 
-export default function WebGisCharts(_props: WebGisChartsProps) {
+export default function WebGisCharts({ locations = [] }: WebGisChartsProps) {
+  const categoryCounts = locations.reduce<Record<string, number>>((acc, loc) => {
+    acc[loc.category] = (acc[loc.category] || 0) + 1;
+    return acc;
+  }, {});
+
+  const barData = Object.entries(categoryCounts).map(([name, value]) => ({
+    name: name === 'Area Rawan Bencana' ? 'Lainnya' : name,
+    value,
+    color: CATEGORY_COLORS[name] || '#94a3b8',
+  }));
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Jumlah Marker Bar Chart */}
@@ -82,7 +76,7 @@ export default function WebGisCharts(_props: WebGisChartsProps) {
           </div>
           <div>
             <h4 className="text-sm font-bold text-slate-900 dark:text-white">Jumlah per Kategori</h4>
-            <p className="text-[10px] text-slate-400">Total {mockGisLocations.length} titik lokasi</p>
+            <p className="text-[10px] text-slate-400">Total {locations.length} titik lokasi</p>
           </div>
         </div>
         <div className="h-52">
