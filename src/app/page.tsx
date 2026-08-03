@@ -21,10 +21,10 @@ import {
 } from 'lucide-react';
 
 const defaultStats = {
-  population: 3250,
-  dusunCount: 8,
+  population: 9734,
+  dusunCount: 15,
   umkmCount: 45,
-  farmlandArea: 210,
+  farmlandArea: 519,
   tourismSpots: 5,
 };
 

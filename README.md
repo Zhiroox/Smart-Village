@@ -87,4 +87,4 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-actual-supabase-anon-key
 
 ---
 
-*Disusun & Diserahterimakan oleh Tim KKN Universitas untuk Pemerintah Desa Pagutan & Desa Bujak, Kecamatan Batukliang, Lombok Tengah © 2026.*
+*Disusun & Diserahterimakan oleh Tim KKN Universitas untuk Pemerintah Desa Pagutan, Kecamatan Batukliang, Lombok Tengah © 2026.*

@@ -1,10 +1,10 @@
 -- =================================================================
 -- SMART VILLAGE SUPABASE DATABASE SCHEMA
--- Desa Pagutan & Desa Bujak, Kecamatan Batukliang, Kabupaten Lombok Tengah
+-- Desa Pagutan, Kecamatan Batukliang, Kabupaten Lombok Tengah
 -- =================================================================
 
 -- 1. ENUM TYPES
-CREATE TYPE village_enum AS ENUM ('Desa Pagutan', 'Desa Bujak');
+CREATE TYPE village_enum AS ENUM ('Desa Pagutan');
 CREATE TYPE news_category_enum AS ENUM ('Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi');
 CREATE TYPE potensi_category_enum AS ENUM ('Agriculture', 'Livestock', 'UMKM', 'Tourism');
 CREATE TYPE gis_category_enum AS ENUM ('Batas Desa', 'Batas Dusun', 'Kantor Desa', 'Sekolah', 'Masjid', 'Puskesmas', 'Wisata', 'Pertanian', 'Peternakan', 'Area Rawan Bencana', 'Rute Evakuasi');

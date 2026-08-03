@@ -1,4 +1,4 @@
-export type VillageName = 'Desa Pagutan' | 'Desa Bujak' | 'Semua Desa';
+export type VillageName = 'Desa Pagutan';
 
 export interface QuickStats {
   population: number;
@@ -14,8 +14,8 @@ export interface NewsItem {
   slug: string;
   summary: string;
   content: string;
-  category: 'Pengumuman' | 'Pembangunan' | 'Kegiatan' | 'Ekonomi' | 'Kesehatan' | 'Lain-lain' | 'Lainnya';
-  village: 'Desa Pagutan' | 'Desa Bujak';
+  category: 'Pengumuman' | 'Pembangunan' | 'Kegiatan' | 'Ekonomi' | 'Kesehatan' | 'Lain-lain';
+  village: 'Desa Pagutan';
   imageUrl: string;
   publishedAt: string;
   author: string;
@@ -25,7 +25,7 @@ export interface VillageOfficial {
   id: string;
   name: string;
   position: string;
-  village: 'Desa Pagutan' | 'Desa Bujak';
+  village: 'Desa Pagutan';
   photoUrl?: string;
   phone?: string;
 }
@@ -34,7 +34,7 @@ export interface PotensiItem {
   id: string;
   name: string;
   category: 'Agriculture' | 'Livestock' | 'UMKM' | 'Tourism';
-  village: 'Desa Pagutan' | 'Desa Bujak';
+  village: 'Desa Pagutan';
   description: string;
   location: string;
   imageUrl: string;
@@ -47,7 +47,7 @@ export interface GisLocation {
   id: string;
   name: string;
   category: 'Batas Desa' | 'Batas Dusun' | 'Kantor Desa' | 'Sekolah' | 'Masjid' | 'Puskesmas' | 'Wisata' | 'Pertanian' | 'Peternakan' | 'Area Rawan Bencana' | 'Rute Evakuasi';
-  village: 'Desa Pagutan' | 'Desa Bujak';
+  village: 'Desa Pagutan';
   latitude: number;
   longitude: number;
   description: string;
@@ -65,7 +65,7 @@ export interface AdministrativeApplication {
   phoneNumber: string;
   email: string;
   serviceType: 'Surat Keterangan Domisili' | 'Surat Keterangan Usaha' | 'Surat Keterangan Tidak Mampu (SKTM)' | 'Rekomendasi Nikah' | 'Surat Keterangan Pindah' | 'Surat Keterangan Umum' | 'Lainnya';
-  village: 'Desa Pagutan' | 'Desa Bujak';
+  village: 'Desa Pagutan';
   address: string;
   purpose: string;
   additionalNotes?: string;
@@ -84,7 +84,7 @@ export interface GalleryItem {
   url: string;
   thumbnailUrl?: string;
   category: string;
-  village: 'Desa Pagutan' | 'Desa Bujak';
+  village: 'Desa Pagutan';
   date: string;
 }
 
@@ -96,11 +96,4 @@ export interface DownloadItem {
   fileUrl: string;
   downloadCount: number;
   uploadedAt: string;
-}
-
-export interface FaqItem {
-  id: string;
-  question: string;
-  answer: string;
-  category: string;
 }

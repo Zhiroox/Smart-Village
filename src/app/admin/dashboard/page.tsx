@@ -66,8 +66,8 @@ import ImageUploadInput from '@/components/common/ImageUploadInput';
 // TIPE FORM WIZARD BERITA
 // =============================================
 type WizardStep = 1 | 2 | 3;
-type NewsCategory = 'Pengumuman' | 'Pembangunan' | 'Kegiatan' | 'Ekonomi' | 'Kesehatan' | 'Lain-lain' | 'Lainnya';
-type NewsVillage = 'Desa Pagutan' | 'Desa Bujak';
+type NewsCategory = 'Pengumuman' | 'Pembangunan' | 'Kegiatan' | 'Ekonomi' | 'Kesehatan' | 'Lain-lain';
+type NewsVillage = 'Desa Pagutan';
 type PotensiCategory = 'Agriculture' | 'Livestock' | 'UMKM' | 'Tourism';
 
 interface NewsFormData {
@@ -165,7 +165,6 @@ const CATEGORY_IMAGES: Record<NewsCategory, string> = {
   Ekonomi: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800',
   Kesehatan: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=800',
   'Lain-lain': 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800',
-  Lainnya: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800',
 };
 
 const GIS_CATEGORIES: GisLocation['category'][] = [
@@ -592,7 +591,6 @@ export default function AdminDashboardPage() {
     Ekonomi: 'bg-emerald-100 text-emerald-800',
     Kesehatan: 'bg-rose-100 text-rose-800',
     'Lain-lain': 'bg-slate-100 text-slate-800',
-    Lainnya: 'bg-slate-100 text-slate-800',
   };
 
   const inputClass = "w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white transition-all";
@@ -1327,8 +1325,7 @@ export default function AdminDashboardPage() {
                         { name: 'Kegiatan', emoji: '🎯' },
                         { name: 'Ekonomi', emoji: '💼' },
                         { name: 'Kesehatan', emoji: '🏥' },
-                        { name: 'Lainnya', emoji: '📂' },
-                        { name: 'Lain-lain', emoji: '📌' },
+                        { name: 'Lain-lain', emoji: '📂' },
                       ] as { name: NewsCategory; emoji: string }[]).map(item => (
                         <button key={item.name} type="button" onClick={() => setFormData(f => ({ ...f, category: item.name }))} className={`p-3.5 rounded-xl border-2 text-xs font-bold text-left transition-all ${formData.category === item.name ? 'border-emerald-600 bg-emerald-50 text-emerald-800' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}>
                           <div className="text-xl mb-1">{item.emoji}</div>
@@ -1342,7 +1339,6 @@ export default function AdminDashboardPage() {
                       <label className="block text-sm font-bold text-slate-800 mb-2">Desa</label>
                       <select value={formData.village} onChange={e => setFormData(f => ({ ...f, village: e.target.value as NewsVillage }))} className="w-full p-3 bg-slate-50 border-2 border-slate-200 focus:border-emerald-500 rounded-xl text-sm focus:outline-none">
                         <option value="Desa Pagutan">Desa Pagutan</option>
-                        <option value="Desa Bujak">Desa Bujak</option>
                       </select>
                     </div>
                     <div>
@@ -1487,7 +1483,6 @@ export default function AdminDashboardPage() {
                     <label className={labelClass}>Desa</label>
                     <select value={potensiForm.village} onChange={e => setPotensiForm(f => ({ ...f, village: e.target.value as NewsVillage }))} className={inputClass}>
                       <option value="Desa Pagutan">Desa Pagutan</option>
-                      <option value="Desa Bujak">Desa Bujak</option>
                     </select>
                   </div>
 
@@ -1598,7 +1593,6 @@ export default function AdminDashboardPage() {
                     <label className={labelClass}>Desa</label>
                     <select value={gisForm.village} onChange={e => setGisForm(f => ({ ...f, village: e.target.value as NewsVillage }))} className={inputClass}>
                       <option value="Desa Pagutan">Desa Pagutan</option>
-                      <option value="Desa Bujak">Desa Bujak</option>
                     </select>
                   </div>
 
@@ -1786,7 +1780,6 @@ export default function AdminDashboardPage() {
                     <label className={labelClass}>Desa</label>
                     <select value={officialForm.village} onChange={e => setOfficialForm(f => ({ ...f, village: e.target.value as NewsVillage }))} className={inputClass}>
                       <option value="Desa Pagutan">Desa Pagutan</option>
-                      <option value="Desa Bujak">Desa Bujak</option>
                     </select>
                   </div>
 

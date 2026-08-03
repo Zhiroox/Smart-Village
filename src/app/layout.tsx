@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Smart Village Desa Pagutan | Kecamatan Batukliang Lombok Tengah",
-  description: "Portal Desa Pagutan dan Desa Bujak. Layanan administrasi mandiri online, transparansi publik, potensi UMKM, pertanian, dan peta WebGIS digital.",
+  description: "Portal Desa Pagutan. Layanan administrasi mandiri online, transparansi publik, potensi UMKM, pertanian, dan peta WebGIS digital.",
   keywords: ["Smart Village", "Desa Pagutan", "Batukliang", "Lombok Tengah", "NTB", "Layanan Desa Online", "WebGIS"],
   icons: {
     icon: "/logo.jpg",

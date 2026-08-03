@@ -12,7 +12,7 @@ export default function BeritaPage() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
 
-  const categories = ['Semua', 'Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi', 'Kesehatan', 'Lainnya', 'Lain-lain'];
+  const categories = ['Semua', 'Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi', 'Kesehatan','Lain-lain'];
 
   useEffect(() => {
     const loadNews = async () => {

@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { AdministrativeApplication, NewsItem, PotensiItem, GisLocation, VillageOfficial } from './types';
 
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 
@@ -9,7 +10,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 // Local Storage Helper Keys
 const APPS_STORAGE_KEY = 'smart_village_applications';
 const NEWS_STORAGE_KEY = 'smart_village_news';
-const POTENSI_STORAGE_KEY = 'admin_potensi';
+const POTENSI_STORAGE_KEY = 'admin_potensi_v2';
 const GIS_STORAGE_KEY = 'admin_gis';
 const OFFICIALS_STORAGE_KEY = 'admin_officials';
 
@@ -24,9 +25,13 @@ export const fetchNewsFromSupabase = async (): Promise<NewsItem[]> => {
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (error || !data || data.length === 0) {
-      // Fallback ke localStorage / mockData
+    if (error) {
+      console.error('Error fetching news from Supabase:', error);
       return getStoredNewsSync();
+    }
+
+    if (!data || data.length === 0) {
+      return [];
     }
 
     const items: NewsItem[] = data.map((item: any) => ({
@@ -190,7 +195,12 @@ const getStoredNewsSync = (): NewsItem[] => {
   if (typeof window === 'undefined') return [];
   const stored = localStorage.getItem(NEWS_STORAGE_KEY);
   if (stored) {
-    try { return JSON.parse(stored); } catch { return []; }
+    try {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    } catch { }
   }
   return [];
 };
@@ -244,8 +254,13 @@ export const fetchPotensiFromSupabase = async (): Promise<PotensiItem[]> => {
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (error || !data || data.length === 0) {
+    if (error) {
+      console.error('Error fetching potensi from Supabase:', error);
       return getStoredPotensiSync();
+    }
+
+    if (!data || data.length === 0) {
+      return [];
     }
 
     const items: PotensiItem[] = data.map((item: any) => ({
@@ -294,11 +309,11 @@ export const createPotensiInSupabase = async (
       .single();
 
     if (error) {
-      console.error('Supabase potensi insert error:', error);
-      return null;
+      console.error('Supabase potensi insert error:', error.message || error);
+      return savePotensiItemSync(item);
     }
 
-    return {
+    const newItem: PotensiItem = {
       id: inserted.id,
       name: inserted.name,
       category: inserted.category,
@@ -310,9 +325,13 @@ export const createPotensiInSupabase = async (
       contactPerson: inserted.contact_person || '',
       priceOrYield: inserted.price_or_yield || '',
     };
+
+    // Update local cache with Supabase data
+    await fetchPotensiFromSupabase();
+    return newItem;
   } catch (err) {
     console.error('Error inserting potensi to Supabase:', err);
-    return null;
+    return savePotensiItemSync(item);
   }
 };
 
@@ -337,13 +356,15 @@ export const updatePotensiInSupabase = async (
       .eq('id', id);
 
     if (error) {
-      console.error('Supabase potensi update error:', error);
-      return false;
+      console.error('Supabase potensi update error:', error.message || error);
+      return updatePotensiItemSync(id, item);
     }
+
+    await fetchPotensiFromSupabase();
     return true;
   } catch (err) {
     console.error('Error updating potensi in Supabase:', err);
-    return false;
+    return updatePotensiItemSync(id, item);
   }
 };
 
@@ -355,13 +376,15 @@ export const deletePotensiFromSupabase = async (id: string): Promise<boolean> =>
       .eq('id', id);
 
     if (error) {
-      console.error('Supabase potensi delete error:', error);
-      return false;
+      console.error('Supabase potensi delete error:', error.message || error);
+      return deletePotensiItemSync(id);
     }
+
+    await fetchPotensiFromSupabase();
     return true;
   } catch (err) {
     console.error('Error deleting potensi from Supabase:', err);
-    return false;
+    return deletePotensiItemSync(id);
   }
 };
 
@@ -369,9 +392,42 @@ const getStoredPotensiSync = (): PotensiItem[] => {
   if (typeof window === 'undefined') return [];
   const stored = localStorage.getItem(POTENSI_STORAGE_KEY);
   if (stored) {
-    try { return JSON.parse(stored); } catch { return []; }
+    try {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) return parsed;
+    } catch { }
   }
   return [];
+};
+
+const savePotensiItemSync = (data: Omit<PotensiItem, 'id'>): PotensiItem => {
+  const current = getStoredPotensiSync();
+  const newItem: PotensiItem = { ...data, id: `potensi-local-${Date.now()}` };
+  const updated = [newItem, ...current];
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(POTENSI_STORAGE_KEY, JSON.stringify(updated));
+  }
+  return newItem;
+};
+
+const updatePotensiItemSync = (id: string, data: Partial<Omit<PotensiItem, 'id'>>): boolean => {
+  const current = getStoredPotensiSync();
+  const index = current.findIndex(i => i.id === id);
+  if (index === -1) return false;
+  current[index] = { ...current[index], ...data };
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(POTENSI_STORAGE_KEY, JSON.stringify(current));
+  }
+  return true;
+};
+
+const deletePotensiItemSync = (id: string): boolean => {
+  const current = getStoredPotensiSync();
+  const updated = current.filter(i => i.id !== id);
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(POTENSI_STORAGE_KEY, JSON.stringify(updated));
+  }
+  return true;
 };
 
 // =============================================
@@ -385,8 +441,13 @@ export const fetchGisFromSupabase = async (): Promise<GisLocation[]> => {
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (error || !data || data.length === 0) {
+    if (error) {
+      console.error('Error fetching GIS locations from Supabase:', error);
       return getStoredGisSync();
+    }
+
+    if (!data || data.length === 0) {
+      return [];
     }
 
     const items: GisLocation[] = data.map((item: any) => ({
@@ -433,11 +494,11 @@ export const createGisInSupabase = async (
       .single();
 
     if (error) {
-      console.error('Supabase GIS insert error:', error);
-      return null;
+      console.error('Supabase GIS insert error:', error.message || error);
+      return saveGisItemSync(item);
     }
 
-    return {
+    const newItem: GisLocation = {
       id: inserted.id,
       name: inserted.name,
       category: inserted.category,
@@ -448,9 +509,12 @@ export const createGisInSupabase = async (
       address: inserted.address,
       imageUrl: inserted.image_url || '',
     };
+
+    await fetchGisFromSupabase();
+    return newItem;
   } catch (err) {
     console.error('Error inserting GIS location to Supabase:', err);
-    return null;
+    return saveGisItemSync(item);
   }
 };
 
@@ -475,13 +539,15 @@ export const updateGisInSupabase = async (
       .eq('id', id);
 
     if (error) {
-      console.error('Supabase GIS update error:', error);
-      return false;
+      console.error('Supabase GIS update error:', error.message || error);
+      return updateGisItemSync(id, item);
     }
+
+    await fetchGisFromSupabase();
     return true;
   } catch (err) {
     console.error('Error updating GIS location in Supabase:', err);
-    return false;
+    return updateGisItemSync(id, item);
   }
 };
 
@@ -493,13 +559,15 @@ export const deleteGisFromSupabase = async (id: string): Promise<boolean> => {
       .eq('id', id);
 
     if (error) {
-      console.error('Supabase GIS delete error:', error);
-      return false;
+      console.error('Supabase GIS delete error:', error.message || error);
+      return deleteGisItemSync(id);
     }
+
+    await fetchGisFromSupabase();
     return true;
   } catch (err) {
     console.error('Error deleting GIS location from Supabase:', err);
-    return false;
+    return deleteGisItemSync(id);
   }
 };
 
@@ -507,9 +575,42 @@ const getStoredGisSync = (): GisLocation[] => {
   if (typeof window === 'undefined') return [];
   const stored = localStorage.getItem(GIS_STORAGE_KEY);
   if (stored) {
-    try { return JSON.parse(stored); } catch { return []; }
+    try {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) return parsed;
+    } catch { }
   }
   return [];
+};
+
+const saveGisItemSync = (data: Omit<GisLocation, 'id'>): GisLocation => {
+  const current = getStoredGisSync();
+  const newItem: GisLocation = { ...data, id: `gis-local-${Date.now()}` };
+  const updated = [newItem, ...current];
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(GIS_STORAGE_KEY, JSON.stringify(updated));
+  }
+  return newItem;
+};
+
+const updateGisItemSync = (id: string, data: Partial<Omit<GisLocation, 'id'>>): boolean => {
+  const current = getStoredGisSync();
+  const index = current.findIndex(i => i.id === id);
+  if (index === -1) return false;
+  current[index] = { ...current[index], ...data };
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(GIS_STORAGE_KEY, JSON.stringify(current));
+  }
+  return true;
+};
+
+const deleteGisItemSync = (id: string): boolean => {
+  const current = getStoredGisSync();
+  const updated = current.filter(i => i.id !== id);
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(GIS_STORAGE_KEY, JSON.stringify(updated));
+  }
+  return true;
 };
 
 // =============================================
@@ -580,8 +681,13 @@ export const fetchOfficialsFromSupabase = async (): Promise<VillageOfficial[]> =
       .select('*')
       .order('created_at', { ascending: true });
 
-    if (error || !data || data.length === 0) {
+    if (error) {
+      console.error('Error fetching village officials from Supabase:', error);
       return getStoredOfficialsSync();
+    }
+
+    if (!data || data.length === 0) {
+      return [];
     }
 
     const items: VillageOfficial[] = data.map((item: any) => ({
@@ -692,7 +798,10 @@ const getStoredOfficialsSync = (): VillageOfficial[] => {
   if (typeof window === 'undefined') return [];
   const stored = localStorage.getItem(OFFICIALS_STORAGE_KEY);
   if (stored) {
-    try { return JSON.parse(stored); } catch { return []; }
+    try {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) return parsed;
+    } catch { }
   }
   return [];
 };
