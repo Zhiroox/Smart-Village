@@ -61,6 +61,7 @@ import {
   Briefcase,
 } from 'lucide-react';
 import ImageUploadInput from '@/components/common/ImageUploadInput';
+import GalleryUploadInput from '@/components/common/GalleryUploadInput';
 
 // =============================================
 // TIPE FORM WIZARD BERITA
@@ -78,6 +79,7 @@ interface NewsFormData {
   summary: string;
   content: string;
   imageUrl: string;
+  gallery: string[];
   publishedAt: string;
 }
 
@@ -89,6 +91,7 @@ interface PotensiFormData {
   description: string;
   location: string;
   imageUrl: string;
+  gallery: string[];
   contactPerson: string;
   priceOrYield: string;
 }
@@ -122,6 +125,7 @@ const EMPTY_NEWS_FORM: NewsFormData = {
   summary: '',
   content: '',
   imageUrl: '',
+  gallery: [],
   publishedAt: new Date().toISOString().slice(0, 10),
 };
 
@@ -133,6 +137,7 @@ const EMPTY_POTENSI_FORM: PotensiFormData = {
   description: '',
   location: '',
   imageUrl: '',
+  gallery: [],
   contactPerson: '',
   priceOrYield: '',
 };
@@ -169,7 +174,7 @@ const CATEGORY_IMAGES: Record<NewsCategory, string> = {
 
 const GIS_CATEGORIES: GisLocation['category'][] = [
   'Batas Desa', 'Batas Dusun', 'Kantor Desa', 'Sekolah', 'Masjid',
-  'Puskesmas', 'Wisata', 'Pertanian', 'Peternakan', 'Area Rawan Bencana', 'Rute Evakuasi'
+  'Puskesmas', 'Wisata', 'Pertanian', 'Peternakan', 'Pemakaman', 'Area Rawan Bencana', 'Rute Evakuasi'
 ];
 
 const POTENSI_CATEGORIES: { value: PotensiCategory; label: string; emoji: string }[] = [
@@ -205,7 +210,7 @@ function usePotensiData() {
       description: form.description,
       location: form.location,
       imageUrl: form.imageUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=800',
-      gallery: [],
+      gallery: form.gallery || [],
       contactPerson: form.contactPerson,
       priceOrYield: form.priceOrYield,
     };
@@ -221,6 +226,7 @@ function usePotensiData() {
       description: form.description,
       location: form.location,
       imageUrl: form.imageUrl,
+      gallery: form.gallery || [],
       contactPerson: form.contactPerson,
       priceOrYield: form.priceOrYield,
     });
@@ -408,6 +414,7 @@ export default function AdminDashboardPage() {
       summary: item.summary,
       content: item.content,
       imageUrl: item.imageUrl,
+      gallery: item.gallery || [],
       publishedAt: item.publishedAt,
     });
     setEditingId(item.id);
@@ -424,7 +431,7 @@ export default function AdminDashboardPage() {
 
   const handleSaveNews = async () => {
     const finalImageUrl = formData.imageUrl.trim() || CATEGORY_IMAGES[formData.category];
-    const payload = { ...formData, imageUrl: finalImageUrl };
+    const payload = { ...formData, imageUrl: finalImageUrl, gallery: formData.gallery };
     if (editingId) {
       await updateNewsInSupabase(editingId, payload);
     } else {
@@ -463,6 +470,7 @@ export default function AdminDashboardPage() {
       description: item.description,
       location: item.location,
       imageUrl: item.imageUrl,
+      gallery: item.gallery || [],
       contactPerson: item.contactPerson || '',
       priceOrYield: item.priceOrYield || '',
     });
@@ -605,6 +613,7 @@ export default function AdminDashboardPage() {
     'Wisata': 'bg-amber-100 text-amber-800',
     'Pertanian': 'bg-green-100 text-green-800',
     'Peternakan': 'bg-orange-100 text-orange-800',
+    'Pemakaman': 'bg-stone-100 text-stone-700',
     'Area Rawan Bencana': 'bg-red-100 text-red-800',
     'Rute Evakuasi': 'bg-yellow-100 text-yellow-800',
     'Batas Desa': 'bg-slate-100 text-slate-700',
@@ -1385,6 +1394,12 @@ export default function AdminDashboardPage() {
                     defaultCategoryImages={CATEGORY_IMAGES}
                     helperText={`Unggah foto berita (format PNG, JPG, JPEG) dari perangkat Anda atau masukkan link URL. Jika kosong, gambar default kategori "${formData.category}" akan digunakan.`}
                   />
+                  <GalleryUploadInput
+                    values={formData.gallery}
+                    onChange={(vals) => setFormData((f) => ({ ...f, gallery: vals }))}
+                    label="Galeri Foto Berita (opsional)"
+                    maxPhotos={8}
+                  />
                   <div className="bg-slate-50 rounded-xl border border-slate-200 p-5 space-y-3">
                     <div className="flex items-center gap-2"><Eye className="w-4 h-4 text-slate-400" /><span className="text-xs font-bold text-slate-500 uppercase">Preview Berita</span></div>
                     <h4 className="font-bold text-slate-900 text-base leading-snug">{formData.title || '—'}</h4>
@@ -1517,6 +1532,12 @@ export default function AdminDashboardPage() {
                     value={potensiForm.imageUrl}
                     onChange={(val) => setPotensiForm((f) => ({ ...f, imageUrl: val }))}
                     helperText="Unggah foto produk atau usaha UMKM (format PNG, JPG, JPEG, WEBP) dari komputer/HP Anda atau gunakan URL gambar."
+                  />
+                  <GalleryUploadInput
+                    values={potensiForm.gallery}
+                    onChange={(vals) => setPotensiForm((f) => ({ ...f, gallery: vals }))}
+                    label="Galeri Foto Tambahan (opsional)"
+                    maxPhotos={8}
                   />
                 </div>
 

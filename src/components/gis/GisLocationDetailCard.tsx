@@ -32,6 +32,7 @@ const categoryColors: Record<string, { bg: string; text: string; border: string;
   'Peternakan': { bg: 'bg-orange-50 dark:bg-orange-950/30', text: 'text-orange-700 dark:text-orange-300', border: 'border-orange-200 dark:border-orange-800/40', icon: '🐄' },
   'Area Rawan Bencana': { bg: 'bg-red-50 dark:bg-red-950/30', text: 'text-red-700 dark:text-red-300', border: 'border-red-200 dark:border-red-800/40', icon: '⚠️' },
   'Rute Evakuasi': { bg: 'bg-cyan-50 dark:bg-cyan-950/30', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-200 dark:border-cyan-800/40', icon: '🚨' },
+  'Pemakaman': { bg: 'bg-stone-50 dark:bg-stone-950/30', text: 'text-stone-700 dark:text-stone-300', border: 'border-stone-200 dark:border-stone-800/40', icon: '🪦' },
   'Batas Desa': { bg: 'bg-slate-100 dark:bg-slate-800', text: 'text-slate-700 dark:text-slate-300', border: 'border-slate-200 dark:border-slate-700', icon: '🗺️' },
   'Batas Dusun': { bg: 'bg-slate-100 dark:bg-slate-800', text: 'text-slate-700 dark:text-slate-300', border: 'border-slate-200 dark:border-slate-700', icon: '📍' },
 };

@@ -74,7 +74,7 @@ export default function PemerintahanPage() {
 
   const kades = officials.find(o => o.position === 'Kepala Desa') || officials[0];
   const sekdes = officials.find(o => o.position === 'Sekdes' || o.position === 'Sekretaris Desa');
-  
+
   const kaurList = officials.filter(o => o.position.startsWith('Kaur'));
   const kasiList = officials.filter(o => o.position.startsWith('Kasi'));
 
@@ -105,7 +105,7 @@ export default function PemerintahanPage() {
         {/* ===== BAGAN SOTK ===== */}
         <section className="bg-white border border-slate-200 shadow-md rounded-3xl p-6 md:p-10 relative overflow-hidden">
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 rounded-t-3xl" />
-          
+
           <div className="text-center mb-8">
             <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-1">Struktur Organisasi &amp; Tata Kerja Pemerintah Desa Pagutan</h2>
             <p className="text-sm text-slate-500">Hierarki kepemimpinan dan penugasan aparatur Desa Pagutan</p>

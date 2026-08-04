@@ -17,6 +17,7 @@ export interface NewsItem {
   category: 'Pengumuman' | 'Pembangunan' | 'Kegiatan' | 'Ekonomi' | 'Kesehatan' | 'Lain-lain';
   village: 'Desa Pagutan';
   imageUrl: string;
+  gallery?: string[];
   publishedAt: string;
   author: string;
 }
@@ -46,7 +47,7 @@ export interface PotensiItem {
 export interface GisLocation {
   id: string;
   name: string;
-  category: 'Batas Desa' | 'Batas Dusun' | 'Kantor Desa' | 'Sekolah' | 'Masjid' | 'Puskesmas' | 'Wisata' | 'Pertanian' | 'Peternakan' | 'Area Rawan Bencana' | 'Rute Evakuasi';
+  category: 'Batas Desa' | 'Batas Dusun' | 'Kantor Desa' | 'Sekolah' | 'Masjid' | 'Puskesmas' | 'Wisata' | 'Pertanian' | 'Peternakan' | 'Pemakaman' | 'Area Rawan Bencana' | 'Rute Evakuasi';
   village: 'Desa Pagutan';
   latitude: number;
   longitude: number;

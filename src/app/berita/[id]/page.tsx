@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { fetchNewsByIdFromSupabase } from '@/lib/supabase';
 import { NewsItem } from '@/lib/types';
 import { ArrowLeft, Calendar, User, Tag, MapPin, Share2, Loader2 } from 'lucide-react';
+import ImageCarousel from '@/components/common/ImageCarousel';
 
 export default function BeritaDetailPage() {
   const params = useParams();
@@ -81,10 +82,11 @@ export default function BeritaDetailPage() {
             </div>
           </div>
 
-          {/* Featured Image */}
-          <div className="relative h-72 md:h-96 w-full rounded-2xl overflow-hidden shadow-md">
-            <Image src={newsItem.imageUrl} alt={newsItem.title} fill className="object-cover" unoptimized />
-          </div>
+          {/* Featured Image / Gallery Carousel */}
+          {(() => {
+            const slides = [newsItem.imageUrl, ...(newsItem.gallery || [])].filter(Boolean);
+            return <ImageCarousel images={slides} alt={newsItem.title} />;
+          })()}
 
           {/* Article Content Body */}
           <div className="prose prose-slate max-w-none text-xs md:text-sm text-slate-700 leading-relaxed whitespace-pre-line space-y-4">

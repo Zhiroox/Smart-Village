@@ -43,6 +43,7 @@ export const fetchNewsFromSupabase = async (): Promise<NewsItem[]> => {
       category: item.category,
       village: item.village,
       imageUrl: item.image_url || '',
+      gallery: item.gallery || [],
       publishedAt: item.published_at || new Date().toISOString().slice(0, 10),
       author: item.author,
     }));
@@ -74,6 +75,7 @@ export const createNewsInSupabase = async (
     category: data.category,
     village: data.village,
     image_url: data.imageUrl,
+    gallery: data.gallery || [],
     author: data.author,
     published_at: data.publishedAt || new Date().toISOString().slice(0, 10),
   };
@@ -100,6 +102,7 @@ export const createNewsInSupabase = async (
       category: inserted.category,
       village: inserted.village,
       imageUrl: inserted.image_url || '',
+      gallery: inserted.gallery || [],
       publishedAt: inserted.published_at || new Date().toISOString().slice(0, 10),
       author: inserted.author,
     };
@@ -121,6 +124,7 @@ export const updateNewsInSupabase = async (
   if (data.category !== undefined) payload.category = data.category;
   if (data.village !== undefined) payload.village = data.village;
   if (data.imageUrl !== undefined) payload.image_url = data.imageUrl;
+  if (data.gallery !== undefined) payload.gallery = data.gallery;
   if (data.author !== undefined) payload.author = data.author;
   if (data.publishedAt !== undefined) payload.published_at = data.publishedAt;
 
@@ -177,6 +181,7 @@ export const fetchNewsByIdFromSupabase = async (idOrSlug: string): Promise<NewsI
         category: data.category,
         village: data.village,
         imageUrl: data.image_url || '',
+        gallery: data.gallery || [],
         publishedAt: data.published_at || new Date().toISOString().slice(0, 10),
         author: data.author,
       };
@@ -286,6 +291,37 @@ export const fetchPotensiFromSupabase = async (): Promise<PotensiItem[]> => {
   }
 };
 
+export const fetchPotensiByIdFromSupabase = async (id: string): Promise<PotensiItem | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('potensi')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error || !data) {
+      console.error('Error fetching potensi by ID from Supabase:', error);
+      return null;
+    }
+
+    return {
+      id: data.id,
+      name: data.name,
+      category: data.category,
+      village: data.village,
+      description: data.description,
+      location: data.location,
+      imageUrl: data.image_url || '',
+      gallery: data.gallery || [],
+      contactPerson: data.contact_person || '',
+      priceOrYield: data.price_or_yield || '',
+    };
+  } catch (err) {
+    console.error('Error fetching potensi by ID:', err);
+    return null;
+  }
+};
+
 export const createPotensiInSupabase = async (
   item: Omit<PotensiItem, 'id'>
 ): Promise<PotensiItem | null> => {
@@ -346,6 +382,7 @@ export const updatePotensiInSupabase = async (
   if (item.description !== undefined) payload.description = item.description;
   if (item.location !== undefined) payload.location = item.location;
   if (item.imageUrl !== undefined) payload.image_url = item.imageUrl;
+  if (item.gallery !== undefined) payload.gallery = item.gallery;
   if (item.contactPerson !== undefined) payload.contact_person = item.contactPerson;
   if (item.priceOrYield !== undefined) payload.price_or_yield = item.priceOrYield;
 

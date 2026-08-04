@@ -14,6 +14,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   'Masjid': '#10b981',
   'Kantor Desa': '#3b82f6',
   'Puskesmas': '#f43f5e',
+  'Pemakaman': '#78716c',
   'Area Rawan Bencana': '#ef4444',
 };
 

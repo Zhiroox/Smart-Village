@@ -49,6 +49,7 @@ const filterCategories = [
   { key: 'Wisata', label: 'Ekowisata', icon: '🎭', color: '#8b5cf6', count: 0 },
   { key: 'Pertanian', label: 'Pertanian', icon: '🌾', color: '#84cc16', count: 0 },
   { key: 'Peternakan', label: 'Peternakan', icon: '🐄', color: '#f97316', count: 0 },
+  { key: 'Pemakaman', label: 'Pemakaman', icon: '🪦', color: '#78716c', count: 0 },
   { key: 'Area Rawan Bencana', label: 'Rawan Bencana', icon: '⚠️', color: '#ef4444', count: 0 },
   { key: 'Rute Evakuasi', label: 'Rute Evakuasi', icon: '🚨', color: '#06b6d4', count: 0 },
   { key: 'Batas Desa', label: 'Batas Desa', icon: '🗺️', color: '#64748b', count: 0 },

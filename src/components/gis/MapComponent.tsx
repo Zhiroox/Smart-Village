@@ -24,6 +24,7 @@ const categoryColors: Record<string, { marker: string; icon: string }> = {
   'Wisata': { marker: '#8b5cf6', icon: '🎭' },
   'Pertanian': { marker: '#84cc16', icon: '🌾' },
   'Peternakan': { marker: '#f97316', icon: '🐄' },
+  'Pemakaman': { marker: '#78716c', icon: '🪦' },
   'Area Rawan Bencana': { marker: '#ef4444', icon: '⚠️' },
   'Rute Evakuasi': { marker: '#06b6d4', icon: '🚨' },
 };

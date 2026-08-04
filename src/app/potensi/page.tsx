@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { fetchPotensiFromSupabase } from '@/lib/supabase';
@@ -8,7 +9,7 @@ import { PotensiItem } from '@/lib/types';
 import { 
   Wheat, Sprout, Egg, Home, 
   Sparkles, Leaf, Award, Globe,
-  Store, Tractor, Mountain, MapPin, Phone, Tag, Loader2
+  Store, Tractor, Mountain, MapPin, Phone, Tag, Loader2, ChevronRight
 } from 'lucide-react';
 
 // ── Helper: derive visual styling from PotensiItem fields ──
@@ -258,63 +259,69 @@ export default function PotensiPage() {
               {filteredPotensi.map((item, idx) => {
                 const colors = getCategoryColors(item.category, item.priceOrYield);
                 return (
-                  <motion.article
+                  <motion.div
                     key={item.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: idx * 0.06 }}
-                    className="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-violet-300 dark:hover:border-violet-700 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-violet-500/5 flex flex-col shadow-sm"
                   >
-                    <div className="relative h-48 w-full bg-slate-100 dark:bg-slate-750 overflow-hidden">
-                      <Image
-                        src={item.imageUrl || 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&q=80&w=600'}
-                        alt={item.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        unoptimized
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                      <div className={`absolute top-3 left-3 ${colors.badge} text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold flex items-center gap-1.5 backdrop-blur-sm`}>
-                        {getCategoryIcon(item.category, item.priceOrYield)}
-                        {getCategoryLabel(item.category)}
-                      </div>
-                      <div className="absolute top-3 right-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-slate-700 dark:text-slate-300 px-2 py-1 rounded-lg text-[10px] font-semibold flex items-center gap-1">
-                        <MapPin className="w-3 h-3 text-emerald-600" />
-                        {item.village}
-                      </div>
-                    </div>
-
-                    <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
-                      <div>
-                        <h3 className="font-bold text-slate-800 dark:text-white text-base group-hover:text-violet-700 dark:group-hover:text-violet-400 transition-colors line-clamp-2 leading-snug mb-2">
-                          {item.name}
-                        </h3>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed">
-                          {getShortDesc(item.description, 150)}
-                        </p>
-                      </div>
-
-                      <div className="space-y-2 pt-3 border-t border-slate-100 dark:border-slate-700">
-                        <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-                          <MapPin className="w-3 h-3 text-violet-500 shrink-0" />
-                          <span className="truncate">{item.location}</span>
+                    <Link href={`/potensi/${item.id}`} className="group block bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-violet-300 dark:hover:border-violet-700 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-violet-500/5 flex flex-col shadow-sm h-full">
+                      <div className="relative h-48 w-full bg-slate-100 dark:bg-slate-750 overflow-hidden">
+                        <Image
+                          src={item.imageUrl || 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&q=80&w=600'}
+                          alt={item.name}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          unoptimized
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                        <div className={`absolute top-3 left-3 ${colors.badge} text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold flex items-center gap-1.5 backdrop-blur-sm`}>
+                          {getCategoryIcon(item.category, item.priceOrYield)}
+                          {getCategoryLabel(item.category)}
                         </div>
-                        {item.contactPerson && (
-                          <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-                            <Phone className="w-3 h-3 text-violet-500 shrink-0" />
-                            <span className="truncate">{item.contactPerson}</span>
-                          </div>
-                        )}
-                        {item.priceOrYield && (
-                          <div className="flex items-center gap-2 text-[11px]">
-                            <Tag className="w-3 h-3 text-violet-500 shrink-0" />
-                            <span className={`font-semibold ${colors.text}`}>{item.priceOrYield}</span>
-                          </div>
-                        )}
+                        <div className="absolute top-3 right-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-slate-700 dark:text-slate-300 px-2 py-1 rounded-lg text-[10px] font-semibold flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-emerald-600" />
+                          {item.village}
+                        </div>
                       </div>
-                    </div>
-                  </motion.article>
+
+                      <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                        <div>
+                          <h3 className="font-bold text-slate-800 dark:text-white text-base group-hover:text-violet-700 dark:group-hover:text-violet-400 transition-colors line-clamp-2 leading-snug mb-2">
+                            {item.name}
+                          </h3>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                            {getShortDesc(item.description, 150)}
+                          </p>
+                        </div>
+
+                        <div className="space-y-2 pt-3 border-t border-slate-100 dark:border-slate-700">
+                          <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
+                            <MapPin className="w-3 h-3 text-violet-500 shrink-0" />
+                            <span className="truncate">{item.location}</span>
+                          </div>
+                          {item.contactPerson && (
+                            <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
+                              <Phone className="w-3 h-3 text-violet-500 shrink-0" />
+                              <span className="truncate">{item.contactPerson}</span>
+                            </div>
+                          )}
+                          {item.priceOrYield && (
+                            <div className="flex items-center gap-2 text-[11px]">
+                              <Tag className="w-3 h-3 text-violet-500 shrink-0" />
+                              <span className={`font-semibold ${colors.text}`}>{item.priceOrYield}</span>
+                            </div>
+                          )}
+                          <div className="pt-1">
+                            <span className="text-xs font-semibold text-violet-600 dark:text-violet-400 inline-flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                              Lihat Selengkapnya <ChevronRight className="w-3.5 h-3.5" />
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
                 );
               })}
             </div>

@@ -7,7 +7,7 @@
 CREATE TYPE village_enum AS ENUM ('Desa Pagutan');
 CREATE TYPE news_category_enum AS ENUM ('Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi');
 CREATE TYPE potensi_category_enum AS ENUM ('Agriculture', 'Livestock', 'UMKM', 'Tourism');
-CREATE TYPE gis_category_enum AS ENUM ('Batas Desa', 'Batas Dusun', 'Kantor Desa', 'Sekolah', 'Masjid', 'Puskesmas', 'Wisata', 'Pertanian', 'Peternakan', 'Area Rawan Bencana', 'Rute Evakuasi');
+CREATE TYPE gis_category_enum AS ENUM ('Batas Desa', 'Batas Dusun', 'Kantor Desa', 'Sekolah', 'Masjid', 'Puskesmas', 'Wisata', 'Pertanian', 'Peternakan', 'Pemakaman', 'Area Rawan Bencana', 'Rute Evakuasi');
 CREATE TYPE app_status_enum AS ENUM ('Menunggu', 'Diverifikasi', 'Diproses', 'Selesai', 'Ditolak');
 
 -- 2. USERS & ROLES
