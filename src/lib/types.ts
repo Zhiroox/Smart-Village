@@ -14,12 +14,14 @@ export interface NewsItem {
   slug: string;
   summary: string;
   content: string;
-  category: 'Pengumuman' | 'Pembangunan' | 'Kegiatan' | 'Ekonomi' | 'Kesehatan' | 'Lain-lain';
+  category: string;          // primary (for backward compat display)
+  categories: string[];
   village: 'Desa Pagutan';
   imageUrl: string;
   gallery?: string[];
   publishedAt: string;
   author: string;
+  authors: string[];
 }
 
 export interface VillageOfficial {

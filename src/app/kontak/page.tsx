@@ -80,8 +80,8 @@ export default function KontakPage() {
               {[
                 { Icon: MapPin, color: 'bg-emerald-50 text-emerald-700 border border-emerald-100', title: 'Kantor Desa Pagutan', text: 'Jl. Raya Pagutan No. 1, Kec. Batukliang, Kab. Lombok Tengah, NTB (83552)' },
                 { Icon: Phone, color: 'bg-blue-50 text-blue-700 border border-blue-100', title: 'WhatsApp Center', text: '+62 819-1234-5678' },
-                { Icon: Mail, color: 'bg-purple-50 text-purple-700 border border-purple-100', title: 'Email Resmi', text: 'layanan@smartvillage-pagutan.desa.id' },
-                { Icon: Clock, color: 'bg-amber-50 text-amber-700 border border-amber-100', title: 'Jam Layanan Loket', text: 'Senin - Jumat: 08:00 - 15:30 WITA' },
+                { Icon: Mail, color: 'bg-purple-50 text-purple-700 border border-purple-100', title: 'Email Resmi', text: 'pagutandesa199@gmail.com' },
+                { Icon: Clock, color: 'bg-amber-50 text-amber-700 border border-amber-100', title: 'Jam Layanan Loket', text: 'Senin - Jumat: 08:00 - 14:00 WITA' },
               ].map((item) => (
                 <div key={item.title} className="flex items-start gap-3">
                   <div className={`w-9 h-9 rounded-xl ${item.color} flex items-center justify-center shrink-0 mt-0.5`}>

@@ -41,11 +41,13 @@ export const fetchNewsFromSupabase = async (): Promise<NewsItem[]> => {
       summary: item.summary,
       content: item.content,
       category: item.category,
+      categories: item.categories?.length ? item.categories : (item.category ? [item.category] : []),
       village: item.village,
       imageUrl: item.image_url || '',
       gallery: item.gallery || [],
       publishedAt: item.published_at || new Date().toISOString().slice(0, 10),
       author: item.author,
+      authors: item.authors?.length ? item.authors : (item.author ? [item.author] : []),
     }));
 
     if (typeof window !== 'undefined') {
@@ -72,11 +74,13 @@ export const createNewsInSupabase = async (
     slug,
     summary: data.summary,
     content: data.content,
-    category: data.category,
+    category: (data.categories?.length ? data.categories[0] : data.category) || data.category,
+    categories: data.categories || (data.category ? [data.category] : []),
     village: data.village,
     image_url: data.imageUrl,
     gallery: data.gallery || [],
-    author: data.author,
+    author: (data.authors?.length ? data.authors.join(', ') : data.author) || data.author,
+    authors: data.authors || (data.author ? [data.author] : []),
     published_at: data.publishedAt || new Date().toISOString().slice(0, 10),
   };
 
@@ -100,11 +104,13 @@ export const createNewsInSupabase = async (
       summary: inserted.summary,
       content: inserted.content,
       category: inserted.category,
+      categories: inserted.categories?.length ? inserted.categories : [inserted.category],
       village: inserted.village,
       imageUrl: inserted.image_url || '',
       gallery: inserted.gallery || [],
       publishedAt: inserted.published_at || new Date().toISOString().slice(0, 10),
       author: inserted.author,
+      authors: inserted.authors?.length ? inserted.authors : [inserted.author],
     };
     return newItem;
   } catch (err) {
@@ -122,10 +128,12 @@ export const updateNewsInSupabase = async (
   if (data.summary !== undefined) payload.summary = data.summary;
   if (data.content !== undefined) payload.content = data.content;
   if (data.category !== undefined) payload.category = data.category;
+  if (data.categories !== undefined) payload.categories = data.categories;
   if (data.village !== undefined) payload.village = data.village;
   if (data.imageUrl !== undefined) payload.image_url = data.imageUrl;
   if (data.gallery !== undefined) payload.gallery = data.gallery;
   if (data.author !== undefined) payload.author = data.author;
+  if (data.authors !== undefined) payload.authors = data.authors;
   if (data.publishedAt !== undefined) payload.published_at = data.publishedAt;
 
   try {
@@ -179,11 +187,13 @@ export const fetchNewsByIdFromSupabase = async (idOrSlug: string): Promise<NewsI
         summary: data.summary,
         content: data.content,
         category: data.category,
+        categories: data.categories?.length ? data.categories : (data.category ? [data.category] : []),
         village: data.village,
         imageUrl: data.image_url || '',
         gallery: data.gallery || [],
         publishedAt: data.published_at || new Date().toISOString().slice(0, 10),
         author: data.author,
+        authors: data.authors?.length ? data.authors : (data.author ? [data.author] : []),
       };
     }
   } catch (e) {

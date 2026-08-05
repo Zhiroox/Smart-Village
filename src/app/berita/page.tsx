@@ -12,7 +12,7 @@ export default function BeritaPage() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
 
-  const categories = ['Semua', 'Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi', 'Kesehatan','Lain-lain'];
+  const categories = ['Semua', 'Pengumuman', 'Pembangunan', 'Kegiatan', 'Ekonomi', 'Kesehatan', 'Pertanian', 'Peternakan', 'Lain-lain'];
 
   useEffect(() => {
     const loadNews = async () => {
@@ -23,7 +23,8 @@ export default function BeritaPage() {
   }, []);
 
   const filteredNews = newsData.filter((item) => {
-    const matchCat = selectedCategory === 'Semua' || item.category === selectedCategory;
+    const itemCats = item.categories?.length ? item.categories : [item.category];
+    const matchCat = selectedCategory === 'Semua' || itemCats.includes(selectedCategory);
     const matchSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                         item.summary.toLowerCase().includes(searchQuery.toLowerCase());
     return matchCat && matchSearch;
@@ -103,8 +104,12 @@ export default function BeritaPage() {
                     unoptimized
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent" />
-                  <div className="absolute top-3 left-3 bg-emerald-600/90 backdrop-blur-sm text-white px-2.5 py-1 rounded-md text-[11px] font-semibold">
-                    {item.category}
+                  <div className="absolute top-3 left-3 flex flex-wrap gap-1">
+                    {(item.categories?.length ? item.categories : [item.category]).slice(0, 2).map(cat => (
+                      <span key={cat} className="bg-emerald-600/90 backdrop-blur-sm text-white px-2 py-0.5 rounded-md text-[11px] font-semibold">
+                        {cat}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
@@ -112,7 +117,9 @@ export default function BeritaPage() {
                   <div>
                     <div className="flex items-center gap-3 text-[11px] text-slate-500 mb-2">
                       <span className="flex items-center gap-1"><Calendar className="w-3 h-3 text-emerald-650" /> {item.publishedAt}</span>
-                      <span className="flex items-center gap-1"><User className="w-3 h-3 text-emerald-650" /> {item.author}</span>
+                      <span className="flex items-center gap-1"><User className="w-3 h-3 text-emerald-650" />
+                        {(item.authors?.length ? item.authors : [item.author]).join(', ')}
+                      </span>
                     </div>
                     <h3 className="font-bold text-slate-800 text-base group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
                       {item.title}

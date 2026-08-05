@@ -63,9 +63,11 @@ export default function BeritaDetailPage() {
           {/* Article Header */}
           <div className="space-y-3 pb-6 border-b border-slate-100">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="bg-emerald-800 text-white px-3 py-1 rounded-md text-xs font-semibold">
-                {newsItem.category}
-              </span>
+              {(newsItem.categories?.length ? newsItem.categories : [newsItem.category]).map(cat => (
+                <span key={cat} className="bg-emerald-800 text-white px-3 py-1 rounded-md text-xs font-semibold">
+                  {cat}
+                </span>
+              ))}
               <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-md text-xs font-medium flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-emerald-600" /> {newsItem.village}
               </span>
@@ -78,7 +80,10 @@ export default function BeritaDetailPage() {
             <div className="flex items-center gap-4 text-xs text-slate-400 pt-1">
               <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5 text-emerald-600" /> {newsItem.publishedAt}</span>
               <span>•</span>
-              <span className="flex items-center gap-1"><User className="w-3.5 h-3.5 text-emerald-600" /> Ditulis oleh {newsItem.author}</span>
+              <span className="flex items-center gap-1">
+                <User className="w-3.5 h-3.5 text-emerald-600" />
+                Ditulis oleh {(newsItem.authors?.length ? newsItem.authors : [newsItem.author]).join(', ')}
+              </span>
             </div>
           </div>
 
@@ -96,7 +101,7 @@ export default function BeritaDetailPage() {
           {/* Footer Share / Tags */}
           <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs text-slate-500">
-              <Tag className="w-3.5 h-3.5 text-emerald-600" /> Kata Kunci: Smart Village, Batukliang, {newsItem.category}
+              <Tag className="w-3.5 h-3.5 text-emerald-600" /> Kata Kunci: Smart Village, Batukliang, {(newsItem.categories?.length ? newsItem.categories : [newsItem.category]).join(', ')}
             </div>
             <button 
               onClick={() => alert('Link artikel berhasil disalin!')}
